@@ -1,0 +1,49 @@
+Added Component: Designator=H1(HEADER 2.54MM 8P)
+Added Pin To Net: NetName=VCC Pin=H1-1
+Added Pin To Net: NetName=GND Pin=H1-8
+Added Pin To Net: NetName=ADC0 Pin=H1-2
+Added Net: Name=ADC0
+Added Pin To Net: NetName=ADC1 Pin=H1-3
+Added Net: Name=ADC1
+Added Pin To Net: NetName=ADC4 Pin=H1-4
+Added Net: Name=ADC4
+Added Pin To Net: NetName=ADC5 Pin=H1-5
+Added Net: Name=ADC5
+Added Pin To Net: NetName=ADC14 Pin=H1-6
+Added Net: Name=ADC14
+Added Pin To Net: NetName=ADC15 Pin=H1-7
+Added Net: Name=ADC15
+Added Member To Class: ClassName=board Member=Component H1 header 2.54mm 8p
+Added Member To Class: ClassName=board Member=Component J2 jump 2.54mm 3p
+Added Member To Class: ClassName=board Member=Component J4 jump 2.54mm 3p
+Added Member To Class: ClassName=board Member=Component J5 jump 2.54mm 3p
+Added Member To Class: ClassName=board Member=Component J7 15EDG3.81 2P RA
+Added Member To Class: ClassName=board Member=Component J12 jump 2.54mm 3p
+Added Member To Class: ClassName=board Member=Component J13 jump 2.54mm 3p
+Added Member To Class: ClassName=board Member=Component J14 15EDG3.81 4P RA
+Added Member To Class: ClassName=board Member=Component J15 jump 2.54mm 3p
+Added Member To Class: ClassName=board Member=Component J18 jump 2.54mm 3p
+Added Member To Class: ClassName=board Member=Component J20 jump 2.54mm 3p
+Added Member To Class: ClassName=board Member=Component J21 jump 2.54mm 3p
+Added Member To Class: ClassName=board Member=Component J22 jump 2.54mm 3p
+Added Member To Class: ClassName=board Member=Component J24 jump 2.54mm 3p
+Added Member To Class: ClassName=board Member=Component J25 jump 2.54mm 3p
+Added Member To Class: ClassName=board Member=Component J26 jump 2.54mm 3p
+Added Member To Class: ClassName=board Member=Component J28 jump 2.54mm 3p
+Added Member To Class: ClassName=board Member=Component J30 jump 2.54mm 3p
+Added Member To Class: ClassName=board Member=Component J33 jump 2.54mm 3p
+Added Member To Class: ClassName=board Member=Component L3 33uH
+Added Member To Class: ClassName=board Member=Component L12 LED
+Added Member To Class: ClassName=board Member=Component R2 10k
+Added Member To Class: ClassName=board Member=Component R8 47k
+Added Member To Class: ClassName=board Member=Component R9 100
+Added Member To Class: ClassName=board Member=Component R17 4k7
+Added Member To Class: ClassName=board Member=Component R22 1k
+Added Member To Class: ClassName=board Member=Component R35 4k7
+Added Member To Class: ClassName=board Member=Component R36 1k
+Added Member To Class: ClassName=board Member=Component R39 1K
+Added Member To Class: ClassName=board Member=Component R47 100
+Added Member To Class: ClassName=board Member=Component R49 47k
+Added Member To Class: ClassName=board Member=Component R50 4k7
+Added Member To Class: ClassName=board Member=Component R65 100
+Added Member To Class: ClassName=board Member=Component U13 EL3H7

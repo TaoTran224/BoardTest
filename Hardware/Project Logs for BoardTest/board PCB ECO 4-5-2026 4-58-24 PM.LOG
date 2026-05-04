@@ -1,0 +1,152 @@
+Change Component Designator: OldDesignator=J2 NewDesignator=J3
+Change Component Designator: OldDesignator=J3 NewDesignator=J4
+Change Component Designator: OldDesignator=J4 NewDesignator=J7
+Change Component Designator: OldDesignator=J5 NewDesignator=J8
+Change Component Designator: OldDesignator=J7 NewDesignator=J9
+Change Component Designator: OldDesignator=J8 NewDesignator=J10
+Change Component Designator: OldDesignator=J9 NewDesignator=J11
+Change Component Designator: OldDesignator=J10 NewDesignator=J13
+Change Component Designator: OldDesignator=J11 NewDesignator=J14
+Change Component Designator: OldDesignator=J12 NewDesignator=J16
+Change Component Designator: OldDesignator=J13 NewDesignator=J17
+Change Component Designator: OldDesignator=J14 NewDesignator=J18
+Change Component Designator: OldDesignator=J15 NewDesignator=J19
+Change Component Designator: OldDesignator=J16 NewDesignator=J21
+Change Component Designator: OldDesignator=J17 NewDesignator=J22
+Change Component Designator: OldDesignator=J18 NewDesignator=J23
+Change Component Designator: OldDesignator=J19 NewDesignator=J25
+Change Component Designator: OldDesignator=J20 NewDesignator=J26
+Change Component Designator: OldDesignator=J21 NewDesignator=J27
+Change Component Designator: OldDesignator=J22 NewDesignator=J28
+Change Component Designator: OldDesignator=J23 NewDesignator=J29
+Change Component Designator: OldDesignator=J24 NewDesignator=J30
+Change Component Designator: OldDesignator=J25 NewDesignator=J31
+Change Component Designator: OldDesignator=J26 NewDesignator=J32
+Change Component Designator: OldDesignator=J27 NewDesignator=J33
+Change Component Designator: OldDesignator=J28 NewDesignator=J34
+Change Component Designator: OldDesignator=J29 NewDesignator=J35
+Change Component Designator: OldDesignator=J30 NewDesignator=J36
+Change Component Designator: OldDesignator=J31 NewDesignator=J37
+Change Component Designator: OldDesignator=J32 NewDesignator=J38
+Change Component Designator: OldDesignator=J33 NewDesignator=J39
+Change Component Designator: OldDesignator=L2 NewDesignator=L3
+Change Component Designator: OldDesignator=L3 NewDesignator=L2
+Change Component Designator: OldDesignator=L11 NewDesignator=L12
+Change Component Designator: OldDesignator=L12 NewDesignator=L11
+Change Component Designator: OldDesignator=R1 NewDesignator=R2
+Change Component Designator: OldDesignator=R2 NewDesignator=R1
+Change Component Designator: OldDesignator=R7 NewDesignator=R8
+Change Component Designator: OldDesignator=R8 NewDesignator=R9
+Change Component Designator: OldDesignator=R9 NewDesignator=R7
+Change Component Designator: OldDesignator=R15 NewDesignator=R17
+Change Component Designator: OldDesignator=R16 NewDesignator=R15
+Change Component Designator: OldDesignator=R17 NewDesignator=R16
+Change Component Designator: OldDesignator=R21 NewDesignator=R22
+Change Component Designator: OldDesignator=R22 NewDesignator=R23
+Change Component Designator: OldDesignator=R23 NewDesignator=R21
+Change Component Designator: OldDesignator=R34 NewDesignator=R36
+Change Component Designator: OldDesignator=R35 NewDesignator=R37
+Change Component Designator: OldDesignator=R36 NewDesignator=R34
+Change Component Designator: OldDesignator=R37 NewDesignator=R35
+Change Component Designator: OldDesignator=R39 NewDesignator=R40
+Change Component Designator: OldDesignator=R40 NewDesignator=R39
+Change Component Designator: OldDesignator=R46 NewDesignator=R47
+Change Component Designator: OldDesignator=R47 NewDesignator=R46
+Change Component Designator: OldDesignator=R49 NewDesignator=R51
+Change Component Designator: OldDesignator=R50 NewDesignator=R49
+Change Component Designator: OldDesignator=R51 NewDesignator=R50
+Change Component Designator: OldDesignator=R64 NewDesignator=R65
+Change Component Designator: OldDesignator=R65 NewDesignator=R64
+Change Component Designator: OldDesignator=U13 NewDesignator=U14
+Change Component Designator: OldDesignator=U14 NewDesignator=U13
+Added Component: Designator=J2(JUMP 2.54MM 3P)
+Added Component: Designator=J5(JUMP 2.54MM 3P)
+Added Component: Designator=J12(JUMP 2.54MM 3P)
+Added Component: Designator=J15(JUMP 2.54MM 3P)
+Added Component: Designator=J20(JUMP 2.54MM 3P)
+Added Component: Designator=J24(JUMP 2.54MM 3P)
+Added Pin To Net: NetName=INPUT-0 Pin=J2-2
+Added Pin To Net: NetName=INPUT-2 Pin=J12-2
+Added Pin To Net: NetName=INPUT-3 Pin=J15-2
+Added Pin To Net: NetName=INPUT-4 Pin=J20-2
+Added Pin To Net: NetName=INPUT-5 Pin=J24-2
+Change Net Name : Old Net Name=INPUT-0 New Net Name=IN-0
+Change Net Name : Old Net Name=INPUT-1 New Net Name=IN1-1
+Change Net Name : Old Net Name=INPUT-2 New Net Name=IN-2
+Change Net Name : Old Net Name=INPUT-3 New Net Name=IN-3
+Change Net Name : Old Net Name=INPUT-4 New Net Name=IN-4
+Change Net Name : Old Net Name=INPUT-5 New Net Name=IN-5
+Change Net Name : Old Net Name=NetJ2_1 New Net Name=NetJ3_1
+Change Net Name : Old Net Name=NetJ2_2 New Net Name=NetJ3_2
+Change Net Name : Old Net Name=NetJ3_2 New Net Name=NetJ4_2
+Change Net Name : Old Net Name=NetJ9_2 New Net Name=NetJ11_2
+Change Net Name : Old Net Name=NetJ10_1 New Net Name=NetJ13_1
+Change Net Name : Old Net Name=NetJ10_2 New Net Name=NetJ13_2
+Change Net Name : Old Net Name=NetJ12_1 New Net Name=NetJ16_1
+Change Net Name : Old Net Name=NetJ12_2 New Net Name=NetJ16_2
+Change Net Name : Old Net Name=NetJ13_2 New Net Name=NetJ17_2
+Change Net Name : Old Net Name=NetJ16_1 New Net Name=NetJ21_1
+Change Net Name : Old Net Name=NetJ16_2 New Net Name=NetJ21_2
+Change Net Name : Old Net Name=NetJ17_2 New Net Name=NetJ22_2
+Change Net Name : Old Net Name=NetJ18_2 New Net Name=NetJ23_2
+Change Net Name : Old Net Name=NetJ19_1 New Net Name=NetJ25_1
+Change Net Name : Old Net Name=NetJ19_2 New Net Name=NetJ25_2
+Change Net Name : Old Net Name=NetJ22_2 New Net Name=NetJ28_2
+Change Net Name : Old Net Name=NetJ23_1 New Net Name=NetJ29_1
+Change Net Name : Old Net Name=NetJ23_2 New Net Name=NetJ29_2
+Change Net Name : Old Net Name=NetJ24_2 New Net Name=NetJ30_2
+Change Net Name : Old Net Name=NetJ25_2 New Net Name=NetJ31_2
+Change Net Name : Old Net Name=NetJ26_1 New Net Name=NetJ32_1
+Change Net Name : Old Net Name=NetJ26_2 New Net Name=NetJ32_2
+Change Net Name : Old Net Name=NetJ27_2 New Net Name=NetJ33_2
+Change Net Name : Old Net Name=NetJ28_2 New Net Name=NetJ34_2
+Change Net Name : Old Net Name=NetJ30_1 New Net Name=NetJ36_1
+Change Net Name : Old Net Name=NetJ30_2 New Net Name=NetJ36_2
+Change Net Name : Old Net Name=NetJ31_2 New Net Name=NetJ37_2
+Change Net Name : Old Net Name=NetJ32_2 New Net Name=NetJ38_2
+Change Net Name : Old Net Name=NetJ33_1 New Net Name=NetJ39_1
+Change Net Name : Old Net Name=NetJ33_2 New Net Name=NetJ39_2
+Change Net Name : Old Net Name=NetL3_1 New Net Name=NetL2_1
+Change Net Name : Old Net Name=NetL11_1 New Net Name=NetL12_1
+Change Net Name : Old Net Name=NetL11_2 New Net Name=NetL12_2
+Change Net Name : Old Net Name=NetL12_1 New Net Name=NetL11_1
+Change Net Name : Old Net Name=NetR7_1 New Net Name=NetR8_1
+Change Net Name : Old Net Name=NetR8_2 New Net Name=NetR9_2
+Change Net Name : Old Net Name=NetR47_2 New Net Name=NetR46_2
+Added Pin To Net: NetName=IN-1 Pin=J5-2
+Added Net: Name=IN-1
+Added Pin To Net: NetName=INPUT-0 Pin=J2-1
+Added Net: Name=INPUT-0
+Added Pin To Net: NetName=INPUT-1 Pin=J5-1
+Added Net: Name=INPUT-1
+Added Pin To Net: NetName=INPUT-2 Pin=J12-1
+Added Net: Name=INPUT-2
+Added Pin To Net: NetName=INPUT-3 Pin=J15-1
+Added Net: Name=INPUT-3
+Added Pin To Net: NetName=INPUT-4 Pin=J20-1
+Added Net: Name=INPUT-4
+Added Pin To Net: NetName=INPUT-5 Pin=J24-1
+Added Net: Name=INPUT-5
+Added Member To Class: ClassName=board Member=Component J4 jump 2.54mm 3p
+Added Member To Class: ClassName=board Member=Component J6 jump 2.54mm 3p
+Added Member To Class: ClassName=board Member=Component J7 15EDG3.81 2P RA
+Added Member To Class: ClassName=board Member=Component J10 15EDG3.81 2P RA
+Added Member To Class: ClassName=board Member=Component J11 jump 2.54mm 3p
+Added Member To Class: ClassName=board Member=Component J14 15EDG3.81 4P RA
+Added Member To Class: ClassName=board Member=Component J15 jump 2.54mm 3p
+Added Member To Class: ClassName=board Member=Component J16 jump 2.54mm 3p
+Added Member To Class: ClassName=board Member=Component J18 jump 2.54mm 3p
+Added Member To Class: ClassName=board Member=Component J19 15EDG3.81 2P RA
+Added Member To Class: ClassName=board Member=Component J22 jump 2.54mm 3p
+Added Member To Class: ClassName=board Member=Component J23 jump 2.54mm 3p
+Added Member To Class: ClassName=board Member=Component J24 jump 2.54mm 3p
+Added Member To Class: ClassName=board Member=Component J27 15EDG3.81 2P RA
+Added Member To Class: ClassName=board Member=Component J29 jump 2.54mm 3p
+Added Member To Class: ClassName=board Member=Component J30 jump 2.54mm 3p
+Added Member To Class: ClassName=board Member=Component J31 jump 2.54mm 3p
+Added Member To Class: ClassName=board Member=Component J34 jump 2.54mm 3p
+Added Member To Class: ClassName=board Member=Component J35 jump 2.54mm 5p
+Added Member To Class: ClassName=board Member=Component J36 jump 2.54mm 3p
+Added Member To Class: ClassName=board Member=Component J37 jump 2.54mm 3p
+Added Member To Class: ClassName=board Member=Component J38 jump 2.54mm 3p
+Added Member To Class: ClassName=board Member=Component J39 jump 2.54mm 3p

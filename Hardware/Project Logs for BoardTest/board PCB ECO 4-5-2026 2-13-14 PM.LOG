@@ -1,0 +1,36 @@
+Removed Pin From Net: NetName=TXD-485-2 Pin=L16-1
+Removed Pin From Net: NetName=TXD-485-2 Pin=R73-1
+Removed Pin From Net: NetName=TXD-485-2 Pin=R78-1
+Added Pin To Net: NetName=NetL16_1 Pin=L16-1
+Added Pin To Net: NetName=NetL16_1 Pin=R78-1
+Change Net Name : Old Net Name=TXD-485-2 New Net Name=NetL16_2
+Added Pin To Net: NetName=TXD-485-2 Pin=R73-1
+Added Net: Name=TXD-485-2
+Added Member To Class: ClassName=board Member=Component R21 1k
+Added Member To Class: ClassName=board Member=Component R24 1K
+Added Member To Class: ClassName=board Member=Component R27 1K
+Added Member To Class: ClassName=board Member=Component R28 4k7
+Added Member To Class: ClassName=board Member=Component R29 4k7
+Added Member To Class: ClassName=board Member=Component R32 100
+Added Member To Class: ClassName=board Member=Component R39 100
+Added Member To Class: ClassName=board Member=Component R40 1K
+Added Member To Class: ClassName=board Member=Component R45 4k7
+Added Member To Class: ClassName=board Member=Component R46 100
+Added Member To Class: ClassName=board Member=Component R50 47k
+Added Member To Class: ClassName=board Member=Component R55 1K
+Added Member To Class: ClassName=board Member=Component R56 1k
+Added Member To Class: ClassName=board Member=Component R58 4k7
+Added Member To Class: ClassName=board Member=Component R61 47k
+Added Member To Class: ClassName=board Member=Component R62 4k7
+Added Member To Class: ClassName=board Member=Component R64 100
+Added Member To Class: ClassName=board Member=Component R65 1K
+Added Member To Class: ClassName=board Member=Component R67 10k
+Added Member To Class: ClassName=board Member=Component R68 100
+Added Member To Class: ClassName=board Member=Component R72 1k
+Added Member To Class: ClassName=board Member=Component R73 100
+Added Member To Class: ClassName=board Member=Component R76 4k7
+Added Member To Class: ClassName=board Member=Component R77 10k
+Added Member To Class: ClassName=board Member=Component R86 100
+Added Member To Class: ClassName=board Member=Component R88 1k
+Added Member To Class: ClassName=board Member=Component R93 47k
+Added Member To Class: ClassName=board Member=Component R95 10k

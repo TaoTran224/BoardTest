@@ -1,0 +1,99 @@
+Removed Pin From Net: NetName=OUT-N-0 Pin=R10-1
+Removed Pin From Net: NetName=OUT-N-1 Pin=R21-1
+Removed Pin From Net: NetName=OUT-N-2 Pin=R34-1
+Removed Pin From Net: NetName=OUT-N-3 Pin=R56-1
+Removed Pin From Net: NetName=OUT-P-0 Pin=R72-1
+Removed Pin From Net: NetName=OUT-P-1 Pin=R82-1
+Removed Pin From Net: NetName=OUT-P-2 Pin=R90-1
+Removed Pin From Net: NetName=OUT-P-3 Pin=R97-1
+Change Component Designator: OldDesignator=J3 NewDesignator=J4
+Change Component Designator: OldDesignator=J4 NewDesignator=J5
+Change Component Designator: OldDesignator=J5 NewDesignator=J6
+Change Component Designator: OldDesignator=J6 NewDesignator=J8
+Change Component Designator: OldDesignator=J7 NewDesignator=J9
+Change Component Designator: OldDesignator=J8 NewDesignator=J10
+Change Component Designator: OldDesignator=J9 NewDesignator=J12
+Change Component Designator: OldDesignator=J10 NewDesignator=J13
+Change Component Designator: OldDesignator=J11 NewDesignator=J14
+Change Component Designator: OldDesignator=J12 NewDesignator=J16
+Change Component Designator: OldDesignator=J13 NewDesignator=J17
+Change Component Designator: OldDesignator=J14 NewDesignator=J18
+Change Component Designator: OldDesignator=J15 NewDesignator=J19
+Change Component Designator: OldDesignator=J16 NewDesignator=J20
+Change Component Designator: OldDesignator=J17 NewDesignator=J22
+Change Component Designator: OldDesignator=J18 NewDesignator=J23
+Change Component Designator: OldDesignator=J19 NewDesignator=J25
+Change Component Designator: OldDesignator=J20 NewDesignator=J26
+Change Component Designator: OldDesignator=J21 NewDesignator=J27
+Change Component Designator: OldDesignator=J22 NewDesignator=J29
+Change Component Designator: OldDesignator=J23 NewDesignator=J30
+Added Component: Designator=J3(JUMP 2.54MM 3P)
+Added Component: Designator=J7(JUMP 2.54MM 3P)
+Added Component: Designator=J11(JUMP 2.54MM 3P)
+Added Component: Designator=J15(JUMP 2.54MM 3P)
+Added Component: Designator=J21(JUMP 2.54MM 3P)
+Added Component: Designator=J24(JUMP 2.54MM 3P)
+Added Component: Designator=J28(JUMP 2.54MM 3P)
+Added Component: Designator=J31(JUMP 2.54MM 3P)
+Added Pin To Net: NetName=OUT-N-0 Pin=J3-1
+Added Pin To Net: NetName=OUT-N-1 Pin=J7-1
+Added Pin To Net: NetName=OUT-N-2 Pin=J11-1
+Added Pin To Net: NetName=OUT-N-3 Pin=J15-1
+Added Pin To Net: NetName=OUT-P-0 Pin=J21-1
+Added Pin To Net: NetName=OUT-P-1 Pin=J24-1
+Added Pin To Net: NetName=OUT-P-2 Pin=J28-1
+Added Pin To Net: NetName=OUT-P-3 Pin=J31-1
+Change Net Name : Old Net Name=NetJ4_1 New Net Name=NetJ5_1
+Change Net Name : Old Net Name=NetJ4_2 New Net Name=NetJ5_2
+Change Net Name : Old Net Name=NetJ6_1 New Net Name=NetJ8_1
+Change Net Name : Old Net Name=NetJ6_2 New Net Name=NetJ8_2
+Change Net Name : Old Net Name=NetJ8_1 New Net Name=NetJ10_1
+Change Net Name : Old Net Name=NetJ8_2 New Net Name=NetJ10_2
+Change Net Name : Old Net Name=NetJ11_1 New Net Name=NetJ14_1
+Change Net Name : Old Net Name=NetJ11_2 New Net Name=NetJ14_2
+Change Net Name : Old Net Name=NetJ12_2 New Net Name=NetJ16_2
+Change Net Name : Old Net Name=NetJ13_1 New Net Name=NetJ17_1
+Change Net Name : Old Net Name=NetJ13_2 New Net Name=NetJ17_2
+Change Net Name : Old Net Name=NetJ16_1 New Net Name=NetJ20_1
+Change Net Name : Old Net Name=NetJ16_2 New Net Name=NetJ20_2
+Change Net Name : Old Net Name=NetJ17_2 New Net Name=NetJ22_2
+Change Net Name : Old Net Name=NetJ18_1 New Net Name=NetJ23_1
+Change Net Name : Old Net Name=NetJ18_2 New Net Name=NetJ23_2
+Change Net Name : Old Net Name=NetJ19_2 New Net Name=NetJ25_2
+Change Net Name : Old Net Name=NetJ21_1 New Net Name=NetJ27_1
+Change Net Name : Old Net Name=NetJ21_2 New Net Name=NetJ27_2
+Change Net Name : Old Net Name=NetJ22_2 New Net Name=NetJ29_2
+Change Net Name : Old Net Name=NetJ23_1 New Net Name=NetJ30_1
+Change Net Name : Old Net Name=NetJ23_2 New Net Name=NetJ30_2
+Added Pin To Net: NetName=NetJ3_2 Pin=J3-2
+Added Pin To Net: NetName=NetJ3_2 Pin=R10-1
+Added Net: Name=NetJ3_2
+Added Pin To Net: NetName=NetJ7_2 Pin=J7-2
+Added Pin To Net: NetName=NetJ7_2 Pin=R21-1
+Added Net: Name=NetJ7_2
+Added Pin To Net: NetName=NetJ11_2 Pin=J11-2
+Added Pin To Net: NetName=NetJ11_2 Pin=R34-1
+Added Net: Name=NetJ11_2
+Added Pin To Net: NetName=NetJ15_2 Pin=J15-2
+Added Pin To Net: NetName=NetJ15_2 Pin=R56-1
+Added Net: Name=NetJ15_2
+Added Pin To Net: NetName=NetJ21_2 Pin=J21-2
+Added Pin To Net: NetName=NetJ21_2 Pin=R72-1
+Added Net: Name=NetJ21_2
+Added Pin To Net: NetName=NetJ24_2 Pin=J24-2
+Added Pin To Net: NetName=NetJ24_2 Pin=R82-1
+Added Net: Name=NetJ24_2
+Added Pin To Net: NetName=NetJ28_2 Pin=J28-2
+Added Pin To Net: NetName=NetJ28_2 Pin=R90-1
+Added Net: Name=NetJ28_2
+Added Pin To Net: NetName=NetJ31_2 Pin=J31-2
+Added Pin To Net: NetName=NetJ31_2 Pin=R97-1
+Added Net: Name=NetJ31_2
+Added Member To Class: ClassName=board Member=Component J24 jump 2.54mm 3p
+Added Member To Class: ClassName=board Member=Component J25 jump 2.54mm 3p
+Added Member To Class: ClassName=board Member=Component J26 jump 2.54mm 5p
+Added Member To Class: ClassName=board Member=Component J27 jump 2.54mm 3p
+Added Member To Class: ClassName=board Member=Component J28 jump 2.54mm 3p
+Added Member To Class: ClassName=board Member=Component J29 jump 2.54mm 3p
+Added Member To Class: ClassName=board Member=Component J30 jump 2.54mm 3p
+Added Member To Class: ClassName=board Member=Component J31 jump 2.54mm 3p
