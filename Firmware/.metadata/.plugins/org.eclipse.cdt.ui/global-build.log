@@ -1,0 +1,20 @@
+09:20:50 **** Incremental Build of configuration Debug for project FW_Test_in_out ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "FW_Test_in_out.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\1_Project_EMIC\3.TESTING_WATER_METER\WM01A_LORA\Tool_Test\BoardTest\Firmware\FW_Test_in_out\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="FW_Test_in_out.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: FW_Test_in_out.elf
+ 
+arm-none-eabi-objdump -h -S  FW_Test_in_out.elf  > "FW_Test_in_out.list"
+arm-none-eabi-objcopy  -O ihex  FW_Test_in_out.elf  "FW_Test_in_out.hex"
+arm-none-eabi-objcopy  -O binary  FW_Test_in_out.elf  "FW_Test_in_out.bin"
+arm-none-eabi-size   FW_Test_in_out.elf 
+   text	   data	    bss	    dec	    hex	filename
+  13128	     20	   6732	  19880	   4da8	FW_Test_in_out.elf
+Finished building: default.size.stdout
+ 
+Finished building: FW_Test_in_out.hex
+Finished building: FW_Test_in_out.bin
+ 
+ 
+Finished building: FW_Test_in_out.list
+ 
