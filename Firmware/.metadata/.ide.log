@@ -1124,3 +1124,12 @@
 2026-06-06 08:55:56,279 [INFO] MultiScanPanel:200 - Auto-refresh data requested => check proxy status ongoing
 2026-06-06 08:55:56,281 [INFO] FinderPluginLoader:87 - Searching for filters in installed packs
 2026-06-06 08:55:56,834 [WARN] DetailPanel:315 - Failed to get advertising image, set to default
+2026-06-06 08:56:54,383 [INFO] Activator:170 - 
+
+
+2026-06-06 08:56:54,385 [INFO] Activator:171 - !SESSION log4j initialized
+2026-06-06 08:57:12,520 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] Managed Build system manifest file error: Option com.st.stm32cube.ide.mcu.debug.option.cpuclock.1399832490 uses a null category that is invalid in its context. The option was ignored.
+2026-06-06 08:57:12,637 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] Managed Build system manifest file error: Option com.st.stm32cube.ide.mcu.debug.option.cpuclock.1444662454 uses a null category that is invalid in its context. The option was ignored.
+2026-06-06 08:59:27,330 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] Managed Build system manifest file error: Option com.st.stm32cube.ide.mcu.debug.option.cpuclock.1399832490 uses a null category that is invalid in its context. The option was ignored.
+2026-06-06 08:59:34,814 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] Managed Build system manifest file error: Option com.st.stm32cube.ide.mcu.debug.option.cpuclock.1399832490 uses a null category that is invalid in its context. The option was ignored.
+2026-06-06 08:59:54,101 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] Managed Build system manifest file error: Option com.st.stm32cube.ide.mcu.debug.option.cpuclock.1444662454 uses a null category that is invalid in its context. The option was ignored.
