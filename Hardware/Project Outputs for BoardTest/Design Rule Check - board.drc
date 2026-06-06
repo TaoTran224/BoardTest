@@ -1,21 +1,21 @@
 Protel Design System Design Rule Check
 PCB File : D:\Firmware_TNT\6_DA_2026\BoardTest\Hardware\board.PcbDoc
 Date     : 5/8/2026
-Time     : 0:07:21
-
-Processing Rule : Clearance Constraint (Gap=20mil) (IsStitchingVia and InNet('GP')),((IsVia and (Not IsStitchingVia)) Or IsPad)
-Rule Violations :0
+Time     : 23:41:34
 
 Processing Rule : Clearance Constraint (Gap=20mil) (InNamedPolygon('GP')),(All)
-Rule Violations :0
-
-Processing Rule : Clearance Constraint (Gap=15mil) (InNamedPolygon('GND')),(All)
 Rule Violations :0
 
 Processing Rule : Clearance Constraint (Gap=7mil) (All),(All)
 Rule Violations :0
 
+Processing Rule : Clearance Constraint (Gap=20mil) (IsStitchingVia and InNet('GP')),((IsVia and (Not IsStitchingVia)) Or IsPad)
+Rule Violations :0
+
 Processing Rule : Clearance Constraint (Gap=5mil) (IsStitchingVia and InNet('GND')),((IsVia and (Not IsStitchingVia)) Or IsPad)
+Rule Violations :0
+
+Processing Rule : Clearance Constraint (Gap=15mil) (InNamedPolygon('GND')),(All)
 Rule Violations :0
 
 Processing Rule : Short-Circuit Constraint (Allowed=No) (All),(All)
@@ -51,246 +51,10 @@ Rule Violations :0
 Processing Rule : Net Antennae (Tolerance=0mil) (All)
 Rule Violations :0
 
-Processing Rule : Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board'))
-   Violation between Room Definition: Between Component U10-EL3H7 (2200mil,3250mil) on Top Layer And Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) 
-   Violation between Room Definition: Between Component U12-EL3H7 (1850mil,3250mil) on Top Layer And Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) 
-   Violation between Room Definition: Between Component U13-EL3H7 (3275mil,975mil) on Top Layer And Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) 
-   Violation between Room Definition: Between Component U14-EL3H7 (1500mil,3250mil) on Top Layer And Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) 
-   Violation between Room Definition: Between Component U16-EL3H7 (500mil,1400mil) on Top Layer And Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) 
-   Violation between Room Definition: Between Component U18-EL3H7 (875mil,1350mil) on Top Layer And Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) 
-   Violation between Room Definition: Between Component U1-TPS5430 (650mil,3275mil) on Top Layer And Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) 
-   Violation between Room Definition: Between Component U20-EL3H7 (1325mil,1350mil) on Top Layer And Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) 
-   Violation between Room Definition: Between Component U21-EL3H7 (1775mil,1350mil) on Top Layer And Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) 
-   Violation between Room Definition: Between Component U2-EL3H7 (3250mil,3250mil) on Top Layer And Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) 
-   Violation between Room Definition: Between Component U3-EL3H7 (2225mil,1025mil) on Top Layer And Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) 
-   Violation between Room Definition: Between Component U5-EL3H7 (2900mil,3250mil) on Top Layer And Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) 
-   Violation between Room Definition: Between Component U6-EL3H7 (2575mil,975mil) on Top Layer And Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) 
-   Violation between Room Definition: Between Component U7-RT9193-33GB (1013.585mil,1777.953mil) on Top Layer And Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) 
-   Violation between Room Definition: Between Component U8-EL3H7 (2550mil,3250mil) on Top Layer And Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) 
-   Violation between Room Definition: Between Component U9-EL3H7 (2925mil,975mil) on Top Layer And Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) 
-   Violation between Room Definition: Between DIP Component J10-jump 2.54mm 2x3p (1150mil,2650mil) on Top Layer And Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) 
-   Violation between Room Definition: Between DIP Component J11-jump 2.54mm 2x3p (1300mil,2225mil) on Top Layer And Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) 
-   Violation between Room Definition: Between LCC Component U19-STM32F103C8T6 (2475mil,2050mil) on Top Layer And Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SIP Component J1-15EDG3.8 10P RA (3050mil,3800mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SIP Component J16-15EDG3.81 4P RA (2700mil,150mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SIP Component J34-jump 2.54mm 6p (3200mil,1950mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SIP Component J35-jump 2.54mm 7p (3800.282mil,1999.686mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SIP Component J36-jump 2.54mm 4p (1650mil,2175mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SIP Component J39-jump 2.54mm 5p (2950mil,2175mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SIP Component J42-jump 2.54mm 5p (2950mil,2375mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SIP Component J8-15EDG3.81 4P RA (2025mil,150mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SIP Component T1-=value (1025mil,3775mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SIP Component T2-=value (400mil,150mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SIP Component T3-=value (1200mil,150mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SIP Component U4-B0505S (325mil,2225mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And Small Component J12-15EDG3.81 2P RA (1475mil,3800mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And Small Component J13-jump 2.54mm 3p (2350mil,1175mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And Small Component J14-jump 2.54mm 3p (2375mil,2700mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And Small Component J15-jump 2.54mm 3p (2325mil,3325mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And Small Component J17-jump 2.54mm 3p (2025mil,2700mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And Small Component J18-jump 2.54mm 3p (1975mil,3325mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And Small Component J19-jump 2.54mm 3p (2675mil,1175mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And Small Component J20-jump 2.54mm 3p (3750mil,1175mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And Small Component J21-15EDG3.81 2P RA (3375mil,125mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And Small Component J22-jump 2.54mm 3p (1675mil,2700mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And Small Component J23-jump 2.54mm 3p (1625mil,3325mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And Small Component J24-jump 2.54mm 3p (3050mil,1125mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And Small Component J25-jump 2.54mm 3p (500.282mil,924.686mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And Small Component J26-jump 2.54mm 3p (1325mil,2700mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And Small Component J27-jump 2.54mm 3p (1275mil,3325mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And Small Component J28-jump 2.54mm 3p (3550.314mil,2725.282mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And Small Component J29-15EDG3.81 2P RA (3475mil,3800mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And Small Component J2-jump 2.54mm 3p (3075mil,2700mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And Small Component J30-jump 2.54mm 3p (275.282mil,1524.686mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And Small Component J31-jump 2.54mm 3p (325.282mil,924.686mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And Small Component J32-jump 2.54mm 3p (950mil,925mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And Small Component J33-jump 2.54mm 3p (1925.314mil,1700.282mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And Small Component J37-jump 2.54mm 3p (650.282mil,1499.686mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And Small Component J38-jump 2.54mm 3p (775mil,925mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And Small Component J3-jump 2.54mm 3p (3025mil,3325mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And Small Component J40-jump 2.54mm 3p (1400mil,925mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And Small Component J41-jump 2.54mm 3p (1100.282mil,1499.686mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And Small Component J43-jump 2.54mm 3p (1225mil,925mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And Small Component J44-jump 2.54mm 3p (1850mil,925mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And Small Component J45-jump 2.54mm 3p (1550mil,1500mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And Small Component J46-jump 2.54mm 3p (1675mil,925mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And Small Component J4-jump 2.54mm 3p (2000.282mil,1299.686mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And Small Component J5-jump 2.54mm 3p (2725mil,2700mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And Small Component J6-jump 2.54mm 3p (2675mil,3325mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And Small Component J7-15EDG3.81 2P RA (300mil,2000mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And Small Component J9-15EDG3.81 2P RA (3625mil,2250mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And Small Component PTC1-2A/30V (1025mil,3450mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component C10-22nF (975mil,1775mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component C1-10nF (650mil,3125mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component C11-100nF (3800mil,600mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component C12-100nF (3475mil,3350mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component C13-100nF (2300mil,2325mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component C14-22p (2025mil,2150mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component C15-22p (2025mil,2000mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component C16-100nF (2750mil,2225mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component C17-100nF (1925mil,1875mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component C18-100nF (2675mil,1800mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component C19-100n (3175mil,2475mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component C2-220uF/35V (200mil,3100mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component C3-220uF/10V (625mil,1820mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component C4-470uF/16V (850mil,2725mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component C5-10nF/50V (425mil,3300mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component C6-100nF (425mil,2475mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component C7-220uF/10V (950mil,2400mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component C8-100nF (825mil,1975mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component C9-100nF (1000mil,2050mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component D1-=value (2150mil,425mil) on Bottom Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component D2-=value (2475mil,425mil) on Bottom Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component D3-=value (2800mil,450mil) on Bottom Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component D4-=value (3150mil,450mil) on Bottom Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component D5-=value (550mil,475mil) on Bottom Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component D6-=value (975mil,475mil) on Bottom Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component D7-=value (1425mil,475mil) on Bottom Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component D8-=value (1800mil,475mil) on Bottom Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component L10-LED (3125mil,400mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component L11-LED (1825mil,2875mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component L12-LED (3500mil,775mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component L13-LED (1475mil,2875mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component L14-LED (3475mil,3100mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component L15-LED (575mil,400mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component L16-LED (3775mil,3100mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component L17-LED (1000mil,400mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component L18-LED (1450mil,400mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component L19-LED (1525mil,2525mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component L1-LED (2075mil,450mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component L20-LED (1925mil,375mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component L2-LED (3225mil,2875mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component L3-33uH (225mil,2750mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component L4-LED (2875mil,2875mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component L5-LED (2425mil,400mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component L6-LED (2525mil,2875mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component L7-LED (2775mil,400mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component L8-LED (2175mil,2875mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component L9-LED (3800mil,775mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component Q1-MOSFET N (2200mil,450mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component Q2-MOSFET N (2550mil,400mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component Q3-MOSFET N (2900mil,400mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component Q4-MOSFET N (3250mil,400mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component Q5-MOSFET P (450mil,400mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component Q6-MOSFET P (875mil,400mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component Q7-MOSFET P (1300mil,400mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component Q8-MOSFET P (1800mil,400mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R100-10k (1575mil,825mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R10-1k (2100mil,1050mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R11-4k7 (2200mil,650mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R12-3k3 (900mil,3275mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R13-4k7 (2725mil,2800mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R14-1K (2900mil,3500mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R1-4k7 (3075mil,2800mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R15-47k (2875mil,3350mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R16-4k7 (2725mil,2875mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R17-4k7 (2425mil,550mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R18-1K (2800mil,3500mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R19-47k (2550mil,1075mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R20-100 (2550mil,525mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R2-10k (2075mil,593.501mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R21-4k7 (2375mil,2800mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R22-1k (2450mil,1025mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R23-4k7 (2550mil,600mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R24-1K (2550mil,3500mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R25-47k (2525mil,3350mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R26-4k7 (2375mil,2875mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R27-1K (2450mil,3500mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R28-4k7 (2775mil,550mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R29-4k7 (2025mil,2800mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R30-1K (2200mil,3500mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R31-47k (2900mil,1075mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R3-1K (3250mil,3500mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R32-100 (2900mil,525mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R33-4k7 (3875mil,775mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R34-47k (2175mil,3350mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R35-4k7 (2025mil,2875mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R36-1k (2800mil,1000mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R37-4k7 (2900mil,600mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R38-4k7 (3825mil,975mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R39-1k (2100mil,3500mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R40-100 (3750mil,975mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R41-4k7 (3800mil,475mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R42-4k7 (3675mil,975mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R43-4k7 (3125mil,550mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R44-4k7 (3650mil,475mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R4-47k (3225mil,3350mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R45-4k7 (1675mil,2800mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R46-1K (1850mil,3500mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R47-100 (3525mil,975mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R48-4k7 (3500mil,475mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R49-47k (1825mil,3350mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R50-4k7 (1675mil,2875mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R51-4k7 (3450mil,975mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R52-4k7 (3425mil,775mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R53-47k (3250mil,1075mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R54-100 (3250mil,525mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R5-4k7 (3075mil,2875mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R55-1K (1750mil,3500mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R56-1k (3150mil,950mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R57-4k7 (3250mil,600mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R58-4k7 (1325mil,2800mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R59-1K (1500mil,3500mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R60-4k7 (3400mil,3100mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R6-10k (900mil,3125mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R61-47k (1475mil,3350mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R62-4k7 (1325mil,2875mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R63-4k7 (3425mil,2950mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R64-1K (1400mil,3500mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R65-100 (3500mil,2950mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R66-4k7 (3450mil,3475mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R67-10k (600mil,825mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R68-100 (450mil,525mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R69-4k7 (3675mil,2950mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R70-47k (475mil,1500mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R71-4k7 (3575mil,3475mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R7-1K (3150mil,3500mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R72-1k (375mil,1425mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R73-100 (3825mil,2950mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R74-10k (575mil,550mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R75-4k7 (3700mil,3475mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R76-4k7 (3750mil,2950mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R77-10k (225mil,825mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R78-4k7 (3850mil,3100mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R79-10k (1050mil,825mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R80-100 (875mil,525mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R81-47k (850mil,1450mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R82-1k (750mil,1375mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R83-10k (1000mil,525mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R84-10k (675mil,825mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R8-47k (2193.504mil,1125mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R85-10k (1500mil,825mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R86-100 (1325mil,525mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R87-47k (2350mil,2525mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R88-47k (2500mil,1600mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R89-47k (1300mil,1450mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R90-1k (1200mil,1375mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R9-100 (2200mil,575mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R91-10k (1450mil,550mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R92-10k (1125mil,825mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R93-10k (1950mil,825mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R94-10k (3025mil,2475mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R95-4k7 (1375mil,2525mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R96-100 (1775mil,525mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R97-47k (1750mil,1450mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R98-1k (1650mil,1375mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component R99-10k (1925mil,525mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component S1-40V/3A (550mil,3525mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component S2-40V/3A (625mil,3000mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component Y1-=Value (1925mil,2075mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component Z1-BZT52C3V3 (400mil,600mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component Z2-BZT52C3V3 (850mil,600mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component Z3-BZT52C3V3 (1300mil,600mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SMT Small Component Z4-BZT52C3V3 (1750mil,600mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SOIC Component U11-MAX485 (3650mil,695mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SOIC Component U15-MAX485 (3625mil,3225mil) on Top Layer 
-   Violation between Room Definition: Between Room board (Bounding Region = (0mil, 0mil, 2000mil, 1000mil) (InComponentClass('board')) And SOIC Component U17-ULN2003 (3500mil,1700mil) on Top Layer 
-Rule Violations :233
-
 Processing Rule : Height Constraint (Min=0mil) (Max=1000mil) (Prefered=500mil) (All)
 Rule Violations :0
 
 
-Violations Detected : 233
+Violations Detected : 0
 Waived Violations : 0
 Time Elapsed        : 00:00:03
