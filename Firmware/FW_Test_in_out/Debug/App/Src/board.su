@@ -1,0 +1,6 @@
+board.c:27:6:SystemClock_Config	88	static
+board.c:70:6:SetupInit	4	static
+board.c:74:6:StartUp	16	static
+board.c:133:6:delay_us	24	static
+board.c:144:6:delay_ms	24	static
+board.c:156:6:WDT_Clear	4	static

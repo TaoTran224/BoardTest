@@ -1,0 +1,4 @@
+app.c:19:6:RS485_SendBuffer	16	static
+app.c:50:6:RS485_SendStr	16	static
+app.c:56:6:RS485_CH1_Process	8	static
+app.c:68:6:RS485_CH3_Process	8	static

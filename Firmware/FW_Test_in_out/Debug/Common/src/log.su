@@ -1,0 +1,4 @@
+log.c:11:6:DBG_SendBuffer	16	static
+log.c:22:6:DBG_SendStr	16	static
+log.c:33:6:ConvertHexToStr	16	static
+log.c:53:6:DBG_SendHexToStr	24	static

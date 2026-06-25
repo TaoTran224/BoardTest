@@ -1,3 +1,8 @@
+"App/Src/app.o"
+"App/Src/board.o"
+"App/Src/interrupt.o"
+"Common/src/calculator.o"
+"Common/src/log.o"
 "Core/Src/adc.o"
 "Core/Src/gpio.o"
 "Core/Src/iwdg.o"
