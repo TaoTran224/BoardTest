@@ -1,0 +1,6 @@
+.vscode/ipch/
+.vscode/.cmaketools/
+.vscode/compile_commands.json
+CMakeUserPresets.json
+.DS_Store
+Thumbs.db
