@@ -1,7 +1,6 @@
 {
     "version": "0.2.0",
     "configurations": [
-        
         {
             "name": "Debug STM32F103C8 ST-LINK",
             "type": "cortex-debug",
@@ -11,7 +10,8 @@
             "executable": "${workspaceFolder}/build/Debug/BoardTest.elf",
             "device": "STM32F103C8",
             "interface": "swd",
-            "runToEntryPoint": "main",
+            "targetArchitecture": "arm",
+            "launchCompleteCommand": "None",
             "preLaunchTask": "Build Debug",
             "armToolchainPath": "C:/ST/STM32CubeCLT_1.21.0/GNU-tools-for-STM32/bin",
             "gdbPath": "C:/ST/STM32CubeCLT_1.21.0/GNU-tools-for-STM32/bin/arm-none-eabi-gdb.exe",
@@ -19,16 +19,15 @@
             "stm32cubeprogrammer": "C:/ST/STM32CubeCLT_1.21.0/STM32CubeProgrammer/bin",
             "svdFile": "C:/ST/STM32CubeCLT_1.21.0/STMicroelectronics_CMSIS_SVD/STM32F103.svd",
             "showDevDebugOutput": "none",
+            "serialNumber": "",
+            "connectUnderReset": true,
             "serverArgs": [
                 "-m",
                 "0",
-                "-d",
                 "-k",
                 "-s",
                 "--frequency",
-                "100",
-                "-cp",
-                "C:/ST/STM32CubeCLT_1.21.0/STM32CubeProgrammer/bin"
+                "24"
             ]
         }
     ]

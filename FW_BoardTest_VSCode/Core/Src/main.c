@@ -100,7 +100,7 @@ int main(void)
   MX_USART2_UART_Init();
   MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
-	for (uint8_t i = 0; i < 10; i++)
+	for (uint8_t i = 0; i < 5; i++)
 	{
 	  HAL_GPIO_WritePin(LED_RUN_GPIO_Port, LED_RUN_Pin, GPIO_PIN_RESET);
 	  HAL_Delay(100);
@@ -114,13 +114,11 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-	for (uint8_t i = 0; i < 10; i++)
-	{
+
 	  HAL_GPIO_WritePin(LED_RUN_GPIO_Port, LED_RUN_Pin, GPIO_PIN_RESET);
-	  HAL_Delay(500);
+	  HAL_Delay(501);
 	  HAL_GPIO_WritePin(LED_RUN_GPIO_Port, LED_RUN_Pin, GPIO_PIN_SET);
-	  HAL_Delay(500);
-	}
+	  HAL_Delay(501);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */

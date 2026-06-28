@@ -32,12 +32,12 @@ endif()
 
 get_filename_component(ARM_NONE_EABI_BIN_DIR "${ARM_NONE_EABI_GCC}" DIRECTORY)
 
-set(CMAKE_C_COMPILER                "${ARM_NONE_EABI_BIN_DIR}/${TOOLCHAIN_PREFIX}gcc.exe")
-set(CMAKE_ASM_COMPILER              ${CMAKE_C_COMPILER})
-set(CMAKE_CXX_COMPILER              "${ARM_NONE_EABI_BIN_DIR}/${TOOLCHAIN_PREFIX}g++.exe")
-set(CMAKE_LINKER                    "${ARM_NONE_EABI_BIN_DIR}/${TOOLCHAIN_PREFIX}g++.exe")
-set(CMAKE_OBJCOPY                   "${ARM_NONE_EABI_BIN_DIR}/${TOOLCHAIN_PREFIX}objcopy.exe")
-set(CMAKE_SIZE                      "${ARM_NONE_EABI_BIN_DIR}/${TOOLCHAIN_PREFIX}size.exe")
+set(CMAKE_C_COMPILER                "${ARM_NONE_EABI_BIN_DIR}/${TOOLCHAIN_PREFIX}gcc.exe" CACHE FILEPATH "C compiler" FORCE)
+set(CMAKE_ASM_COMPILER              "${ARM_NONE_EABI_BIN_DIR}/${TOOLCHAIN_PREFIX}gcc.exe" CACHE FILEPATH "ASM compiler" FORCE)
+set(CMAKE_CXX_COMPILER              "${ARM_NONE_EABI_BIN_DIR}/${TOOLCHAIN_PREFIX}g++.exe" CACHE FILEPATH "C++ compiler" FORCE)
+set(CMAKE_LINKER                    "${ARM_NONE_EABI_BIN_DIR}/${TOOLCHAIN_PREFIX}g++.exe" CACHE FILEPATH "Linker" FORCE)
+set(CMAKE_OBJCOPY                   "${ARM_NONE_EABI_BIN_DIR}/${TOOLCHAIN_PREFIX}objcopy.exe" CACHE FILEPATH "Objcopy" FORCE)
+set(CMAKE_SIZE                      "${ARM_NONE_EABI_BIN_DIR}/${TOOLCHAIN_PREFIX}size.exe" CACHE FILEPATH "Size tool" FORCE)
 
 set(CMAKE_EXECUTABLE_SUFFIX_ASM     ".elf")
 set(CMAKE_EXECUTABLE_SUFFIX_C       ".elf")
