@@ -1,8 +1,8 @@
-# Install script for directory: D:/Firmware_TNT/6_DA_2026/BoardTest/FW_BoardTest_VSCode/cmake/stm32cubemx
+# Install script for directory: D:/1_Project_EMIC/7_ToolTest/BoardTest/FW_BoardTest_VSCode/cmake/stm32cubemx
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)")
+  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/BoardTest")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 

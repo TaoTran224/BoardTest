@@ -1,0 +1,8 @@
+{
+	"InstallScripts" : 
+	[
+		"D:/1_Project_EMIC/7_ToolTest/BoardTest/FW_BoardTest_VSCode/build/Debug/cmake_install.cmake",
+		"D:/1_Project_EMIC/7_ToolTest/BoardTest/FW_BoardTest_VSCode/build/Debug/cmake/stm32cubemx/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

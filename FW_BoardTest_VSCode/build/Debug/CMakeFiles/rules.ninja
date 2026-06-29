@@ -35,7 +35,7 @@ rule C_COMPILER__BoardTest_unscanned_Debug
 # Rule for linking C executable.
 
 rule C_EXECUTABLE_LINKER__BoardTest_Debug
-  command = C:\WINDOWS\system32\cmd.exe /C "$PRE_LINK && C:\ST\STM32CubeCLT_1.21.0\GNU-tools-for-STM32\bin\arm-none-eabi-gcc.exe $FLAGS -mcpu=cortex-m3  -T "D:/Firmware_TNT/6_DA_2026/BoardTest/FW_BoardTest_VSCode/stm32f103c8tx_flash.ld" --specs=nano.specs -Wl,-Map=BoardTest.map -Wl,--gc-sections -Wl,--start-group -lc -lm -Wl,--end-group -Wl,--print-memory-usage $LINK_FLAGS $in -o $TARGET_FILE $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
+  command = C:\WINDOWS\system32\cmd.exe /C "$PRE_LINK && C:\ST\STM32CubeCLT_1.21.0\GNU-tools-for-STM32\bin\arm-none-eabi-gcc.exe $FLAGS -mcpu=cortex-m3  -T "D:/1_Project_EMIC/7_ToolTest/BoardTest/FW_BoardTest_VSCode/stm32f103c8tx_flash.ld" --specs=nano.specs -Wl,-Map=BoardTest.map -Wl,--gc-sections -Wl,--start-group -lc -lm -Wl,--end-group -Wl,--print-memory-usage $LINK_FLAGS $in -o $TARGET_FILE $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
   description = Linking C executable $TARGET_FILE
   restat = $RESTAT
 
@@ -52,7 +52,7 @@ rule CUSTOM_COMMAND
 # Rule for re-running cmake.
 
 rule RERUN_CMAKE
-  command = C:\ST\STM32CubeCLT_1.21.0\CMake\bin\cmake.exe --regenerate-during-build -SD:\Firmware_TNT\6_DA_2026\BoardTest\FW_BoardTest_VSCode -BD:\Firmware_TNT\6_DA_2026\BoardTest\FW_BoardTest_VSCode\build\Debug
+  command = C:\ST\STM32CubeCLT_1.21.0\CMake\bin\cmake.exe --regenerate-during-build -SD:\1_Project_EMIC\7_ToolTest\BoardTest\FW_BoardTest_VSCode -BD:\1_Project_EMIC\7_ToolTest\BoardTest\FW_BoardTest_VSCode\build\Debug
   description = Re-running CMake...
   generator = 1
 

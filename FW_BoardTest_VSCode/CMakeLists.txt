@@ -27,11 +27,11 @@ include("cmake/gcc-arm-none-eabi.cmake")
 # Enable compile command to ease indexing with e.g. clangd
 set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
 
-# Enable CMake support for ASM and C languages
-enable_language(C ASM)
-
 # Core project settings
 project(${CMAKE_PROJECT_NAME})
+
+# Enable CMake support for ASM and C languages
+enable_language(C ASM)
 message("Build type: " ${CMAKE_BUILD_TYPE})
 
 # Create an executable object type
@@ -47,12 +47,20 @@ target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE
 
 # Add sources to executable
 target_sources(${CMAKE_PROJECT_NAME} PRIVATE
-    # Add user sources here
+    # --- THÊM CÁC FILE SOURCE .C CỦA BẠN VÀO ĐÂY ---
+    App/Src/board.c
+    App/Src/app.c
+    App/Src/interrupt.c
+    Common/Src/log.c
+    Common/Src/calculator.c
 )
 
 # Add include paths
 target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
-    # Add user defined include paths
+    # --- THÊM ĐƯỜNG DẪN CHỨA FILE .H CỦA BẠN VÀO ĐÂY ---
+    App/Inc
+    Common/Inc
+    Common
 )
 
 # Add project symbols (macros)
@@ -68,7 +76,7 @@ target_link_libraries(${CMAKE_PROJECT_NAME}
 )
 
 
-# Tự động tạo file .bin và .hex sau khi build xong file .elf thành công
+# Make file .bin .hex .elf
 set(HEX_FILE ${PROJECT_BINARY_DIR}/${PROJECT_NAME}.hex)
 set(BIN_FILE ${PROJECT_BINARY_DIR}/${PROJECT_NAME}.bin)
 

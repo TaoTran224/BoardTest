@@ -1,8 +1,8 @@
-# Install script for directory: D:/Firmware_TNT/6_DA_2026/BoardTest/FW_BoardTest_VSCode
+# Install script for directory: D:/1_Project_EMIC/7_ToolTest/BoardTest/FW_BoardTest_VSCode
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)")
+  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/BoardTest")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -39,7 +39,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("D:/Firmware_TNT/6_DA_2026/BoardTest/FW_BoardTest_VSCode/build/Debug/cmake/stm32cubemx/cmake_install.cmake")
+  include("D:/1_Project_EMIC/7_ToolTest/BoardTest/FW_BoardTest_VSCode/build/Debug/cmake/stm32cubemx/cmake_install.cmake")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "D:/Firmware_TNT/6_DA_2026/BoardTest/FW_BoardTest_VSCode/build/Debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "D:/1_Project_EMIC/7_ToolTest/BoardTest/FW_BoardTest_VSCode/build/Debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
