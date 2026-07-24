@@ -12,6 +12,7 @@
 		[
 			"add_executable",
 			"target_link_libraries",
+			"add_custom_command",
 			"target_include_directories",
 			"target_sources"
 		],
@@ -39,17 +40,35 @@
 			{
 				"command" : 2,
 				"file" : 0,
-				"line" : 59,
+				"line" : 83,
 				"parent" : 0
 			},
 			{
 				"command" : 3,
+				"file" : 0,
+				"line" : 59,
+				"parent" : 0
+			},
+			{
+				"command" : 4,
 				"file" : 0,
 				"line" : 49,
 				"parent" : 0
 			}
 		]
 	},
+	"codemodelVersion" : 
+	{
+		"major" : 2,
+		"minor" : 10
+	},
+	"compileDependencies" : 
+	[
+		{
+			"backtrace" : 2,
+			"id" : "stm32cubemx::@768a070a0fe75716b479"
+		}
+	],
 	"compileGroups" : 
 	[
 		{
@@ -77,15 +96,15 @@
 			"includes" : 
 			[
 				{
-					"backtrace" : 3,
+					"backtrace" : 4,
 					"path" : "D:/1_Project_EMIC/7_ToolTest/BoardTest/FW_BoardTest_VSCode/App/Inc"
 				},
 				{
-					"backtrace" : 3,
+					"backtrace" : 4,
 					"path" : "D:/1_Project_EMIC/7_ToolTest/BoardTest/FW_BoardTest_VSCode/Common/Inc"
 				},
 				{
-					"backtrace" : 3,
+					"backtrace" : 4,
 					"path" : "D:/1_Project_EMIC/7_ToolTest/BoardTest/FW_BoardTest_VSCode/Common"
 				},
 				{
@@ -180,15 +199,15 @@
 			"includes" : 
 			[
 				{
-					"backtrace" : 3,
+					"backtrace" : 4,
 					"path" : "D:/1_Project_EMIC/7_ToolTest/BoardTest/FW_BoardTest_VSCode/App/Inc"
 				},
 				{
-					"backtrace" : 3,
+					"backtrace" : 4,
 					"path" : "D:/1_Project_EMIC/7_ToolTest/BoardTest/FW_BoardTest_VSCode/Common/Inc"
 				},
 				{
-					"backtrace" : 3,
+					"backtrace" : 4,
 					"path" : "D:/1_Project_EMIC/7_ToolTest/BoardTest/FW_BoardTest_VSCode/Common"
 				},
 				{
@@ -229,14 +248,28 @@
 				"role" : "flags"
 			},
 			{
-				"fragment" : "",
+				"fragment" : "-mcpu=cortex-m3  -T \"D:/1_Project_EMIC/7_ToolTest/BoardTest/FW_BoardTest_VSCode/stm32f103c8tx_flash.ld\" --specs=nano.specs -Wl,-Map=BoardTest.map -Wl,--gc-sections -Wl,--start-group -lc -lm -Wl,--end-group -Wl,--print-memory-usage",
 				"role" : "flags"
 			}
 		],
 		"language" : "C"
 	},
+	"linkLibraries" : 
+	[
+		{
+			"backtrace" : 2,
+			"id" : "stm32cubemx::@768a070a0fe75716b479"
+		}
+	],
 	"name" : "BoardTest",
 	"nameOnDisk" : "BoardTest.elf",
+	"orderDependencies" : 
+	[
+		{
+			"backtrace" : 3,
+			"id" : "BoardTest::@6890427a1f51a3e7e1df"
+		}
+	],
 	"paths" : 
 	{
 		"build" : ".",
@@ -294,31 +327,31 @@
 	"sources" : 
 	[
 		{
-			"backtrace" : 4,
+			"backtrace" : 5,
 			"compileGroupIndex" : 0,
 			"path" : "App/Src/board.c",
 			"sourceGroupIndex" : 0
 		},
 		{
-			"backtrace" : 4,
+			"backtrace" : 5,
 			"compileGroupIndex" : 0,
 			"path" : "App/Src/app.c",
 			"sourceGroupIndex" : 0
 		},
 		{
-			"backtrace" : 4,
+			"backtrace" : 5,
 			"compileGroupIndex" : 0,
 			"path" : "App/Src/interrupt.c",
 			"sourceGroupIndex" : 0
 		},
 		{
-			"backtrace" : 4,
+			"backtrace" : 5,
 			"compileGroupIndex" : 0,
 			"path" : "Common/Src/log.c",
 			"sourceGroupIndex" : 0
 		},
 		{
-			"backtrace" : 4,
+			"backtrace" : 5,
 			"compileGroupIndex" : 0,
 			"path" : "Common/Src/calculator.c",
 			"sourceGroupIndex" : 0
