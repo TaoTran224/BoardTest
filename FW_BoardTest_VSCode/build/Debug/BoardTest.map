@@ -327,10 +327,8 @@ Discarded input sections
  .text          0x00000000        0x0 CMakeFiles/BoardTest.dir/App/Src/board.c.obj
  .data          0x00000000        0x0 CMakeFiles/BoardTest.dir/App/Src/board.c.obj
  .bss           0x00000000        0x0 CMakeFiles/BoardTest.dir/App/Src/board.c.obj
- .bss.Beacon    0x00000000       0x1f CMakeFiles/BoardTest.dir/App/Src/board.c.obj
- .bss.Address   0x00000000        0x7 CMakeFiles/BoardTest.dir/App/Src/board.c.obj
- .bss.Detect_u16Timeout
-                0x00000000        0x2 CMakeFiles/BoardTest.dir/App/Src/board.c.obj
+ .bss.OutputN   0x00000000       0x24 CMakeFiles/BoardTest.dir/App/Src/board.c.obj
+ .bss.OutputP   0x00000000       0x24 CMakeFiles/BoardTest.dir/App/Src/board.c.obj
  .text.SetupInit
                 0x00000000        0xc CMakeFiles/BoardTest.dir/App/Src/board.c.obj
  .text.delay_us
@@ -339,6 +337,10 @@ Discarded input sections
                 0x00000000       0x34 CMakeFiles/BoardTest.dir/App/Src/board.c.obj
  .text.WDT_Clear
                 0x00000000        0xc CMakeFiles/BoardTest.dir/App/Src/board.c.obj
+ .text.OutputN_Init
+                0x00000000       0xa0 CMakeFiles/BoardTest.dir/App/Src/board.c.obj
+ .text.OutputP_Init
+                0x00000000       0x9c CMakeFiles/BoardTest.dir/App/Src/board.c.obj
  .group         0x00000000        0xc CMakeFiles/BoardTest.dir/App/Src/app.c.obj
  .group         0x00000000        0xc CMakeFiles/BoardTest.dir/App/Src/app.c.obj
  .group         0x00000000        0xc CMakeFiles/BoardTest.dir/App/Src/app.c.obj
@@ -4787,169 +4789,169 @@ LOAD C:/ST/STM32CubeCLT_1.21.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/
  .comment       0x00000043       0x44 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_uart.c.obj
  .comment       0x00000043       0x44 CMakeFiles/BoardTest.dir/Core/Src/system_stm32f1xx.c.obj
 
-.debug_frame    0x00000000     0x333c
+.debug_frame    0x00000000     0x3374
  .debug_frame   0x00000000       0x20 C:/ST/STM32CubeCLT_1.21.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libc_nano.a(libc_a-memset.o)
  .debug_frame   0x00000020       0x2c C:/ST/STM32CubeCLT_1.21.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libc_nano.a(libc_a-init.o)
- .debug_frame   0x0000004c       0xd8 CMakeFiles/BoardTest.dir/App/Src/board.c.obj
- .debug_frame   0x00000124       0x90 CMakeFiles/BoardTest.dir/App/Src/app.c.obj
- .debug_frame   0x000001b4       0x58 CMakeFiles/BoardTest.dir/App/Src/interrupt.c.obj
- .debug_frame   0x0000020c       0xa0 CMakeFiles/BoardTest.dir/Common/Src/log.c.obj
- .debug_frame   0x000002ac       0x44 CMakeFiles/BoardTest.dir/Core/Src/main.c.obj
- .debug_frame   0x000002f0       0x34 CMakeFiles/BoardTest.dir/Core/Src/gpio.c.obj
- .debug_frame   0x00000324       0xe8 CMakeFiles/BoardTest.dir/Core/Src/tim.c.obj
- .debug_frame   0x0000040c       0xac CMakeFiles/BoardTest.dir/Core/Src/usart.c.obj
- .debug_frame   0x000004b8      0x1bc CMakeFiles/BoardTest.dir/Core/Src/stm32f1xx_it.c.obj
- .debug_frame   0x00000674       0x34 CMakeFiles/BoardTest.dir/Core/Src/stm32f1xx_hal_msp.c.obj
- .debug_frame   0x000006a8      0x2e4 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c.obj
- .debug_frame   0x0000098c      0x1f8 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c.obj
- .debug_frame   0x00000b84       0x7c CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc_ex.c.obj
- .debug_frame   0x00000c00      0x130 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.c.obj
- .debug_frame   0x00000d30      0x1e8 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c.obj
- .debug_frame   0x00000f18      0x3f0 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c.obj
- .debug_frame   0x00001308     0x10e8 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim.c.obj
- .debug_frame   0x000023f0      0x600 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim_ex.c.obj
- .debug_frame   0x000029f0      0x8dc CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_uart.c.obj
- .debug_frame   0x000032cc       0x50 CMakeFiles/BoardTest.dir/Core/Src/system_stm32f1xx.c.obj
- .debug_frame   0x0000331c       0x20 C:/ST/STM32CubeCLT_1.21.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libg_nano.a(libc_a-strlen.o)
+ .debug_frame   0x0000004c      0x110 CMakeFiles/BoardTest.dir/App/Src/board.c.obj
+ .debug_frame   0x0000015c       0x90 CMakeFiles/BoardTest.dir/App/Src/app.c.obj
+ .debug_frame   0x000001ec       0x58 CMakeFiles/BoardTest.dir/App/Src/interrupt.c.obj
+ .debug_frame   0x00000244       0xa0 CMakeFiles/BoardTest.dir/Common/Src/log.c.obj
+ .debug_frame   0x000002e4       0x44 CMakeFiles/BoardTest.dir/Core/Src/main.c.obj
+ .debug_frame   0x00000328       0x34 CMakeFiles/BoardTest.dir/Core/Src/gpio.c.obj
+ .debug_frame   0x0000035c       0xe8 CMakeFiles/BoardTest.dir/Core/Src/tim.c.obj
+ .debug_frame   0x00000444       0xac CMakeFiles/BoardTest.dir/Core/Src/usart.c.obj
+ .debug_frame   0x000004f0      0x1bc CMakeFiles/BoardTest.dir/Core/Src/stm32f1xx_it.c.obj
+ .debug_frame   0x000006ac       0x34 CMakeFiles/BoardTest.dir/Core/Src/stm32f1xx_hal_msp.c.obj
+ .debug_frame   0x000006e0      0x2e4 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c.obj
+ .debug_frame   0x000009c4      0x1f8 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c.obj
+ .debug_frame   0x00000bbc       0x7c CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc_ex.c.obj
+ .debug_frame   0x00000c38      0x130 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.c.obj
+ .debug_frame   0x00000d68      0x1e8 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c.obj
+ .debug_frame   0x00000f50      0x3f0 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c.obj
+ .debug_frame   0x00001340     0x10e8 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim.c.obj
+ .debug_frame   0x00002428      0x600 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim_ex.c.obj
+ .debug_frame   0x00002a28      0x8dc CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_uart.c.obj
+ .debug_frame   0x00003304       0x50 CMakeFiles/BoardTest.dir/Core/Src/system_stm32f1xx.c.obj
+ .debug_frame   0x00003354       0x20 C:/ST/STM32CubeCLT_1.21.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libg_nano.a(libc_a-strlen.o)
 
-.debug_info     0x00000000     0xe682
- .debug_info    0x00000000      0xe1d CMakeFiles/BoardTest.dir/App/Src/board.c.obj
- .debug_info    0x00000e1d      0x8d3 CMakeFiles/BoardTest.dir/App/Src/app.c.obj
- .debug_info    0x000016f0      0xb32 CMakeFiles/BoardTest.dir/App/Src/interrupt.c.obj
- .debug_info    0x00002222      0x701 CMakeFiles/BoardTest.dir/Common/Src/log.c.obj
- .debug_info    0x00002923       0xfe CMakeFiles/BoardTest.dir/Core/Src/main.c.obj
- .debug_info    0x00002a21      0x2d3 CMakeFiles/BoardTest.dir/Core/Src/gpio.c.obj
- .debug_info    0x00002cf4      0xae6 CMakeFiles/BoardTest.dir/Core/Src/tim.c.obj
- .debug_info    0x000037da      0x9e0 CMakeFiles/BoardTest.dir/Core/Src/usart.c.obj
- .debug_info    0x000041ba      0x9d6 CMakeFiles/BoardTest.dir/Core/Src/stm32f1xx_it.c.obj
- .debug_info    0x00004b90      0x1f1 CMakeFiles/BoardTest.dir/Core/Src/stm32f1xx_hal_msp.c.obj
- .debug_info    0x00004d81      0x704 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c.obj
- .debug_info    0x00005485      0x7d5 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c.obj
- .debug_info    0x00005c5a      0x3c0 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc_ex.c.obj
- .debug_info    0x0000601a      0x5ab CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.c.obj
- .debug_info    0x000065c5      0x6d2 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c.obj
- .debug_info    0x00006c97      0xa87 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c.obj
- .debug_info    0x0000771e     0x2959 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim.c.obj
- .debug_info    0x0000a077     0x149b CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim_ex.c.obj
- .debug_info    0x0000b512     0x2eed CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_uart.c.obj
- .debug_info    0x0000e3ff      0x222 CMakeFiles/BoardTest.dir/Core/Src/system_stm32f1xx.c.obj
- .debug_info    0x0000e621       0x30 CMakeFiles/BoardTest.dir/startup_stm32f103xb.s.obj
- .debug_info    0x0000e651       0x31 C:/ST/STM32CubeCLT_1.21.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libg_nano.a(libc_a-strlen.o)
+.debug_info     0x00000000     0xe63f
+ .debug_info    0x00000000      0xdda CMakeFiles/BoardTest.dir/App/Src/board.c.obj
+ .debug_info    0x00000dda      0x8d3 CMakeFiles/BoardTest.dir/App/Src/app.c.obj
+ .debug_info    0x000016ad      0xb32 CMakeFiles/BoardTest.dir/App/Src/interrupt.c.obj
+ .debug_info    0x000021df      0x701 CMakeFiles/BoardTest.dir/Common/Src/log.c.obj
+ .debug_info    0x000028e0       0xfe CMakeFiles/BoardTest.dir/Core/Src/main.c.obj
+ .debug_info    0x000029de      0x2d3 CMakeFiles/BoardTest.dir/Core/Src/gpio.c.obj
+ .debug_info    0x00002cb1      0xae6 CMakeFiles/BoardTest.dir/Core/Src/tim.c.obj
+ .debug_info    0x00003797      0x9e0 CMakeFiles/BoardTest.dir/Core/Src/usart.c.obj
+ .debug_info    0x00004177      0x9d6 CMakeFiles/BoardTest.dir/Core/Src/stm32f1xx_it.c.obj
+ .debug_info    0x00004b4d      0x1f1 CMakeFiles/BoardTest.dir/Core/Src/stm32f1xx_hal_msp.c.obj
+ .debug_info    0x00004d3e      0x704 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c.obj
+ .debug_info    0x00005442      0x7d5 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c.obj
+ .debug_info    0x00005c17      0x3c0 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc_ex.c.obj
+ .debug_info    0x00005fd7      0x5ab CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.c.obj
+ .debug_info    0x00006582      0x6d2 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c.obj
+ .debug_info    0x00006c54      0xa87 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c.obj
+ .debug_info    0x000076db     0x2959 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim.c.obj
+ .debug_info    0x0000a034     0x149b CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim_ex.c.obj
+ .debug_info    0x0000b4cf     0x2eed CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_uart.c.obj
+ .debug_info    0x0000e3bc      0x222 CMakeFiles/BoardTest.dir/Core/Src/system_stm32f1xx.c.obj
+ .debug_info    0x0000e5de       0x30 CMakeFiles/BoardTest.dir/startup_stm32f103xb.s.obj
+ .debug_info    0x0000e60e       0x31 C:/ST/STM32CubeCLT_1.21.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libg_nano.a(libc_a-strlen.o)
 
-.debug_abbrev   0x00000000     0x27e0
- .debug_abbrev  0x00000000      0x273 CMakeFiles/BoardTest.dir/App/Src/board.c.obj
- .debug_abbrev  0x00000273      0x227 CMakeFiles/BoardTest.dir/App/Src/app.c.obj
- .debug_abbrev  0x0000049a      0x1f4 CMakeFiles/BoardTest.dir/App/Src/interrupt.c.obj
- .debug_abbrev  0x0000068e      0x1e6 CMakeFiles/BoardTest.dir/Common/Src/log.c.obj
- .debug_abbrev  0x00000874       0xc4 CMakeFiles/BoardTest.dir/Core/Src/main.c.obj
- .debug_abbrev  0x00000938      0x13f CMakeFiles/BoardTest.dir/Core/Src/gpio.c.obj
- .debug_abbrev  0x00000a77      0x248 CMakeFiles/BoardTest.dir/Core/Src/tim.c.obj
- .debug_abbrev  0x00000cbf      0x20b CMakeFiles/BoardTest.dir/Core/Src/usart.c.obj
- .debug_abbrev  0x00000eca      0x1b6 CMakeFiles/BoardTest.dir/Core/Src/stm32f1xx_it.c.obj
- .debug_abbrev  0x00001080       0xdb CMakeFiles/BoardTest.dir/Core/Src/stm32f1xx_hal_msp.c.obj
- .debug_abbrev  0x0000115b      0x201 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c.obj
- .debug_abbrev  0x0000135c      0x2b3 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c.obj
- .debug_abbrev  0x0000160f      0x188 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc_ex.c.obj
- .debug_abbrev  0x00001797      0x1ca CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.c.obj
- .debug_abbrev  0x00001961      0x20b CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c.obj
- .debug_abbrev  0x00001b6c      0x2f8 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c.obj
- .debug_abbrev  0x00001e64      0x277 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim.c.obj
- .debug_abbrev  0x000020db      0x282 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim_ex.c.obj
- .debug_abbrev  0x0000235d      0x2f8 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_uart.c.obj
- .debug_abbrev  0x00002655      0x13f CMakeFiles/BoardTest.dir/Core/Src/system_stm32f1xx.c.obj
- .debug_abbrev  0x00002794       0x24 CMakeFiles/BoardTest.dir/startup_stm32f103xb.s.obj
- .debug_abbrev  0x000027b8       0x28 C:/ST/STM32CubeCLT_1.21.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libg_nano.a(libc_a-strlen.o)
+.debug_abbrev   0x00000000     0x2812
+ .debug_abbrev  0x00000000      0x2a5 CMakeFiles/BoardTest.dir/App/Src/board.c.obj
+ .debug_abbrev  0x000002a5      0x227 CMakeFiles/BoardTest.dir/App/Src/app.c.obj
+ .debug_abbrev  0x000004cc      0x1f4 CMakeFiles/BoardTest.dir/App/Src/interrupt.c.obj
+ .debug_abbrev  0x000006c0      0x1e6 CMakeFiles/BoardTest.dir/Common/Src/log.c.obj
+ .debug_abbrev  0x000008a6       0xc4 CMakeFiles/BoardTest.dir/Core/Src/main.c.obj
+ .debug_abbrev  0x0000096a      0x13f CMakeFiles/BoardTest.dir/Core/Src/gpio.c.obj
+ .debug_abbrev  0x00000aa9      0x248 CMakeFiles/BoardTest.dir/Core/Src/tim.c.obj
+ .debug_abbrev  0x00000cf1      0x20b CMakeFiles/BoardTest.dir/Core/Src/usart.c.obj
+ .debug_abbrev  0x00000efc      0x1b6 CMakeFiles/BoardTest.dir/Core/Src/stm32f1xx_it.c.obj
+ .debug_abbrev  0x000010b2       0xdb CMakeFiles/BoardTest.dir/Core/Src/stm32f1xx_hal_msp.c.obj
+ .debug_abbrev  0x0000118d      0x201 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c.obj
+ .debug_abbrev  0x0000138e      0x2b3 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c.obj
+ .debug_abbrev  0x00001641      0x188 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc_ex.c.obj
+ .debug_abbrev  0x000017c9      0x1ca CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.c.obj
+ .debug_abbrev  0x00001993      0x20b CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c.obj
+ .debug_abbrev  0x00001b9e      0x2f8 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c.obj
+ .debug_abbrev  0x00001e96      0x277 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim.c.obj
+ .debug_abbrev  0x0000210d      0x282 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim_ex.c.obj
+ .debug_abbrev  0x0000238f      0x2f8 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_uart.c.obj
+ .debug_abbrev  0x00002687      0x13f CMakeFiles/BoardTest.dir/Core/Src/system_stm32f1xx.c.obj
+ .debug_abbrev  0x000027c6       0x24 CMakeFiles/BoardTest.dir/startup_stm32f103xb.s.obj
+ .debug_abbrev  0x000027ea       0x28 C:/ST/STM32CubeCLT_1.21.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libg_nano.a(libc_a-strlen.o)
 
-.debug_aranges  0x00000000      0xd90
+.debug_aranges  0x00000000      0xda0
  .debug_aranges
-                0x00000000       0x48 CMakeFiles/BoardTest.dir/App/Src/board.c.obj
+                0x00000000       0x58 CMakeFiles/BoardTest.dir/App/Src/board.c.obj
  .debug_aranges
-                0x00000048       0x38 CMakeFiles/BoardTest.dir/App/Src/app.c.obj
+                0x00000058       0x38 CMakeFiles/BoardTest.dir/App/Src/app.c.obj
  .debug_aranges
-                0x00000080       0x28 CMakeFiles/BoardTest.dir/App/Src/interrupt.c.obj
+                0x00000090       0x28 CMakeFiles/BoardTest.dir/App/Src/interrupt.c.obj
  .debug_aranges
-                0x000000a8       0x38 CMakeFiles/BoardTest.dir/Common/Src/log.c.obj
+                0x000000b8       0x38 CMakeFiles/BoardTest.dir/Common/Src/log.c.obj
  .debug_aranges
-                0x000000e0       0x28 CMakeFiles/BoardTest.dir/Core/Src/main.c.obj
+                0x000000f0       0x28 CMakeFiles/BoardTest.dir/Core/Src/main.c.obj
  .debug_aranges
-                0x00000108       0x20 CMakeFiles/BoardTest.dir/Core/Src/gpio.c.obj
+                0x00000118       0x20 CMakeFiles/BoardTest.dir/Core/Src/gpio.c.obj
  .debug_aranges
-                0x00000128       0x48 CMakeFiles/BoardTest.dir/Core/Src/tim.c.obj
+                0x00000138       0x48 CMakeFiles/BoardTest.dir/Core/Src/tim.c.obj
  .debug_aranges
-                0x00000170       0x40 CMakeFiles/BoardTest.dir/Core/Src/usart.c.obj
+                0x00000180       0x40 CMakeFiles/BoardTest.dir/Core/Src/usart.c.obj
  .debug_aranges
-                0x000001b0       0x98 CMakeFiles/BoardTest.dir/Core/Src/stm32f1xx_it.c.obj
+                0x000001c0       0x98 CMakeFiles/BoardTest.dir/Core/Src/stm32f1xx_it.c.obj
  .debug_aranges
-                0x00000248       0x20 CMakeFiles/BoardTest.dir/Core/Src/stm32f1xx_hal_msp.c.obj
+                0x00000258       0x20 CMakeFiles/BoardTest.dir/Core/Src/stm32f1xx_hal_msp.c.obj
  .debug_aranges
-                0x00000268       0xe0 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c.obj
+                0x00000278       0xe0 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c.obj
  .debug_aranges
-                0x00000348       0x90 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c.obj
+                0x00000358       0x90 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c.obj
  .debug_aranges
-                0x000003d8       0x30 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc_ex.c.obj
+                0x000003e8       0x30 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc_ex.c.obj
  .debug_aranges
-                0x00000408       0x58 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.c.obj
+                0x00000418       0x58 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.c.obj
  .debug_aranges
-                0x00000460       0x80 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c.obj
+                0x00000470       0x80 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c.obj
  .debug_aranges
-                0x000004e0      0x100 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c.obj
+                0x000004f0      0x100 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c.obj
  .debug_aranges
-                0x000005e0      0x3d0 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim.c.obj
+                0x000005f0      0x3d0 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim.c.obj
  .debug_aranges
-                0x000009b0      0x168 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim_ex.c.obj
+                0x000009c0      0x168 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim_ex.c.obj
  .debug_aranges
-                0x00000b18      0x208 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_uart.c.obj
+                0x00000b28      0x208 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_uart.c.obj
  .debug_aranges
-                0x00000d20       0x28 CMakeFiles/BoardTest.dir/Core/Src/system_stm32f1xx.c.obj
+                0x00000d30       0x28 CMakeFiles/BoardTest.dir/Core/Src/system_stm32f1xx.c.obj
  .debug_aranges
-                0x00000d48       0x28 CMakeFiles/BoardTest.dir/startup_stm32f103xb.s.obj
+                0x00000d58       0x28 CMakeFiles/BoardTest.dir/startup_stm32f103xb.s.obj
  .debug_aranges
-                0x00000d70       0x20 C:/ST/STM32CubeCLT_1.21.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libg_nano.a(libc_a-strlen.o)
+                0x00000d80       0x20 C:/ST/STM32CubeCLT_1.21.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libg_nano.a(libc_a-strlen.o)
 
 .debug_rnglists
-                0x00000000      0xa67
+                0x00000000      0xa75
  .debug_rnglists
-                0x00000000       0x33 CMakeFiles/BoardTest.dir/App/Src/board.c.obj
+                0x00000000       0x41 CMakeFiles/BoardTest.dir/App/Src/board.c.obj
  .debug_rnglists
-                0x00000033       0x26 CMakeFiles/BoardTest.dir/App/Src/app.c.obj
+                0x00000041       0x26 CMakeFiles/BoardTest.dir/App/Src/app.c.obj
  .debug_rnglists
-                0x00000059       0x1b CMakeFiles/BoardTest.dir/App/Src/interrupt.c.obj
+                0x00000067       0x1b CMakeFiles/BoardTest.dir/App/Src/interrupt.c.obj
  .debug_rnglists
-                0x00000074       0x26 CMakeFiles/BoardTest.dir/Common/Src/log.c.obj
+                0x00000082       0x26 CMakeFiles/BoardTest.dir/Common/Src/log.c.obj
  .debug_rnglists
-                0x0000009a       0x19 CMakeFiles/BoardTest.dir/Core/Src/main.c.obj
+                0x000000a8       0x19 CMakeFiles/BoardTest.dir/Core/Src/main.c.obj
  .debug_rnglists
-                0x000000b3       0x14 CMakeFiles/BoardTest.dir/Core/Src/gpio.c.obj
+                0x000000c1       0x14 CMakeFiles/BoardTest.dir/Core/Src/gpio.c.obj
  .debug_rnglists
-                0x000000c7       0x37 CMakeFiles/BoardTest.dir/Core/Src/tim.c.obj
+                0x000000d5       0x37 CMakeFiles/BoardTest.dir/Core/Src/tim.c.obj
  .debug_rnglists
-                0x000000fe       0x2d CMakeFiles/BoardTest.dir/Core/Src/usart.c.obj
+                0x0000010c       0x2d CMakeFiles/BoardTest.dir/Core/Src/usart.c.obj
  .debug_rnglists
-                0x0000012b       0x6d CMakeFiles/BoardTest.dir/Core/Src/stm32f1xx_it.c.obj
+                0x00000139       0x6d CMakeFiles/BoardTest.dir/Core/Src/stm32f1xx_it.c.obj
  .debug_rnglists
-                0x00000198       0x13 CMakeFiles/BoardTest.dir/Core/Src/stm32f1xx_hal_msp.c.obj
+                0x000001a6       0x13 CMakeFiles/BoardTest.dir/Core/Src/stm32f1xx_hal_msp.c.obj
  .debug_rnglists
-                0x000001ab       0xa3 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c.obj
+                0x000001b9       0xa3 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c.obj
  .debug_rnglists
-                0x0000024e       0x6c CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c.obj
+                0x0000025c       0x6c CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c.obj
  .debug_rnglists
-                0x000002ba       0x21 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc_ex.c.obj
+                0x000002c8       0x21 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc_ex.c.obj
  .debug_rnglists
-                0x000002db       0x3f CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.c.obj
+                0x000002e9       0x3f CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.c.obj
  .debug_rnglists
-                0x0000031a       0x64 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c.obj
+                0x00000328       0x64 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c.obj
  .debug_rnglists
-                0x0000037e       0xbb CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c.obj
+                0x0000038c       0xbb CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c.obj
  .debug_rnglists
-                0x00000439      0x31a CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim.c.obj
+                0x00000447      0x31a CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim.c.obj
  .debug_rnglists
-                0x00000753      0x125 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim_ex.c.obj
+                0x00000761      0x125 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim_ex.c.obj
  .debug_rnglists
-                0x00000878      0x1bc CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_uart.c.obj
+                0x00000886      0x1bc CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_uart.c.obj
  .debug_rnglists
-                0x00000a34       0x1a CMakeFiles/BoardTest.dir/Core/Src/system_stm32f1xx.c.obj
+                0x00000a42       0x1a CMakeFiles/BoardTest.dir/Core/Src/system_stm32f1xx.c.obj
  .debug_rnglists
-                0x00000a4e       0x19 CMakeFiles/BoardTest.dir/startup_stm32f103xb.s.obj
+                0x00000a5c       0x19 CMakeFiles/BoardTest.dir/startup_stm32f103xb.s.obj
 
 .debug_macro    0x00000000    0x1957c
  .debug_macro   0x00000000      0x333 CMakeFiles/BoardTest.dir/App/Src/board.c.obj
@@ -5041,54 +5043,54 @@ LOAD C:/ST/STM32CubeCLT_1.21.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/
  .debug_macro   0x000191f9      0x1c2 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_uart.c.obj
  .debug_macro   0x000193bb      0x1c1 CMakeFiles/BoardTest.dir/Core/Src/system_stm32f1xx.c.obj
 
-.debug_line     0x00000000    0x11fa2
- .debug_line    0x00000000      0xa76 CMakeFiles/BoardTest.dir/App/Src/board.c.obj
- .debug_line    0x00000a76      0xa07 CMakeFiles/BoardTest.dir/App/Src/app.c.obj
- .debug_line    0x0000147d      0xa5c CMakeFiles/BoardTest.dir/App/Src/interrupt.c.obj
- .debug_line    0x00001ed9      0x980 CMakeFiles/BoardTest.dir/Common/Src/log.c.obj
- .debug_line    0x00002859      0x999 CMakeFiles/BoardTest.dir/Core/Src/main.c.obj
- .debug_line    0x000031f2      0x7bb CMakeFiles/BoardTest.dir/Core/Src/gpio.c.obj
- .debug_line    0x000039ad      0x974 CMakeFiles/BoardTest.dir/Core/Src/tim.c.obj
- .debug_line    0x00004321      0x8df CMakeFiles/BoardTest.dir/Core/Src/usart.c.obj
- .debug_line    0x00004c00      0x8d0 CMakeFiles/BoardTest.dir/Core/Src/stm32f1xx_it.c.obj
- .debug_line    0x000054d0      0x77a CMakeFiles/BoardTest.dir/Core/Src/stm32f1xx_hal_msp.c.obj
- .debug_line    0x00005c4a      0xa2c CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c.obj
- .debug_line    0x00006676      0xee2 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c.obj
- .debug_line    0x00007558      0x993 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc_ex.c.obj
- .debug_line    0x00007eeb      0xa83 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.c.obj
- .debug_line    0x0000896e      0xe33 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c.obj
- .debug_line    0x000097a1      0xbf3 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c.obj
- .debug_line    0x0000a394     0x351d CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim.c.obj
- .debug_line    0x0000d8b1     0x18ed CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim_ex.c.obj
- .debug_line    0x0000f19e     0x2545 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_uart.c.obj
- .debug_line    0x000116e3      0x7f8 CMakeFiles/BoardTest.dir/Core/Src/system_stm32f1xx.c.obj
- .debug_line    0x00011edb       0x78 CMakeFiles/BoardTest.dir/startup_stm32f103xb.s.obj
- .debug_line    0x00011f53       0x4f C:/ST/STM32CubeCLT_1.21.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libg_nano.a(libc_a-strlen.o)
+.debug_line     0x00000000    0x12002
+ .debug_line    0x00000000      0xad6 CMakeFiles/BoardTest.dir/App/Src/board.c.obj
+ .debug_line    0x00000ad6      0xa07 CMakeFiles/BoardTest.dir/App/Src/app.c.obj
+ .debug_line    0x000014dd      0xa5c CMakeFiles/BoardTest.dir/App/Src/interrupt.c.obj
+ .debug_line    0x00001f39      0x980 CMakeFiles/BoardTest.dir/Common/Src/log.c.obj
+ .debug_line    0x000028b9      0x999 CMakeFiles/BoardTest.dir/Core/Src/main.c.obj
+ .debug_line    0x00003252      0x7bb CMakeFiles/BoardTest.dir/Core/Src/gpio.c.obj
+ .debug_line    0x00003a0d      0x974 CMakeFiles/BoardTest.dir/Core/Src/tim.c.obj
+ .debug_line    0x00004381      0x8df CMakeFiles/BoardTest.dir/Core/Src/usart.c.obj
+ .debug_line    0x00004c60      0x8d0 CMakeFiles/BoardTest.dir/Core/Src/stm32f1xx_it.c.obj
+ .debug_line    0x00005530      0x77a CMakeFiles/BoardTest.dir/Core/Src/stm32f1xx_hal_msp.c.obj
+ .debug_line    0x00005caa      0xa2c CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c.obj
+ .debug_line    0x000066d6      0xee2 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c.obj
+ .debug_line    0x000075b8      0x993 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc_ex.c.obj
+ .debug_line    0x00007f4b      0xa83 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.c.obj
+ .debug_line    0x000089ce      0xe33 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c.obj
+ .debug_line    0x00009801      0xbf3 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c.obj
+ .debug_line    0x0000a3f4     0x351d CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim.c.obj
+ .debug_line    0x0000d911     0x18ed CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim_ex.c.obj
+ .debug_line    0x0000f1fe     0x2545 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_uart.c.obj
+ .debug_line    0x00011743      0x7f8 CMakeFiles/BoardTest.dir/Core/Src/system_stm32f1xx.c.obj
+ .debug_line    0x00011f3b       0x78 CMakeFiles/BoardTest.dir/startup_stm32f103xb.s.obj
+ .debug_line    0x00011fb3       0x4f C:/ST/STM32CubeCLT_1.21.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libg_nano.a(libc_a-strlen.o)
 
-.debug_str      0x00000000    0x8f93a
- .debug_str     0x00000000    0x8f93a CMakeFiles/BoardTest.dir/App/Src/board.c.obj
-                              0x8c800 (size before relaxing)
- .debug_str     0x0008f93a    0x8c369 CMakeFiles/BoardTest.dir/App/Src/app.c.obj
- .debug_str     0x0008f93a    0x8c5f8 CMakeFiles/BoardTest.dir/App/Src/interrupt.c.obj
- .debug_str     0x0008f93a    0x8c041 CMakeFiles/BoardTest.dir/Common/Src/log.c.obj
- .debug_str     0x0008f93a    0x8bd91 CMakeFiles/BoardTest.dir/Core/Src/main.c.obj
- .debug_str     0x0008f93a    0x88a00 CMakeFiles/BoardTest.dir/Core/Src/gpio.c.obj
- .debug_str     0x0008f93a    0x892e2 CMakeFiles/BoardTest.dir/Core/Src/tim.c.obj
- .debug_str     0x0008f93a    0x89199 CMakeFiles/BoardTest.dir/Core/Src/usart.c.obj
- .debug_str     0x0008f93a    0x89155 CMakeFiles/BoardTest.dir/Core/Src/stm32f1xx_it.c.obj
- .debug_str     0x0008f93a    0x88988 CMakeFiles/BoardTest.dir/Core/Src/stm32f1xx_hal_msp.c.obj
- .debug_str     0x0008f93a    0x88db9 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c.obj
- .debug_str     0x0008f93a    0x88ab5 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c.obj
- .debug_str     0x0008f93a    0x88805 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc_ex.c.obj
- .debug_str     0x0008f93a    0x88a0c CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.c.obj
- .debug_str     0x0008f93a    0x88a2f CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c.obj
- .debug_str     0x0008f93a    0x88d05 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c.obj
- .debug_str     0x0008f93a    0x89ab7 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim.c.obj
- .debug_str     0x0008f93a    0x892c3 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim_ex.c.obj
- .debug_str     0x0008f93a    0x89126 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_uart.c.obj
- .debug_str     0x0008f93a    0x88686 CMakeFiles/BoardTest.dir/Core/Src/system_stm32f1xx.c.obj
- .debug_str     0x0008f93a       0xb4 CMakeFiles/BoardTest.dir/startup_stm32f103xb.s.obj
- .debug_str     0x0008f93a       0xef C:/ST/STM32CubeCLT_1.21.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libg_nano.a(libc_a-strlen.o)
+.debug_str      0x00000000    0x8f8f6
+ .debug_str     0x00000000    0x8f8f6 CMakeFiles/BoardTest.dir/App/Src/board.c.obj
+                              0x8c7b5 (size before relaxing)
+ .debug_str     0x0008f8f6    0x8c369 CMakeFiles/BoardTest.dir/App/Src/app.c.obj
+ .debug_str     0x0008f8f6    0x8c5f8 CMakeFiles/BoardTest.dir/App/Src/interrupt.c.obj
+ .debug_str     0x0008f8f6    0x8c041 CMakeFiles/BoardTest.dir/Common/Src/log.c.obj
+ .debug_str     0x0008f8f6    0x8bd91 CMakeFiles/BoardTest.dir/Core/Src/main.c.obj
+ .debug_str     0x0008f8f6    0x88a00 CMakeFiles/BoardTest.dir/Core/Src/gpio.c.obj
+ .debug_str     0x0008f8f6    0x892e2 CMakeFiles/BoardTest.dir/Core/Src/tim.c.obj
+ .debug_str     0x0008f8f6    0x89199 CMakeFiles/BoardTest.dir/Core/Src/usart.c.obj
+ .debug_str     0x0008f8f6    0x89155 CMakeFiles/BoardTest.dir/Core/Src/stm32f1xx_it.c.obj
+ .debug_str     0x0008f8f6    0x88988 CMakeFiles/BoardTest.dir/Core/Src/stm32f1xx_hal_msp.c.obj
+ .debug_str     0x0008f8f6    0x88db9 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c.obj
+ .debug_str     0x0008f8f6    0x88ab5 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c.obj
+ .debug_str     0x0008f8f6    0x88805 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc_ex.c.obj
+ .debug_str     0x0008f8f6    0x88a0c CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.c.obj
+ .debug_str     0x0008f8f6    0x88a2f CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c.obj
+ .debug_str     0x0008f8f6    0x88d05 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c.obj
+ .debug_str     0x0008f8f6    0x89ab7 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim.c.obj
+ .debug_str     0x0008f8f6    0x892c3 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim_ex.c.obj
+ .debug_str     0x0008f8f6    0x89126 CMakeFiles/BoardTest.dir/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_uart.c.obj
+ .debug_str     0x0008f8f6    0x88686 CMakeFiles/BoardTest.dir/Core/Src/system_stm32f1xx.c.obj
+ .debug_str     0x0008f8f6       0xb4 CMakeFiles/BoardTest.dir/startup_stm32f103xb.s.obj
+ .debug_str     0x0008f8f6       0xef C:/ST/STM32CubeCLT_1.21.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libg_nano.a(libc_a-strlen.o)
 
 .debug_line_str
                 0x00000000      0x172

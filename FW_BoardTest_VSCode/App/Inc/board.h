@@ -46,23 +46,6 @@ M_ON = (uint8_t)1,
 M_BLINK = (uint8_t)2,
 } OutputModeType;
 
-
-typedef enum
-{
-M_GUN = (uint8_t)0,
-M_HEAVY_GUN
-} AddressModeType;
-
-typedef struct
-{
-    uint8_t u8Master;
-    uint8_t u8Slave;
-    uint8_t u8Full;
-    AddressModeType eu8Mode;
-	uint8_t eu8NumInput;
-	uint16_t u8_rf;
-} __attribute__((packed)) AddressType;
-
 typedef struct
 {
     uint16_t GPIO_Pin;
@@ -71,36 +54,8 @@ typedef struct
     OutputModeType eu8Mode;
     uint8_t timeout;
 } __attribute__((packed)) OutputType;
-extern OutputType Output[OUTPUT_MAX];
-
-typedef enum
-{
-CMD_BEACON = (uint8_t)1,
-CMD_TARGET = (uint8_t)2,
-CMD_ERROR_TARGET = (uint8_t)3,
-CMD_READ_BUTTON = (uint8_t)4,
-CMD_PC_CTRL_MASTER = (uint8_t)5,
-CMD_PC_CTRL_SLAVE = (uint8_t)6,
-CMD_BROKEN_TARGET = (uint8_t)7,
-} CommandType;
-
-
-typedef struct
-{
-    uint8_t au8Buf[BEACON_MAX_LEN];
-    uint8_t u8Len;
-    uint8_t u8NumSlave;
-    uint32_t u32TimeWait;
-    uint32_t  u32TimeOut;
-    uint8_t u8TimeWaitToSendLora;
-} __attribute__((packed)) BeaconType;
-
-extern BeaconType Beacon;
-
-extern AddressType Address;
-
-extern uint16_t Detect_u16Timeout;
-
+extern OutputType OutputN[OUTPUT_MAX];
+extern OutputType OutputP[OUTPUT_MAX];
 
 extern uint8_t recUART1;
 extern uint8_t recUART2;

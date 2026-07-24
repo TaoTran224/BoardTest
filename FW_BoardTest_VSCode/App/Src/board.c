@@ -9,16 +9,12 @@
 #include "gpio.h"
 #include "log.h"
 
-BeaconType Beacon;
-
-
 uint8_t recUART1;
 uint8_t recUART2;
 uint8_t recUART3;
 
-AddressType Address;
-
-uint16_t Detect_u16Timeout = 0;
+OutputType OutputN[OUTPUT_MAX];
+OutputType OutputP[OUTPUT_MAX];
 
 /**
   * @brief System Clock Configuration
@@ -157,3 +153,29 @@ void WDT_Clear(void)
 {
 	//HAL_IWDG_Refresh(&hiwdg);
 }
+
+void OutputN_Init(void)
+{
+    memset(OutputN, 0, sizeof(OutputN));
+    OutputN[0].GPIO_Pin = OUT_N_0_Pin;
+    OutputN[0].GPIO = OUT_N_0_GPIO_Port;
+    OutputN[1].GPIO_Pin = OUT_N_1_Pin;
+    OutputN[1].GPIO = OUT_N_1_GPIO_Port;
+    OutputN[2].GPIO_Pin = OUT_N_2_Pin;
+    OutputN[2].GPIO = OUT_N_2_GPIO_Port;
+    OutputN[3].GPIO_Pin = OUT_N_3_Pin;
+    OutputN[3].GPIO = OUT_N_3_GPIO_Port;
+}
+
+void OutputP_Init(void)
+{
+    memset(OutputP, 0, sizeof(OutputP));
+    OutputP[0].GPIO_Pin = OUT_P_0_Pin;
+    OutputP[0].GPIO = OUT_P_0_GPIO_Port;
+    OutputP[1].GPIO_Pin = OUT_P_1_Pin;
+    OutputP[1].GPIO = OUT_P_1_GPIO_Port;
+    OutputP[2].GPIO_Pin = OUT_P_2_Pin;
+    OutputP[2].GPIO = OUT_P_2_GPIO_Port;
+    OutputP[3].GPIO_Pin = OUT_P_3_Pin;
+    OutputP[3].GPIO = OUT_P_3_GPIO_Port;
+  }
