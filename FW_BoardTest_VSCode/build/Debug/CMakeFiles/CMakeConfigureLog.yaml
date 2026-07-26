@@ -5796,3 +5796,347 @@ events:
       warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
       
 ...
+
+---
+events:
+  -
+    kind: "find-v1"
+    backtrace:
+      - "cmake/gcc-arm-none-eabi.cmake:20 (find_program)"
+      - "CMakeLists.txt:25 (include)"
+    mode: "program"
+    variable: "ARM_NONE_EABI_GCC"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "arm-none-eabi-gcc"
+    candidate_directories:
+      - "C:/ST/STM32CubeCLT_1.21.0/GNU-tools-for-STM32/bin/"
+      - "C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/bin/"
+      - "C:/Program Files/GNU Arm Embedded Toolchain/10 2021.10/bin/"
+    searched_directories:
+      - "C:/ST/STM32CubeCLT_1.21.0/GNU-tools-for-STM32/bin/arm-none-eabi-gcc.com"
+    found: "C:/ST/STM32CubeCLT_1.21.0/GNU-tools-for-STM32/bin/arm-none-eabi-gcc.exe"
+    search_context:
+      ENV{CMAKE_PREFIX_PATH}:
+        - "C:\\Program Files\\Basler\\pylon\\Development\\CMake\\pylon\\"
+      ENV{PATH}:
+        - "C:/Users/Tran Nhu Tao/AppData/Local/stm32cube/bundles/cmake/4.3.1+st.1/bin"
+        - "C:/Users/Tran Nhu Tao/AppData/Local/stm32cube/bundles/ninja/1.13.2+st.1/bin"
+        - "C:/Users/Tran Nhu Tao/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin"
+        - "C:/Users/Tran Nhu Tao/AppData/Local/stm32cube/bundles/cmake/4.3.1+st.1/bin"
+        - "c:/Users/Tran Nhu Tao/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.46.0-win32-x64/resources/cube-cmake/win32/x86_64"
+        - "c:\\Users\\Tran Nhu Tao\\.vscode\\extensions\\stmicroelectronics.stm32cube-ide-core-1.4.0-win32-x64\\resources\\binaries\\win32\\x86_64"
+        - "C:/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/VC/Tools/MSVC/14.29.30133/bin/HostX64/x64"
+        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\Common7\\IDE\\VC\\VCPackages"
+        - "C:/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/Common7/IDE/CommonExtensions/Microsoft/TestWindow"
+        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\Common7\\IDE\\CommonExtensions\\Microsoft\\TeamFoundation\\Team Explorer"
+        - "C:/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/MSBuild/Current/bin/Roslyn"
+        - "C:\\Program Files (x86)\\Microsoft SDKs\\Windows\\v10.0A\\bin\\NETFX 4.8 Tools\\x64\\"
+        - "C:/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/Common7/Tools/devinit"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.19041.0\\x64"
+        - "C:/Program Files (x86)/Windows Kits/10/bin/x64"
+        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\\\MSBuild\\Current\\Bin"
+        - "C:/Windows/Microsoft.NET/Framework64/v4.0.30319"
+        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\Common7\\IDE\\"
+        - "C:/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/Common7/Tools/"
+        - "C:\\Program Files (x86)\\STMicroelectronics\\stlink_server"
+        - "C:/ST/STM32CubeCLT_1.21.0"
+        - "C:\\ST\\STM32CubeCLT_1.21.0\\CMake\\bin"
+        - "C:/ST/STM32CubeCLT_1.21.0/st-arm-clang/bin"
+        - "C:\\ST\\STM32CubeCLT_1.21.0\\Ninja\\bin"
+        - "C:/ST/STM32CubeCLT_1.21.0/GNU-tools-for-STM32/bin"
+        - "C:\\ST\\STM32CubeCLT_1.21.0\\STLink-gdb-server\\bin"
+        - "C:/ST/STM32CubeCLT_1.21.0/STM32CubeProgrammer/bin"
+        - "C:\\Program Files\\Basler\\pylon\\Runtime\\x64\\"
+        - "C:/Program Files/Basler/pylon/Runtime/Win32/"
+        - "C:\\Program Files\\Common Files\\Oracle\\Java\\javapath"
+        - "C:/Python311/Scripts/"
+        - "C:\\Python311\\"
+        - "C:/Program Files (x86)/STMicroelectronics/st_toolset/asm"
+        - "C:\\WINDOWS\\system32"
+        - "C:/WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:/WINDOWS/System32/WindowsPowerShell/v1.0/"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:/Program Files/dotnet/"
+        - "C:\\Program Files\\Microsoft SQL Server\\130\\Tools\\Binn\\"
+        - "C:/Program Files/Git/cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:/ProgramData/chocolatey/bin"
+        - "C:\\Program Files (x86)\\STMicroelectronics\\STM32 ST-LINK Utility\\ST-LINK Utility"
+        - "C:/ProgramData/LLVM for Renesas RL78 10.0.0.202209/bin"
+        - "C:\\Users\\Tran Nhu Tao\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:/Users/Tran Nhu Tao/AppData/Local/Programs/Microsoft VS Code/bin"
+        - "C:\\Users\\Tran Nhu Tao\\AppData\\Roaming\\npm"
+        - "C:/Users/Tran Nhu Tao/AppData/Local/Python/bin"
+        - "C:\\Users\\Tran Nhu Tao\\.dotnet\\tools"
+        - "C:/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin"
+        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\Ninja"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/BoardTest"
+...
+
+---
+events:
+  -
+    kind: "find-v1"
+    backtrace:
+      - "cmake/gcc-arm-none-eabi.cmake:20 (find_program)"
+      - "CMakeLists.txt:25 (include)"
+    mode: "program"
+    variable: "ARM_NONE_EABI_GCC"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "arm-none-eabi-gcc"
+    candidate_directories:
+      - "C:/ST/STM32CubeCLT_1.21.0/GNU-tools-for-STM32/bin/"
+      - "C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/bin/"
+      - "C:/Program Files/GNU Arm Embedded Toolchain/10 2021.10/bin/"
+    searched_directories:
+      - "C:/ST/STM32CubeCLT_1.21.0/GNU-tools-for-STM32/bin/arm-none-eabi-gcc.com"
+    found: "C:/ST/STM32CubeCLT_1.21.0/GNU-tools-for-STM32/bin/arm-none-eabi-gcc.exe"
+    search_context:
+      ENV{CMAKE_PREFIX_PATH}:
+        - "C:\\Program Files\\Basler\\pylon\\Development\\CMake\\pylon\\"
+      ENV{PATH}:
+        - "C:/Users/Tran Nhu Tao/AppData/Local/stm32cube/bundles/cmake/4.3.1+st.1/bin"
+        - "C:/Users/Tran Nhu Tao/AppData/Local/stm32cube/bundles/ninja/1.13.2+st.1/bin"
+        - "C:/Users/Tran Nhu Tao/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin"
+        - "C:/Users/Tran Nhu Tao/AppData/Local/stm32cube/bundles/cmake/4.3.1+st.1/bin"
+        - "c:/Users/Tran Nhu Tao/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.46.0-win32-x64/resources/cube-cmake/win32/x86_64"
+        - "c:\\Users\\Tran Nhu Tao\\.vscode\\extensions\\stmicroelectronics.stm32cube-ide-core-1.4.0-win32-x64\\resources\\binaries\\win32\\x86_64"
+        - "C:/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/VC/Tools/MSVC/14.29.30133/bin/HostX64/x64"
+        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\Common7\\IDE\\VC\\VCPackages"
+        - "C:/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/Common7/IDE/CommonExtensions/Microsoft/TestWindow"
+        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\Common7\\IDE\\CommonExtensions\\Microsoft\\TeamFoundation\\Team Explorer"
+        - "C:/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/MSBuild/Current/bin/Roslyn"
+        - "C:\\Program Files (x86)\\Microsoft SDKs\\Windows\\v10.0A\\bin\\NETFX 4.8 Tools\\x64\\"
+        - "C:/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/Common7/Tools/devinit"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.19041.0\\x64"
+        - "C:/Program Files (x86)/Windows Kits/10/bin/x64"
+        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\\\MSBuild\\Current\\Bin"
+        - "C:/Windows/Microsoft.NET/Framework64/v4.0.30319"
+        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\Common7\\IDE\\"
+        - "C:/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/Common7/Tools/"
+        - "C:\\Program Files (x86)\\STMicroelectronics\\stlink_server"
+        - "C:/ST/STM32CubeCLT_1.21.0"
+        - "C:\\ST\\STM32CubeCLT_1.21.0\\CMake\\bin"
+        - "C:/ST/STM32CubeCLT_1.21.0/st-arm-clang/bin"
+        - "C:\\ST\\STM32CubeCLT_1.21.0\\Ninja\\bin"
+        - "C:/ST/STM32CubeCLT_1.21.0/GNU-tools-for-STM32/bin"
+        - "C:\\ST\\STM32CubeCLT_1.21.0\\STLink-gdb-server\\bin"
+        - "C:/ST/STM32CubeCLT_1.21.0/STM32CubeProgrammer/bin"
+        - "C:\\Program Files\\Basler\\pylon\\Runtime\\x64\\"
+        - "C:/Program Files/Basler/pylon/Runtime/Win32/"
+        - "C:\\Program Files\\Common Files\\Oracle\\Java\\javapath"
+        - "C:/Python311/Scripts/"
+        - "C:\\Python311\\"
+        - "C:/Program Files (x86)/STMicroelectronics/st_toolset/asm"
+        - "C:\\WINDOWS\\system32"
+        - "C:/WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:/WINDOWS/System32/WindowsPowerShell/v1.0/"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:/Program Files/dotnet/"
+        - "C:\\Program Files\\Microsoft SQL Server\\130\\Tools\\Binn\\"
+        - "C:/Program Files/Git/cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:/ProgramData/chocolatey/bin"
+        - "C:\\Program Files (x86)\\STMicroelectronics\\STM32 ST-LINK Utility\\ST-LINK Utility"
+        - "C:/ProgramData/LLVM for Renesas RL78 10.0.0.202209/bin"
+        - "C:\\Users\\Tran Nhu Tao\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:/Users/Tran Nhu Tao/AppData/Local/Programs/Microsoft VS Code/bin"
+        - "C:\\Users\\Tran Nhu Tao\\AppData\\Roaming\\npm"
+        - "C:/Users/Tran Nhu Tao/AppData/Local/Python/bin"
+        - "C:\\Users\\Tran Nhu Tao\\.dotnet\\tools"
+        - "C:/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin"
+        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\Ninja"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/BoardTest"
+...
+
+---
+events:
+  -
+    kind: "find-v1"
+    backtrace:
+      - "cmake/gcc-arm-none-eabi.cmake:20 (find_program)"
+      - "CMakeLists.txt:25 (include)"
+    mode: "program"
+    variable: "ARM_NONE_EABI_GCC"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "arm-none-eabi-gcc"
+    candidate_directories:
+      - "C:/ST/STM32CubeCLT_1.21.0/GNU-tools-for-STM32/bin/"
+      - "C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/bin/"
+      - "C:/Program Files/GNU Arm Embedded Toolchain/10 2021.10/bin/"
+    searched_directories:
+      - "C:/ST/STM32CubeCLT_1.21.0/GNU-tools-for-STM32/bin/arm-none-eabi-gcc.com"
+    found: "C:/ST/STM32CubeCLT_1.21.0/GNU-tools-for-STM32/bin/arm-none-eabi-gcc.exe"
+    search_context:
+      ENV{CMAKE_PREFIX_PATH}:
+        - "C:\\Program Files\\Basler\\pylon\\Development\\CMake\\pylon\\"
+      ENV{PATH}:
+        - "C:/Users/Tran Nhu Tao/AppData/Local/stm32cube/bundles/cmake/4.3.1+st.1/bin"
+        - "C:/Users/Tran Nhu Tao/AppData/Local/stm32cube/bundles/ninja/1.13.2+st.1/bin"
+        - "C:/Users/Tran Nhu Tao/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin"
+        - "C:/Users/Tran Nhu Tao/AppData/Local/stm32cube/bundles/cmake/4.3.1+st.1/bin"
+        - "c:/Users/Tran Nhu Tao/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.46.0-win32-x64/resources/cube-cmake/win32/x86_64"
+        - "c:\\Users\\Tran Nhu Tao\\.vscode\\extensions\\stmicroelectronics.stm32cube-ide-core-1.4.0-win32-x64\\resources\\binaries\\win32\\x86_64"
+        - "C:/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/VC/Tools/MSVC/14.29.30133/bin/HostX64/x64"
+        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\Common7\\IDE\\VC\\VCPackages"
+        - "C:/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/Common7/IDE/CommonExtensions/Microsoft/TestWindow"
+        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\Common7\\IDE\\CommonExtensions\\Microsoft\\TeamFoundation\\Team Explorer"
+        - "C:/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/MSBuild/Current/bin/Roslyn"
+        - "C:\\Program Files (x86)\\Microsoft SDKs\\Windows\\v10.0A\\bin\\NETFX 4.8 Tools\\x64\\"
+        - "C:/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/Common7/Tools/devinit"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.19041.0\\x64"
+        - "C:/Program Files (x86)/Windows Kits/10/bin/x64"
+        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\\\MSBuild\\Current\\Bin"
+        - "C:/Windows/Microsoft.NET/Framework64/v4.0.30319"
+        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\Common7\\IDE\\"
+        - "C:/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/Common7/Tools/"
+        - "C:\\Program Files (x86)\\STMicroelectronics\\stlink_server"
+        - "C:/ST/STM32CubeCLT_1.21.0"
+        - "C:\\ST\\STM32CubeCLT_1.21.0\\CMake\\bin"
+        - "C:/ST/STM32CubeCLT_1.21.0/st-arm-clang/bin"
+        - "C:\\ST\\STM32CubeCLT_1.21.0\\Ninja\\bin"
+        - "C:/ST/STM32CubeCLT_1.21.0/GNU-tools-for-STM32/bin"
+        - "C:\\ST\\STM32CubeCLT_1.21.0\\STLink-gdb-server\\bin"
+        - "C:/ST/STM32CubeCLT_1.21.0/STM32CubeProgrammer/bin"
+        - "C:\\Program Files\\Basler\\pylon\\Runtime\\x64\\"
+        - "C:/Program Files/Basler/pylon/Runtime/Win32/"
+        - "C:\\Program Files\\Common Files\\Oracle\\Java\\javapath"
+        - "C:/Python311/Scripts/"
+        - "C:\\Python311\\"
+        - "C:/Program Files (x86)/STMicroelectronics/st_toolset/asm"
+        - "C:\\WINDOWS\\system32"
+        - "C:/WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:/WINDOWS/System32/WindowsPowerShell/v1.0/"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:/Program Files/dotnet/"
+        - "C:\\Program Files\\Microsoft SQL Server\\130\\Tools\\Binn\\"
+        - "C:/Program Files/Git/cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:/ProgramData/chocolatey/bin"
+        - "C:\\Program Files (x86)\\STMicroelectronics\\STM32 ST-LINK Utility\\ST-LINK Utility"
+        - "C:/ProgramData/LLVM for Renesas RL78 10.0.0.202209/bin"
+        - "C:\\Users\\Tran Nhu Tao\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:/Users/Tran Nhu Tao/AppData/Local/Programs/Microsoft VS Code/bin"
+        - "C:\\Users\\Tran Nhu Tao\\AppData\\Roaming\\npm"
+        - "C:/Users/Tran Nhu Tao/AppData/Local/Python/bin"
+        - "C:\\Users\\Tran Nhu Tao\\.dotnet\\tools"
+        - "C:/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin"
+        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\Ninja"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/BoardTest"
+...
+
+---
+events:
+  -
+    kind: "find-v1"
+    backtrace:
+      - "cmake/gcc-arm-none-eabi.cmake:20 (find_program)"
+      - "CMakeLists.txt:25 (include)"
+    mode: "program"
+    variable: "ARM_NONE_EABI_GCC"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "arm-none-eabi-gcc"
+    candidate_directories:
+      - "C:/ST/STM32CubeCLT_1.21.0/GNU-tools-for-STM32/bin/"
+      - "C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/bin/"
+      - "C:/Program Files/GNU Arm Embedded Toolchain/10 2021.10/bin/"
+    searched_directories:
+      - "C:/ST/STM32CubeCLT_1.21.0/GNU-tools-for-STM32/bin/arm-none-eabi-gcc.com"
+    found: "C:/ST/STM32CubeCLT_1.21.0/GNU-tools-for-STM32/bin/arm-none-eabi-gcc.exe"
+    search_context:
+      ENV{CMAKE_PREFIX_PATH}:
+        - "C:\\Program Files\\Basler\\pylon\\Development\\CMake\\pylon\\"
+      ENV{PATH}:
+        - "C:/Users/Tran Nhu Tao/AppData/Local/stm32cube/bundles/cmake/4.3.1+st.1/bin"
+        - "C:/Users/Tran Nhu Tao/AppData/Local/stm32cube/bundles/ninja/1.13.2+st.1/bin"
+        - "C:/Users/Tran Nhu Tao/AppData/Local/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin"
+        - "C:/Users/Tran Nhu Tao/AppData/Local/stm32cube/bundles/cmake/4.3.1+st.1/bin"
+        - "c:/Users/Tran Nhu Tao/.vscode/extensions/stmicroelectronics.stm32cube-ide-build-cmake-1.46.0-win32-x64/resources/cube-cmake/win32/x86_64"
+        - "c:\\Users\\Tran Nhu Tao\\.vscode\\extensions\\stmicroelectronics.stm32cube-ide-core-1.4.0-win32-x64\\resources\\binaries\\win32\\x86_64"
+        - "C:/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/VC/Tools/MSVC/14.29.30133/bin/HostX64/x64"
+        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\Common7\\IDE\\VC\\VCPackages"
+        - "C:/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/Common7/IDE/CommonExtensions/Microsoft/TestWindow"
+        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\Common7\\IDE\\CommonExtensions\\Microsoft\\TeamFoundation\\Team Explorer"
+        - "C:/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/MSBuild/Current/bin/Roslyn"
+        - "C:\\Program Files (x86)\\Microsoft SDKs\\Windows\\v10.0A\\bin\\NETFX 4.8 Tools\\x64\\"
+        - "C:/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/Common7/Tools/devinit"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.19041.0\\x64"
+        - "C:/Program Files (x86)/Windows Kits/10/bin/x64"
+        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\\\MSBuild\\Current\\Bin"
+        - "C:/Windows/Microsoft.NET/Framework64/v4.0.30319"
+        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\Common7\\IDE\\"
+        - "C:/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/Common7/Tools/"
+        - "C:\\Program Files (x86)\\STMicroelectronics\\stlink_server"
+        - "C:/ST/STM32CubeCLT_1.21.0"
+        - "C:\\ST\\STM32CubeCLT_1.21.0\\CMake\\bin"
+        - "C:/ST/STM32CubeCLT_1.21.0/st-arm-clang/bin"
+        - "C:\\ST\\STM32CubeCLT_1.21.0\\Ninja\\bin"
+        - "C:/ST/STM32CubeCLT_1.21.0/GNU-tools-for-STM32/bin"
+        - "C:\\ST\\STM32CubeCLT_1.21.0\\STLink-gdb-server\\bin"
+        - "C:/ST/STM32CubeCLT_1.21.0/STM32CubeProgrammer/bin"
+        - "C:\\Program Files\\Basler\\pylon\\Runtime\\x64\\"
+        - "C:/Program Files/Basler/pylon/Runtime/Win32/"
+        - "C:\\Program Files\\Common Files\\Oracle\\Java\\javapath"
+        - "C:/Python311/Scripts/"
+        - "C:\\Python311\\"
+        - "C:/Program Files (x86)/STMicroelectronics/st_toolset/asm"
+        - "C:\\WINDOWS\\system32"
+        - "C:/WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:/WINDOWS/System32/WindowsPowerShell/v1.0/"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:/Program Files/dotnet/"
+        - "C:\\Program Files\\Microsoft SQL Server\\130\\Tools\\Binn\\"
+        - "C:/Program Files/Git/cmd"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:/ProgramData/chocolatey/bin"
+        - "C:\\Program Files (x86)\\STMicroelectronics\\STM32 ST-LINK Utility\\ST-LINK Utility"
+        - "C:/ProgramData/LLVM for Renesas RL78 10.0.0.202209/bin"
+        - "C:\\Users\\Tran Nhu Tao\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:/Users/Tran Nhu Tao/AppData/Local/Programs/Microsoft VS Code/bin"
+        - "C:\\Users\\Tran Nhu Tao\\AppData\\Roaming\\npm"
+        - "C:/Users/Tran Nhu Tao/AppData/Local/Python/bin"
+        - "C:\\Users\\Tran Nhu Tao\\.dotnet\\tools"
+        - "C:/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin"
+        - "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\Ninja"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/BoardTest"
+...

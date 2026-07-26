@@ -10,17 +10,17 @@ volatile uint16_t LED_Blink = 0;
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
 {
-	if (htim->Instance == htim1.Instance)
+	if (htim->Instance == htim1.Instance) //1ms
 	{
-        if (1800 <= (LED_Blink++))
+        /*if (900 <= (LED_Blink++))
         {
             HAL_GPIO_WritePin(LED_RUN_GPIO_Port, LED_RUN_Pin, GPIO_PIN_RESET);
 		}
-        if (2000 <= LED_Blink)
+        if (1000 <= LED_Blink)
         {
 			HAL_GPIO_WritePin(LED_RUN_GPIO_Port, LED_RUN_Pin, GPIO_PIN_SET);
             LED_Blink = 0;
-        }
+        }*/
 
 		if ((true == RS485Ch1.bFlagRec) && (false == State.bits.S_PROCESS_RS485_CH1))
         {
@@ -40,9 +40,20 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
             }
         }
 	}
-	else if (htim->Instance == htim3.Instance) // button, 10ms
+	else if (htim->Instance == htim2.Instance) // 10ms
 	{
-
+        Input_Detect();
+        OutputP_Display();
+        OutputN_Display();
+        if (90 <= (LED_Blink++))
+        {
+            HAL_GPIO_WritePin(LED_RUN_GPIO_Port, LED_RUN_Pin, GPIO_PIN_RESET);
+		}
+        if (100 <= LED_Blink)
+        {
+			HAL_GPIO_WritePin(LED_RUN_GPIO_Port, LED_RUN_Pin, GPIO_PIN_SET);
+            LED_Blink = 0;
+        }
 	}
 	else if (htim->Instance == htim4.Instance)
 	{
