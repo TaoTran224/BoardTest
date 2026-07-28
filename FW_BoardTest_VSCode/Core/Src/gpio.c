@@ -54,10 +54,10 @@ void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOA, OUT_P_0_Pin|OUT_P_1_Pin|OUT_P_2_Pin|ENB_485_1_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(OUT_P_3_GPIO_Port, OUT_P_3_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(OUT_P_3_GPIO_Port, OUT_P_3_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(OUT_N_0_GPIO_Port, OUT_N_0_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(OUT_N_0_GPIO_Port, OUT_N_0_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, OUT_N_1_Pin|ENB_485_3_Pin|OUT_N_2_Pin|OUT_N_3_Pin, GPIO_PIN_SET);

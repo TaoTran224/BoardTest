@@ -3,7 +3,7 @@ set(CMAKE_HOST_SYSTEM_NAME "Windows")
 set(CMAKE_HOST_SYSTEM_VERSION "10.0.19045")
 set(CMAKE_HOST_SYSTEM_PROCESSOR "AMD64")
 
-include("D:/Firmware_TNT/6_DA_2026/BoardTest/FW_BoardTest_VSCode/cmake/gcc-arm-none-eabi.cmake")
+
 
 set(CMAKE_SYSTEM "Generic")
 set(CMAKE_SYSTEM_NAME "Generic")

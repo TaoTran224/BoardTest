@@ -1,5 +1,3 @@
-
-
 #ifndef __LOG_H
 #define __LOG_H
 #include "main.h"
@@ -8,10 +6,7 @@
 #include <stdio.h>
 #define LOG_MAX_SIZE (uint8_t)200
 
-
-
 #define DBG_SEND
-
 
 extern char log1[LOG_MAX_SIZE];
 extern uint8_t logLen;

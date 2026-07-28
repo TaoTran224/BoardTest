@@ -124,9 +124,40 @@ void StartUp(void)
 	HAL_UART_Receive_IT(&huart3, &recUART3, 1);
 
     /* USER CODE END 2 */
-
+    for (uint8_t i = 0; i < OUTPUT_MAX; i++)
+    {
+        HAL_GPIO_WritePin(OutputP[i].GPIO, OutputP[i].GPIO_Pin, GPIO_PIN_RESET);
+        WDT_Clear();
+        HAL_Delay(1000);
+        WDT_Clear();
+        HAL_Delay(1000);
+         WDT_Clear();
+        HAL_Delay(1000);
+        HAL_GPIO_WritePin(OutputP[i].GPIO, OutputP[i].GPIO_Pin, GPIO_PIN_SET);
+        HAL_Delay(100);
+    }
+    /*for (uint8_t i = 0; i < OUTPUT_MAX; i++)
+    {
+        HAL_GPIO_WritePin(OutputN[i].GPIO, OutputN[i].GPIO_Pin, GPIO_PIN_RESET);
+        HAL_Delay(500);
+        HAL_GPIO_WritePin(OutputN[i].GPIO, OutputN[i].GPIO_Pin, GPIO_PIN_SET);
+        HAL_Delay(1000);
+    }*/  
 	/* Infinite loop */
 	/* USER CODE BEGIN WHILE */
+    WDT_Clear();
+    HAL_Delay(1000);
+    WDT_Clear();
+    HAL_Delay(1000);
+    WDT_Clear();
+    HAL_Delay(1000);
+    for (uint8_t i = 0; i < 3; i++)
+    {
+        OutputP[i].bFlagStart = true;
+        OutputP[i].u32TimeOn = 5123;
+        OutputP[i].u32TimeCycle = 10321;
+    }
+
 }
 
 void delay_us(uint32_t t)

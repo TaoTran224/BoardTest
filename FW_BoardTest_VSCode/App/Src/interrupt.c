@@ -3,7 +3,7 @@
 #include "board.h"
 #include "log.h"
 #include "inc_def.h"
-
+#include "Pump.h"
 
 volatile uint16_t LED_Blink = 0;
 
@@ -21,10 +21,10 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
 			HAL_GPIO_WritePin(LED_RUN_GPIO_Port, LED_RUN_Pin, GPIO_PIN_SET);
             LED_Blink = 0;
         }*/
-
+        Speed_Random++;
 		if ((true == RS485Ch1.bFlagRec) && (false == State.bits.S_PROCESS_RS485_CH1))
         {
-            if (30 <= RS485Ch1.u16Timeout++)
+            if (50 <= RS485Ch1.u16Timeout++)
             {
             	RS485Ch1.bFlagRec = false;
                 State.bits.S_PROCESS_RS485_CH1 = true;
@@ -33,18 +33,22 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
 
 		if ((true == RS485Ch3.bFlagRec) && (false == State.bits.S_PROCESS_RS485_CH3))
         {
-            if (30 <= RS485Ch3.u16Timeout++)
+            if (50 <= RS485Ch3.u16Timeout++)
             {
             	RS485Ch3.bFlagRec = false;
-                State.bits.S_PROCESS_RS485_CH1 = true;
+                State.bits.S_PROCESS_RS485_CH3 = true;
             }
+        }
+        if (true == State.bits.S_CONTROL_PUMP)
+        {
+            OutputDisplay();
         }
 	}
 	else if (htim->Instance == htim2.Instance) // 10ms
 	{
-        Input_Detect();
-        OutputP_Display();
-        OutputN_Display();
+        //Input_Detect();
+        //OutputP_Display();
+        //OutputN_Display();
         if (90 <= (LED_Blink++))
         {
             HAL_GPIO_WritePin(LED_RUN_GPIO_Port, LED_RUN_Pin, GPIO_PIN_RESET);
@@ -100,9 +104,8 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef* huart)
                 RS485Ch3.u8Len = 0;
             }
         }
-		HAL_UART_Receive_IT(&huart1, &recUART1, 3);
+		HAL_UART_Receive_IT(&huart3, &recUART3, 3);
 	}
-
 }
 
 

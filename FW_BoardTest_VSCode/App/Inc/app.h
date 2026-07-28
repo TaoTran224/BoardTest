@@ -24,6 +24,7 @@ typedef struct
 	uint8_t S_PROCESS_INPUT : 1;
 	uint8_t S_PROCESS_RS485_CH1 : 1;
 	uint8_t S_PROCESS_RS485_CH3 : 1;
+    uint8_t S_CONTROL_PUMP : 1;
 } BITS;
 
 typedef union

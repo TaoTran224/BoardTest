@@ -49,6 +49,7 @@ target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE
 target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     # --- THÊM CÁC FILE SOURCE .C CỦA BẠN VÀO ĐÂY ---
     App/Src/board.c
+    App/Src/Pump.c
     App/Src/app.c
     App/Src/interrupt.c
     Common/Src/log.c

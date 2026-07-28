@@ -23,17 +23,25 @@
 #include "interrupt.h"
 #include "log.h"
 #include "inc_def.h"
+#include "Pump.h"
 int main(void)
 {
 	StartUp();
 #if defined (DBG_SEND)
 		DBG_SendStr("STARTUP\n");
+    RS485_SendStr(RS485_CH1, "RS485_CH1\n");
+    RS485_SendStr(RS485_CH3, "RS485_CH3\n");
 #endif
+  State.bits.S_CONTROL_PUMP = true;
   while (1)
 	{
 	/* USER CODE END WHILE */
 	    RS485_CH1_Process();
 		  RS485_CH3_Process();
+      if (true == State.bits.S_CONTROL_PUMP)
+      {
+          OutputCalTime();
+      }
 	/* USER CODE BEGIN 3 */
 	}
 	/* USER CODE END 3 */

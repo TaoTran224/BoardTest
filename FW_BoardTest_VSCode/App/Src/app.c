@@ -20,11 +20,11 @@ void RS485_SendBuffer(RS485ChannelType ch, uint8_t* buf, uint16_t len)
 {
 	if (RS485_CH1 == ch)
 	{
-		HAL_GPIO_WritePin(ENB_485_1_GPIO_Port, ENB_485_1_Pin, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(ENB_485_1_GPIO_Port, ENB_485_1_Pin, GPIO_PIN_SET);
 	}
 	else if (RS485_CH3 == ch)
 	{
-		HAL_GPIO_WritePin(ENB_485_3_GPIO_Port, ENB_485_3_Pin, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(ENB_485_3_GPIO_Port, ENB_485_3_Pin, GPIO_PIN_SET);
 	}
     HAL_Delay(1);
 	if (RS485_CH1 == ch)
@@ -35,15 +35,14 @@ void RS485_SendBuffer(RS485ChannelType ch, uint8_t* buf, uint16_t len)
 	{
 		 HAL_UART_Transmit(&huart3, buf, len, len + 10);
 	}
-    HAL_UART_Transmit(&huart3, buf, len, len + 10);
     HAL_Delay(1);
 	if (RS485_CH1 == ch)
 	{
-		HAL_GPIO_WritePin(ENB_485_1_GPIO_Port, ENB_485_1_Pin, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(ENB_485_1_GPIO_Port, ENB_485_1_Pin, GPIO_PIN_RESET);
 	}
 	else if (RS485_CH3 == ch)
 	{
-		HAL_GPIO_WritePin(ENB_485_3_GPIO_Port, ENB_485_3_Pin, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(ENB_485_3_GPIO_Port, ENB_485_3_Pin, GPIO_PIN_RESET);
 	}
 }
 
@@ -59,8 +58,11 @@ void RS485_CH1_Process(void)
 	{
 #if defined (DBG_SEND)
 		DBG_SendStr("RS485_CH1_Process\n");
-		RS485_SendStr(RS485_CH1, "Return CH1\n");
+		DBG_SendBuffer(RS485Ch1.au8Buf, RS485Ch1.u8Len);
 #endif
+        RS485_SendStr(RS485_CH1, "Return CH1\n");
+		RS485_SendBuffer(RS485_CH1, RS485Ch1.au8Buf, RS485Ch1.u8Len);
+		memset(&RS485Ch1, 0, sizeof(RS485Ch1));
 		State.bits.S_PROCESS_RS485_CH1 = false;
 	}
 }
@@ -71,9 +73,11 @@ void RS485_CH3_Process(void)
 	{
 #if defined (DBG_SEND)
 		DBG_SendStr("RS485_CH3_Process\n");
-		RS485_SendStr(RS485_CH3, "Return CH3\n");
+		DBG_SendBuffer(RS485Ch3.au8Buf, RS485Ch3.u8Len);
 #endif
+		RS485_SendStr(RS485_CH3, "Return CH3\n");
+		RS485_SendBuffer(RS485_CH3, RS485Ch3.au8Buf, RS485Ch3.u8Len);
+		memset(&RS485Ch3, 0, sizeof(RS485Ch3));
 		State.bits.S_PROCESS_RS485_CH3 = false;
 	}
 }
-

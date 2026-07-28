@@ -60,6 +60,13 @@ typedef struct
     //GPIO_PinState PinState;
     OutputModeType eu8Mode;
     uint8_t timeout;
+
+    uint32_t u32TimeOn;
+    uint32_t u32TimeOnRun;
+    uint32_t u32TimeCycle;
+    bool bFlagStart;
+    bool bFlagCalTime;
+
 } __attribute__((packed)) OutputType;
 extern OutputType OutputN[OUTPUT_MAX];
 extern OutputType OutputP[OUTPUT_MAX];
