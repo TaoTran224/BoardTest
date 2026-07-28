@@ -1,4 +1,12 @@
+**/build/
+**/.vscode/
+**/.settings/
+build
+build/
 .vscode
+.vscode/
+.settings
+.settings/
 .vscode/ipch/
 .vscode/.cmaketools/
 .vscode/compile_commands.json

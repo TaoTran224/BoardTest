@@ -1,0 +1,9 @@
+DRC Rules Export File for PCB: D:\Firmware_TNT\6_DA_2026\BoardTest\Hardware\board.PcbDoc
+RuleKind=Clearance|RuleName=Stitching GND|Scope=Board|Minimum=5.00
+RuleKind=Clearance|RuleName=Clearance|Scope=Board|Minimum=15.00
+RuleKind=Clearance|RuleName=Stitching GP|Scope=Board|Minimum=20.00
+RuleKind=Clearance|RuleName=Clearance_1|Scope=Board|Minimum=20.00
+RuleKind=ShortCircuit|RuleName=ShortCircuit|Scope=Board|Allowed=0
+RuleKind=Width|RuleName=Width|Scope=Board|Minimum=10.00
+RuleKind=SolderMaskExpansion|RuleName=SolderMaskExpansion|Scope=Board|Minimum=4.00
+RuleKind=Clearance|RuleName=Clearance_net|Scope=Board|Minimum=7.00

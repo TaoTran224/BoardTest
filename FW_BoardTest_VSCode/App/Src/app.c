@@ -29,11 +29,11 @@ void RS485_SendBuffer(RS485ChannelType ch, uint8_t* buf, uint16_t len)
     HAL_Delay(1);
 	if (RS485_CH1 == ch)
 	{
-		 HAL_UART_Transmit(&huart1, buf, len, len + 10);
+		 HAL_UART_Transmit(&huart1, buf, len, len<<1 + 10);
 	}
 	else if (RS485_CH3 == ch)
 	{
-		 HAL_UART_Transmit(&huart3, buf, len, len + 10);
+		 HAL_UART_Transmit(&huart3, buf, len, len<<1 + 10);
 	}
     HAL_Delay(1);
 	if (RS485_CH1 == ch)

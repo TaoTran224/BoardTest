@@ -1,0 +1,11 @@
+**/build/
+**/.vscode/
+**/.settings/
+build
+build/
+.vscode
+.vscode/
+.settings
+.settings/
+mx.scratch
+!.settings
