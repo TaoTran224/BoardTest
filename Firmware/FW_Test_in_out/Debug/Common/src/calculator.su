@@ -1,5 +1,0 @@
-calculator.c:25:6:SwapByte	32	static
-calculator.c:35:9:XOR_Cal	24	static
-calculator.c:46:6:XOR_Check	24	static
-calculator.c:55:9:SUM_Cal	24	static
-calculator.c:66:6:SUM_Check	24	static

@@ -104,14 +104,14 @@ void StartUp(void)
 
 	//MX_IWDG_Init();
 	MX_TIM1_Init();
-	MX_TIM2_Init();
+	//MX_TIM2_Init();
 	MX_TIM3_Init();
 	MX_TIM4_Init();
 
 	SetupInit();
 	__enable_irq();
 	HAL_TIM_Base_Start_IT(&htim1);
-	HAL_TIM_Base_Start_IT(&htim2);
+	//HAL_TIM_Base_Start_IT(&htim2);
 	HAL_TIM_Base_Start_IT(&htim3);
 	HAL_TIM_Base_Start_IT(&htim4);
 
@@ -124,7 +124,7 @@ void StartUp(void)
 	HAL_UART_Receive_IT(&huart3, &recUART3, 1);
 
     /* USER CODE END 2 */
-    for (uint8_t i = 0; i < OUTPUT_MAX; i++)
+    /*for (uint8_t i = 0; i < OUTPUT_MAX; i++)
     {
         HAL_GPIO_WritePin(OutputP[i].GPIO, OutputP[i].GPIO_Pin, GPIO_PIN_RESET);
         WDT_Clear();
@@ -135,7 +135,7 @@ void StartUp(void)
         HAL_Delay(1000);
         HAL_GPIO_WritePin(OutputP[i].GPIO, OutputP[i].GPIO_Pin, GPIO_PIN_SET);
         HAL_Delay(100);
-    }
+    }*/
     /*for (uint8_t i = 0; i < OUTPUT_MAX; i++)
     {
         HAL_GPIO_WritePin(OutputN[i].GPIO, OutputN[i].GPIO_Pin, GPIO_PIN_RESET);
@@ -151,19 +151,19 @@ void StartUp(void)
     HAL_Delay(1000);
     WDT_Clear();
     HAL_Delay(1000);
-    for (uint8_t i = 0; i < 3; i++)
+    /*for (uint8_t i = 0; i < 3; i++)
     {
         OutputP[i].bFlagStart = true;
         OutputP[i].u32TimeOn = 5123;
         OutputP[i].u32TimeCycle = 10321;
-    }
+    }*/
 
 }
 
 void delay_us(uint32_t t)
 {
     uint32_t i = 0;
-    for ( i = 0; i < (6 * t); i++)
+    for ( i = 0; i < (t<<2); i++)
     {
         ;;
 

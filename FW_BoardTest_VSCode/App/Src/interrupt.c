@@ -46,18 +46,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
 	}
 	else if (htim->Instance == htim2.Instance) // 10ms
 	{
-        //Input_Detect();
-        //OutputP_Display();
-        //OutputN_Display();
-        /*if (90 <= (LED_Blink++))
-        {
-            HAL_GPIO_WritePin(LED_RUN_GPIO_Port, LED_RUN_Pin, GPIO_PIN_RESET);
-		}
-        if (100 <= LED_Blink)
-        {
-			HAL_GPIO_WritePin(LED_RUN_GPIO_Port, LED_RUN_Pin, GPIO_PIN_SET);
-            LED_Blink = 0;
-        }*/
+
 	}
 	else if (htim->Instance == htim4.Instance)
 	{

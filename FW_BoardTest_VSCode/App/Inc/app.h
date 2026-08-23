@@ -27,6 +27,15 @@ typedef struct
     uint8_t S_CONTROL_PUMP : 1;
 } BITS;
 
+
+typedef enum
+{
+CMD_CONTROL_MAGNET = 0xA0,
+CMD_CONTROL_MOTOR = 0xA1,
+CMD_PULSE_RESET = 0xA2,
+} CommandType;
+
+
 typedef union
 {
     BITS bits;

@@ -5,6 +5,8 @@
 #include "log.h"
 #include "board.h"
 
+#include "export_pulse_to_reset_mcu.h"
+
 Int_FlagInType State = {.au32Value = 0};
 Int_FlagInType MaskState = {.au32Value = 0};
 
@@ -60,8 +62,25 @@ void RS485_CH1_Process(void)
 		DBG_SendStr("RS485_CH1_Process\n");
 		DBG_SendBuffer(RS485Ch1.au8Buf, RS485Ch1.u8Len);
 #endif
-        RS485_SendStr(RS485_CH1, "Return CH1\n");
-		RS485_SendBuffer(RS485_CH1, RS485Ch1.au8Buf, RS485Ch1.u8Len);
+		uint8_t frame_CMD_RES_SUCCESS[6] = {STX, 0xA2, 0x00, 0xA9, 0x60, ETX};
+		if (5 < RS485Ch1.u8Len)
+		{
+			if ((SOH == RS485Ch1.au8Buf[0]) && (ETX == RS485Ch1.au8Buf[RS485Ch1.u8Len - 1]))
+			{
+				switch(RS485Ch1.au8Buf[1])
+				{
+					case CMD_PULSE_RESET:
+						if ((10 == RS485Ch1.u8Len) && (4 == RS485Ch1.au8Buf[2]))
+						{
+							RS485_SendBuffer(RS485_CH1, frame_CMD_RES_SUCCESS, sizeof(frame_CMD_RES_SUCCESS));
+							Pulse_Reset_MCU(RS485Ch1.au8Buf[3] | (uint32_t)RS485Ch1.au8Buf[4] << 8 | RS485Ch1.au8Buf[5] << 16 | RS485Ch1.au8Buf[6] << 24);
+						}
+						break;
+					default:
+						break;
+				}
+			}
+		}
 		memset(&RS485Ch1, 0, sizeof(RS485Ch1));
 		State.bits.S_PROCESS_RS485_CH1 = false;
 	}
