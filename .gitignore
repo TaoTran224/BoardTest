@@ -1,6 +1,8 @@
 **/build/
 **/.vscode/
 **/.settings/
+**/.venv/
+.venv/
 build
 build/
 .vscode
