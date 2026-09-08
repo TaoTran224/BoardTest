@@ -1,0 +1,17 @@
+D:\1_Project_EMIC\7_ToolTest\BoardTest\WM_0xA_Set_RTC\WM_0xA_Set_RTC\bin\Debug\net8.0-windows\WM_0xA_Set_RTC.exe
+D:\1_Project_EMIC\7_ToolTest\BoardTest\WM_0xA_Set_RTC\WM_0xA_Set_RTC\bin\Debug\net8.0-windows\WM_0xA_Set_RTC.deps.json
+D:\1_Project_EMIC\7_ToolTest\BoardTest\WM_0xA_Set_RTC\WM_0xA_Set_RTC\bin\Debug\net8.0-windows\WM_0xA_Set_RTC.runtimeconfig.json
+D:\1_Project_EMIC\7_ToolTest\BoardTest\WM_0xA_Set_RTC\WM_0xA_Set_RTC\bin\Debug\net8.0-windows\WM_0xA_Set_RTC.dll
+D:\1_Project_EMIC\7_ToolTest\BoardTest\WM_0xA_Set_RTC\WM_0xA_Set_RTC\bin\Debug\net8.0-windows\WM_0xA_Set_RTC.pdb
+D:\1_Project_EMIC\7_ToolTest\BoardTest\WM_0xA_Set_RTC\WM_0xA_Set_RTC\obj\Debug\net8.0-windows\WM_0xA_Set_RTC.Form1.resources
+D:\1_Project_EMIC\7_ToolTest\BoardTest\WM_0xA_Set_RTC\WM_0xA_Set_RTC\obj\Debug\net8.0-windows\WM_0xA_Set_RTC.csproj.GenerateResource.cache
+D:\1_Project_EMIC\7_ToolTest\BoardTest\WM_0xA_Set_RTC\WM_0xA_Set_RTC\obj\Debug\net8.0-windows\WM_0xA_Set_RTC.GeneratedMSBuildEditorConfig.editorconfig
+D:\1_Project_EMIC\7_ToolTest\BoardTest\WM_0xA_Set_RTC\WM_0xA_Set_RTC\obj\Debug\net8.0-windows\WM_0xA_Set_RTC.AssemblyInfoInputs.cache
+D:\1_Project_EMIC\7_ToolTest\BoardTest\WM_0xA_Set_RTC\WM_0xA_Set_RTC\obj\Debug\net8.0-windows\WM_0xA_Set_RTC.AssemblyInfo.cs
+D:\1_Project_EMIC\7_ToolTest\BoardTest\WM_0xA_Set_RTC\WM_0xA_Set_RTC\obj\Debug\net8.0-windows\WM_0xA_Set_RTC.csproj.CoreCompileInputs.cache
+D:\1_Project_EMIC\7_ToolTest\BoardTest\WM_0xA_Set_RTC\WM_0xA_Set_RTC\obj\Debug\net8.0-windows\WM_0xA_Set_RTC.sourcelink.json
+D:\1_Project_EMIC\7_ToolTest\BoardTest\WM_0xA_Set_RTC\WM_0xA_Set_RTC\obj\Debug\net8.0-windows\WM_0xA_Set_RTC.dll
+D:\1_Project_EMIC\7_ToolTest\BoardTest\WM_0xA_Set_RTC\WM_0xA_Set_RTC\obj\Debug\net8.0-windows\refint\WM_0xA_Set_RTC.dll
+D:\1_Project_EMIC\7_ToolTest\BoardTest\WM_0xA_Set_RTC\WM_0xA_Set_RTC\obj\Debug\net8.0-windows\WM_0xA_Set_RTC.pdb
+D:\1_Project_EMIC\7_ToolTest\BoardTest\WM_0xA_Set_RTC\WM_0xA_Set_RTC\obj\Debug\net8.0-windows\WM_0xA_Set_RTC.genruntimeconfig.cache
+D:\1_Project_EMIC\7_ToolTest\BoardTest\WM_0xA_Set_RTC\WM_0xA_Set_RTC\obj\Debug\net8.0-windows\ref\WM_0xA_Set_RTC.dll
