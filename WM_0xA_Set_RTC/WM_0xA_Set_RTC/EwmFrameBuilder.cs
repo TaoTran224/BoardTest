@@ -15,7 +15,9 @@ namespace WinFormsApp1
     // ================================================================
     public class EwmFrameBuilder
     {
-        public const string HEADER = "*EWM02";
+        //public const string HEADER = "*EWM02";
+
+        public string HEADER { get; set; }
 
         public byte   TypePack { get; set; }
         public byte[] Payload  { get; set; } = new byte[0];
@@ -26,7 +28,7 @@ namespace WinFormsApp1
         //
         // LenPayload = Payload.Length gốc (trước AES)
         // AES_Payload = aes_128_en(Payload)  [16 byte nếu Payload < 16]
-        public byte[] BuildFrame()
+        public byte[] BuildFrame(string HEADER)
         {
             List<byte> frame = new List<byte>();
 
@@ -63,7 +65,7 @@ namespace WinFormsApp1
         //
         // ⚠ encryptedLen = lenPayload < 16 ? 16 : lenPayload
         //   KHÔNG làm tròn lên bội số 16 — đây là công thức chuẩn.
-        public static byte[] ParseDecryptedPayload(byte[] frame)
+        public static byte[] ParseDecryptedPayload(byte[] frame, string HEADER)
         {
             try
             {
