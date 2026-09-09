@@ -2,6 +2,8 @@ using System.Reflection.Metadata;
 using WinFormsApp1;
 using static System.Net.Mime.MediaTypeNames;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
+using System.IO.Ports;
+using System.Text;
 
 namespace WM_0xA_Set_RTC
 {
@@ -10,6 +12,143 @@ namespace WM_0xA_Set_RTC
         public Form1()
         {
             InitializeComponent();
+        }
+        const int COM_MAX_LEN = 500;
+        public enum FlagRecCOM
+        {
+            START_F = 0,
+            TIMEOUT_F,
+            TRUE_F,
+            BREAK_F,
+        }
+        public class COM_t
+        {
+            public byte[] buf = new byte[COM_MAX_LEN];
+            public byte len;
+            public FlagRecCOM flagTimeout;
+            public UInt16 timeout;
+            public bool flagGetData;
+            public void Clear()
+            {
+                if (buf != null)
+                {
+                    Array.Clear(buf, 0, buf.Length); // Reset toàn bộ mảng byte về 0x00
+                }
+                len = 0;
+                timeout = 0;
+                flagGetData = false;
+                flagTimeout = default; // Đưa về giá trị mặc định của enum FlagRecCOM (hoặc 0/false)
+            }
+        }
+        COM_t COM_RecWM = new COM_t();
+        COM_t COM_RecCtrol = new COM_t();
+        bool COM_WMIsOpen = false;
+        bool COM_ControlIsOpen = false;
+
+        bool Flag_RecComWM = false;
+
+        private SerialPort COM_WM = new SerialPort();
+        private SerialPort COM_Control = new SerialPort();
+
+        // 3. Hàm khởi tạo và kết nối cổng COM
+        void SearchCOM()
+        {
+            string[] ComList = SerialPort.GetPortNames();
+            int[] ComNumberList = new int[ComList.Length];
+            // Clear existing items
+            Cbo_ComWM.Items.Clear();
+            Cbo_ComWM.Text = ""; // Reset the text to avoid confusion"
+            Tbox_ComControl.Items.Clear();
+            Tbox_ComControl.Text = ""; // Reset the text to avoid confusion"
+            if (ComList.Length == 0)
+            {
+                MessageBox.Show("Không tìm thấy cổng COM. Kiểm tra lại cổng COM.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                for (int i = 0; i < ComList.Length; i++)
+                {
+                    ComNumberList[i] = int.Parse(ComList[i].Substring(3));
+                }
+                Array.Sort(ComNumberList);
+                foreach (int ComNumber in ComNumberList)
+                {
+                    Cbo_ComWM.Items.Add("COM" + ComNumber.ToString());
+                    Cbo_ComWM.Text = "COM" + ComNumber.ToString();
+                    Tbox_ComControl.Items.Add("COM" + ComNumber.ToString());
+                    Tbox_ComControl.Text = "COM" + ComNumber.ToString();
+                }
+            }
+         }
+
+        bool Open_Com(SerialPort com, bool typeCOM, ComboBox cbox)
+        {
+            bool flagChooseCOM;
+            if (cbox.Text == "")
+            {
+                MessageBox.Show("Không tìm thấy cổng COM. Kiểm tra lại cổng COM.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            else
+            {
+                flagChooseCOM = true;
+            }
+            if (true == com.IsOpen)
+            {
+                if (true == typeCOM)
+                {
+                    com.Close();
+                    typeCOM = false;
+                    return false;
+                }
+                else
+                {
+                    MessageBox.Show(com.PortName + "đã được mở từ phần mềm khác. Kiểm tra lại cổng COM.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+            }
+            else
+            {
+                if (true == flagChooseCOM)
+                {
+                    com.PortName = cbox.Text;
+                }
+                try
+                {
+                    typeCOM = true;
+                    com.PortName = cbox.Text;
+                    com.BaudRate = 9600;                     // Tốc độ Baud: 9600
+                    com.DataBits = 8;                        // 8 bit dữ liệu
+                    com.Parity = Parity.None;                // None Parity
+                    com.StopBits = StopBits.One;             // 1 Stop bit
+                    com.Handshake = Handshake.None;          // Không dùng luồng điều khiển cứng/mềm
+                    com.DataReceived += COM_Port_DataReceived;                // Kích hoạt sự kiện nhận dữ liệu
+                    com.Open();
+                    return true;
+                }
+                catch (Exception)
+                {
+                    typeCOM = false;
+                    MessageBox.Show("Cannot open " + com.PortName, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+            }
+        }
+
+
+        void COM_Close(SerialPort com, bool typeCOM)
+        {
+            if (true == com.IsOpen)
+            {
+                com.Close();
+                typeCOM = false;
+            }
+        }
+        private void Btn_SearchCOM_Click(object sender, EventArgs e)
+        {
+            SearchCOM();
+            // Optional: Log the action
+            PrintLog(NULL, 0, "Search COM clicked", "SEND");
         }
 
         byte[] NULL = new byte[0];
@@ -72,7 +211,7 @@ namespace WM_0xA_Set_RTC
         }
         RTC_DateTime RTC_Read = new RTC_DateTime();
         RTC_DateTime RTC_Write = new RTC_DateTime();
-        private void PrintLog(byte[] message, string str, string mode)
+        private void PrintLog(byte[] message, UInt16 len_message, string str, string mode)
         {
             string timestamp = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss.fff");
             if ("SEND" == mode)
@@ -83,13 +222,21 @@ namespace WM_0xA_Set_RTC
             {
                 RTBox_Log.SelectionColor = Color.Red;
             }
+            string hexData = string.Empty;
+            if (message != null && len_message > 0)
+            {
+                // Chặn lỗi tràn mảng nếu len_message lớn hơn độ dài thực tế của mảng message
+                int printLength = Math.Min((int)len_message, message.Length);
 
-            string hexData = (message != null && message.Length > 0)
-        ? $": {BitConverter.ToString(message).Replace("-", " ")}"
-        : string.Empty;
+                // BitConverter.ToString(mảng, vị_trí_bắt_đầu, số_lượng_byte)
+                hexData = BitConverter.ToString(message, 0, printLength).Replace("-", " ");
+            }
 
-            RTBox_Log.AppendText($"[{timestamp}] {mode}: {str}: {BitConverter.ToString(message).Replace("-", " ")}{Environment.NewLine}");
-            RTBox_Log.SelectionStart = RTBox_Log.Text.Length;
+            // 3. Đưa con trỏ xuống cuối và Append text
+            RTBox_Log.SelectionStart = RTBox_Log.TextLength;
+            RTBox_Log.SelectionLength = 0;
+
+            RTBox_Log.AppendText($"[{timestamp}] {mode}: {str} [{len_message} bytes]: {hexData}{Environment.NewLine}");
             RTBox_Log.ScrollToCaret();
         }
 
@@ -105,87 +252,69 @@ namespace WM_0xA_Set_RTC
             }
             return "";
         }
-        private void Btn_Read_Click(object sender, EventArgs e)
+
+        void COM_SendBuf(SerialPort com, byte[] buf, UInt16 len)
         {
-            /*[17:01:06.706] Send: 2A 45 57 4D 30 32 06 00 01 7E 59 37 9B 52 33 96 9D 25 A5 AD 2C E3 35 CB 3E 23 42 B7
-            [17:01:06.829] Recv: 2A 45 57 4D 30 32 08 00 06 F3 0F 00 8C 58 80 2B 2A 9B F6 0A B9 80 FC D1 92 23 65 88
+            com.Write(buf, 0, len);
 
-            [17:01:06.830] Payload: 1A 09 08 11 01 05 00 00 00 00 00 00 00 00 00 00
-
-            [17:01:16.049] Send: 2A 45 57 4D 30 32 05 00 07 E6 2E EB ED FB BD 42 1D B1 B4 08 1F B6 B6 E2 7E 23 66 4E
-            [17:01:16.234] Recv: 2A 45 57 4D 30 32 07 00 01 7E 59 37 9B 52 33 96 9D 25 A5 AD 2C E3 35 CB 3E 23 7F 66
-
-            [17:01:16.235] Payload: 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00*/
-
-            /*byte[] read_RTC = { 0x2A, 0x45, 0x57, 0x4D, 0x30, 0x32, 0x06, 0x00, 0x01, 0x7E, 0x59, 0x37, 0x9B, 0x52, 0x33, 0x96,
-                                0x9D, 0x25, 0xA5, 0xAD, 0x2C, 0xE3, 0x35, 0xCB, 0x3E, 0x23, 0x42, 0xB7 }; //payload 01
-
-            byte[] set_RTC = { 0x2A, 0x45, 0x57, 0x4D, 0x30, 0x32, 0x05, 0x00, 0x07, 0xE6, 0x2E, 0xEB, 0xED, 0xFB, 0xBD, 0x42,
-                               0x1D, 0xB1, 0xB4, 0x08, 0x1F, 0xB6, 0xB6, 0xE2, 0x7E, 0x23, 0x66, 0x4E }; // payload 01 1A 09 08 11 01 10
-            byte[] decryptedPayload = EwmFrameBuilder.ParseDecryptedPayload(set_RTC);
-            string hexResult = BitConverter.ToString(decryptedPayload).Replace("-", " ");
-            // Thêm dòng mới vào RichTextBox*/
-
-
-
-            List<byte> paramIds3 = new List<byte>
+        }
+        private async void Btn_Set_RTC_Click(object sender, EventArgs e)
+        {
+            COM_WMIsOpen = false;
+            Open_Com(COM_WM, COM_WMIsOpen, Cbo_ComWM);
+            byte[] buf = {0x01, 0x12, 0x34, 0x56, 0x78, 0x90 };
+            PrintLog(buf, (UInt16)buf.Length, buf.Length.ToString(), "SEND");
+            COM_SendBuf(COM_WM, buf, (UInt16)buf.Length);
+            Flag_RecComWM = false;
+            COM_RecWM.Clear();
+            byte i = 0;
+            while (50 >= (i++))
             {
-                1
-            };
-            byte[] payload3 = EwmFrameBuilder.BuildOptReadPayload(paramIds3);
-            EwmFrameBuilder builder3 = new EwmFrameBuilder
+                //Com_GetData(COM_WM, COM_RecWM);
+                if ((true == COM_RecWM.flagGetData) && (3 <= COM_RecWM.timeout))
+                {
+                    PrintLog(COM_RecWM.buf, COM_RecWM.len, COM_RecWM.len.ToString(), "RECV");
+                    PrintLog(COM_RecWM.buf, COM_RecWM.len, "", "RECV");
+                    break;
+                }
+                COM_RecWM.timeout++;
+                await Task.Delay(100);
+
+            }
+            COM_Close(COM_WM, COM_WMIsOpen);
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            Cbo_TypeMeter.Text = "WM-02A";
+        }
+
+        void Com_GetData(SerialPort com, COM_t COM_Rec)
+        {
+            byte countByte = (byte)com.BytesToRead;
+            byte[] Rec = new byte[countByte];
+            com.Read(Rec, 0, countByte);
+            if (COM_MAX_LEN >= (COM_Rec.len + countByte))
             {
-                TypePack = 6,
-                Payload = payload3
-            };
-
-            builder3.HEADER = Get_Header();
-            byte[] frameReadRTC = builder3.BuildFrame(builder3.HEADER);
-
-            PrintLog(frameReadRTC, "", "SEND");
-
-            PrintLog(frameReadRTC, "", "RECV");
-
-            byte[] t = { 10, 11, 12, 13, 14, 15 };
-
-            RTC_Read = RTC_DateTime.FromByteArray(t, 0);
-
-            PrintLog(RTC_Read.ToByteArray(), "ĐỌC GIỜ THÀNH CÔNG", "RECV");
-
-       
-            RTC_Write = RTC_DateTime.ParseRTCFromTextBox(Tbox_TimeStart.Text);
-            PrintLog(RTC_Write.ToByteArray(), "THIẾT LẬP GIỜ THÀNH CÔNG", "RECV");
-
-
-            byte[] payloadSetRTC = RTC_Write.ToByteArray();
-
-            List<ParameterData> parameters3 = new List<ParameterData>();
-      
-
-            byte[] timeData = new byte[]
+                for (int i = 0; i < countByte; i++)
+                {
+                    COM_Rec.buf[COM_Rec.len + i] = Rec[i];
+                }
+                COM_Rec.len += countByte;
+            }
+            else
             {
-                        (byte)(RTC_Write.Year % 100),
-                        (byte)RTC_Write.Month,
-                        (byte)RTC_Write.Day,
-                        (byte)RTC_Write.Hour,
-                        (byte)RTC_Write.Minute,
-                        (byte)RTC_Write.Second
-            };
-            parameters3.Add(new ParameterData
-            {
-                ParamId = 1,
-                Data = timeData
-            });
-            payload3 = EwmFrameBuilder.BuildOptSetPayload(parameters3);
-            builder3 = new EwmFrameBuilder
-            {
-                TypePack = 5,
-                Payload = payload3
-            };
-            builder3.HEADER = Get_Header();
-            byte[] frame3 = builder3.BuildFrame(builder3.HEADER);
-            byte[] frameSeRTC = builder3.BuildFrame(builder3.HEADER);
-            PrintLog(frameSeRTC, "WRITE RTC", "SEND");
+                Array.Clear(COM_Rec.buf, 0, COM_Rec.len);
+                COM_Rec.len = 0;
+            }
+            COM_Rec.timeout = 0;
+            COM_Rec.flagGetData = true;
+        }
+
+        private void COM_Port_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+
+            Com_GetData(COM_WM, COM_RecWM);
 
         }
     }
