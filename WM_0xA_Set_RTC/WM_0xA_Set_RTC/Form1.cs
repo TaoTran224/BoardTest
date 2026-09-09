@@ -79,7 +79,7 @@ namespace WM_0xA_Set_RTC
                     Tbox_ComControl.Text = "COM" + ComNumber.ToString();
                 }
             }
-         }
+        }
 
         bool Open_Com(SerialPort com, bool typeCOM, ComboBox cbox)
         {
@@ -255,33 +255,170 @@ namespace WM_0xA_Set_RTC
 
         void COM_SendBuf(SerialPort com, byte[] buf, UInt16 len)
         {
+            PrintLog(buf, (UInt16)buf.Length, buf.Length.ToString(), "SEND");
             com.Write(buf, 0, len);
+        }
 
+        void COM_MakeFrameWmReadRTC(ref COM_t ComSend)
+        {
+            List<byte> paramIds3 = new List<byte>
+            {
+                1
+            };
+            byte[] payload3 = EwmFrameBuilder.BuildOptReadPayload(paramIds3);
+            EwmFrameBuilder builder3 = new EwmFrameBuilder
+            {
+                TypePack = 6,
+                Payload = payload3
+            };
+
+            builder3.HEADER = Get_Header();
+            byte[] frameReadRTC = builder3.BuildFrame(builder3.HEADER);
+            ComSend.buf = frameReadRTC;
+            ComSend.len = (byte)frameReadRTC.Length;
+
+        }
+
+        void COM_MakeFrameWmWriteRTC(ref COM_t ComSend, RTC_DateTime rtc)
+        {
+            List<ParameterData> parameters3 = new List<ParameterData>();
+            byte[] timeData = new byte[]
+            {
+                        (byte)(rtc.Year % 100),
+                        (byte)rtc.Month,
+                        (byte)rtc.Day,
+                        (byte)rtc.Hour,
+                        (byte)rtc.Minute,
+                        (byte)rtc.Second
+            };
+            parameters3.Add(new ParameterData
+            {
+                ParamId = 1,
+                Data = timeData
+            });
+            byte[] payload3 = EwmFrameBuilder.BuildOptSetPayload(parameters3);
+            EwmFrameBuilder builder3 = new EwmFrameBuilder
+            {
+                TypePack = 5,
+                Payload = payload3
+            };
+            builder3.HEADER = Get_Header();
+            byte[] frame3 = builder3.BuildFrame(builder3.HEADER);
+            byte[] frameSeRTC = builder3.BuildFrame(builder3.HEADER);
+            ComSend.buf = frameSeRTC;
+            ComSend.len = (byte)frameSeRTC.Length;
+        }
+
+        private async Task<bool> WaitForResponseAsync(int timeoutMs = 5000)
+        {
+            int elapsed = 0;
+            while (elapsed < timeoutMs)
+            {
+                // Chỉ xử lý khi ngắt đã nhận xong và đã qua khoảng chờ ổn định frame (timeout >= 3)
+                if (COM_RecWM.flagGetData && COM_RecWM.timeout >= 3)
+                {
+                    return true; // Đã nhận đủ dữ liệu
+                }
+
+                COM_RecWM.timeout++;
+                await Task.Delay(100);
+                elapsed += 100;
+            }
+
+            return false; // Hết 5000ms Timeout
         }
         private async void Btn_Set_RTC_Click(object sender, EventArgs e)
         {
-            COM_WMIsOpen = false;
-            Open_Com(COM_WM, COM_WMIsOpen, Cbo_ComWM);
-            byte[] buf = {0x01, 0x12, 0x34, 0x56, 0x78, 0x90 };
-            PrintLog(buf, (UInt16)buf.Length, buf.Length.ToString(), "SEND");
-            COM_SendBuf(COM_WM, buf, (UInt16)buf.Length);
-            Flag_RecComWM = false;
-            COM_RecWM.Clear();
-            byte i = 0;
-            while (50 >= (i++))
+            Btn_SetRTC.Enabled = false;
+            if (COM_WM == null || !COM_WM.IsOpen)
             {
-                //Com_GetData(COM_WM, COM_RecWM);
-                if ((true == COM_RecWM.flagGetData) && (3 <= COM_RecWM.timeout))
-                {
-                    PrintLog(COM_RecWM.buf, COM_RecWM.len, COM_RecWM.len.ToString(), "RECV");
-                    PrintLog(COM_RecWM.buf, COM_RecWM.len, "", "RECV");
-                    break;
-                }
-                COM_RecWM.timeout++;
-                await Task.Delay(100);
-
+                Open_Com(COM_WM, COM_WMIsOpen, Cbo_ComWM);
             }
-            COM_Close(COM_WM, COM_WMIsOpen);
+            try
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    // 1. Kiểm tra mở cổng COM
+
+                    COM_t ComSend = new COM_t();
+
+                    // =========================================================================
+                    // BƯỚC 1: ĐỌC RTC (Chờ hoàn thành 100% mới chuyển bước)
+                    // =========================================================================
+                    COM_RecWM.Clear(); // Xóa sạch bộ đệm trước khi gửi
+                    PrintLog(null, 0, "1. Đọc RTC", "SEND");
+
+                    COM_MakeFrameWmReadRTC(ref ComSend);
+                    COM_SendBuf(COM_WM, ComSend.buf, ComSend.len);
+
+                    // Chờ nhận dữ liệu hoàn toàn (AWAIT ép chương trình dừng lại chờ tại đây)
+                    bool isReadSuccess = await WaitForResponseAsync(5000);
+
+                    if (!isReadSuccess)
+                    {
+                        PrintLog(NULL, 0, "Không nhận được phản hồi sau khi Đọc RTC.", "RECV");
+                        return; // DỪNG TIẾN TRÌNH: Không chạy xuống lệnh Ghi nếu Đọc thất bại
+                    }
+
+                    // Xử lý dữ liệu Đọc về
+                    PrintLog(COM_RecWM.buf, COM_RecWM.len, "Dữ liệu đệm RTC", "RECV");
+                    byte[] decryptedRead = EwmFrameBuilder.ParseDecryptedPayload(COM_RecWM.buf, Get_Header());
+
+                    if (decryptedRead == null || decryptedRead.Length < 6)
+                    {
+                        PrintLog(NULL, 0, "Dữ liệu RTC đọc về bị lỗi hoặc sai cấu trúc!", "RECV");
+                        return; // DỪNG TIẾN TRÌNH
+                    }
+
+                    PrintLog(decryptedRead, (UInt16)decryptedRead.Length, "DECRYPTED READ", "RECV");
+                    RTC_Read = RTC_DateTime.FromByteArray(decryptedRead, 0);
+
+                    // =========================================================================
+                    // BƯỚC 2: GHI RTC MỚI (Chỉ chạy sau khi BƯỚC 1 đã hoàn tất)
+                    // =========================================================================
+                    RTC_Write = RTC_Read;
+                    RTC_Write.Minute = 59;
+                    RTC_Write.Second = 55;
+
+                    // BẮT BUỘC: Reset hoàn toàn bộ đệm COM_RecWM và nghỉ 200ms để xả tuyến UART
+                    COM_RecWM.Clear();
+                    await Task.Delay(200);
+                    ComSend.Clear();
+                    PrintLog(NULL, 0, "2. Ghi RTC", "SEND");
+                    COM_MakeFrameWmWriteRTC(ref ComSend, RTC_Write);
+                    COM_SendBuf(COM_WM, ComSend.buf, ComSend.len);
+
+                    // Chờ nhận dữ liệu phản hồi bước Ghi
+                    bool isWriteSuccess = await WaitForResponseAsync(5000);
+
+                    if (isWriteSuccess)
+                    {
+                        PrintLog(COM_RecWM.buf, COM_RecWM.len, "Phản hồi Ghi RTC", "RECV");
+                        byte[] decryptedWrite = EwmFrameBuilder.ParseDecryptedPayload(COM_RecWM.buf, Get_Header());
+
+                        if (decryptedWrite != null && decryptedWrite.Length >= 6)
+                        {
+                            PrintLog(decryptedWrite, (UInt16)decryptedWrite.Length, "DECRYPTED WRITE OK", "RECV");
+                            PrintLog(NULL, 0, "Cài đặt RTC thành công!", "RECV");
+                        }
+                    }
+                    else
+                    {
+                        PrintLog(NULL, 0, "Không nhận được phản hồi sau khi Ghi RTC.", "RECV");
+                    }
+                    Thread.Sleep(10000);
+                }
+            }
+            catch (Exception ex)
+            {
+                PrintLog(NULL, 0, "Lỗi xử lý", "SEND");
+            }
+            finally
+            {
+                // Đóng COM và bật lại nút bấm
+                COM_Close(COM_WM, COM_WMIsOpen);
+                Btn_SetRTC.Enabled = true;
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)
