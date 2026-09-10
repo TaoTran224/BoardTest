@@ -34,7 +34,7 @@
             Tbox_TimeStart = new TextBox();
             Btn_SearchCOM = new Button();
             label2 = new Label();
-            Tbox_ComControl = new ComboBox();
+            Cbo_ComControl = new ComboBox();
             Cbo_ComWM = new ComboBox();
             folderBrowserDialog1 = new FolderBrowserDialog();
             SuspendLayout();
@@ -100,15 +100,15 @@
             label2.TabIndex = 7;
             label2.Text = "COM Control";
             // 
-            // Tbox_ComControl
+            // Cbo_ComControl
             // 
-            Tbox_ComControl.DropDownStyle = ComboBoxStyle.DropDownList;
-            Tbox_ComControl.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            Tbox_ComControl.FormattingEnabled = true;
-            Tbox_ComControl.Location = new Point(171, 193);
-            Tbox_ComControl.Name = "Tbox_ComControl";
-            Tbox_ComControl.Size = new Size(121, 26);
-            Tbox_ComControl.TabIndex = 8;
+            Cbo_ComControl.DropDownStyle = ComboBoxStyle.DropDownList;
+            Cbo_ComControl.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            Cbo_ComControl.FormattingEnabled = true;
+            Cbo_ComControl.Location = new Point(171, 193);
+            Cbo_ComControl.Name = "Cbo_ComControl";
+            Cbo_ComControl.Size = new Size(121, 26);
+            Cbo_ComControl.TabIndex = 8;
             // 
             // Cbo_ComWM
             // 
@@ -126,7 +126,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(846, 486);
             Controls.Add(Cbo_ComWM);
-            Controls.Add(Tbox_ComControl);
+            Controls.Add(Cbo_ComControl);
             Controls.Add(label2);
             Controls.Add(Btn_SearchCOM);
             Controls.Add(Tbox_TimeStart);
@@ -149,7 +149,7 @@
         private Button Btn_SearchCOM;
         private ComboBox Tbox_COM_WM;
         private Label label2;
-        private ComboBox Tbox_ComControl;
+        private ComboBox Cbo_ComControl;
         private ComboBox Cbo_ComWM;
         private FolderBrowserDialog folderBrowserDialog1;
     }

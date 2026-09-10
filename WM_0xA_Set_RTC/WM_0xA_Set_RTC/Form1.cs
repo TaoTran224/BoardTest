@@ -4,7 +4,7 @@ using static System.Net.Mime.MediaTypeNames;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 using System.IO.Ports;
 using System.Text;
-
+using System.IO;
 namespace WM_0xA_Set_RTC
 {
     public partial class Form1 : Form
@@ -27,7 +27,7 @@ namespace WM_0xA_Set_RTC
             public byte len;
             public FlagRecCOM flagTimeout;
             public UInt16 timeout;
-            public bool flagGetData;
+            public bool Flag_Enable_GetData;
             public void Clear()
             {
                 if (buf != null)
@@ -36,12 +36,13 @@ namespace WM_0xA_Set_RTC
                 }
                 len = 0;
                 timeout = 0;
-                flagGetData = false;
+                Flag_Enable_GetData = true;
+
                 flagTimeout = default; // Đưa về giá trị mặc định của enum FlagRecCOM (hoặc 0/false)
             }
         }
         COM_t COM_RecWM = new COM_t();
-        COM_t COM_RecCtrol = new COM_t();
+        COM_t COM_RecControl = new COM_t();
         bool COM_WMIsOpen = false;
         bool COM_ControlIsOpen = false;
 
@@ -58,8 +59,8 @@ namespace WM_0xA_Set_RTC
             // Clear existing items
             Cbo_ComWM.Items.Clear();
             Cbo_ComWM.Text = ""; // Reset the text to avoid confusion"
-            Tbox_ComControl.Items.Clear();
-            Tbox_ComControl.Text = ""; // Reset the text to avoid confusion"
+            Cbo_ComControl.Items.Clear();
+            Cbo_ComControl.Text = ""; // Reset the text to avoid confusion"
             if (ComList.Length == 0)
             {
                 MessageBox.Show("Không tìm thấy cổng COM. Kiểm tra lại cổng COM.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -75,13 +76,13 @@ namespace WM_0xA_Set_RTC
                 {
                     Cbo_ComWM.Items.Add("COM" + ComNumber.ToString());
                     Cbo_ComWM.Text = "COM" + ComNumber.ToString();
-                    Tbox_ComControl.Items.Add("COM" + ComNumber.ToString());
-                    Tbox_ComControl.Text = "COM" + ComNumber.ToString();
+                    Cbo_ComControl.Items.Add("COM" + ComNumber.ToString());
+                    Cbo_ComControl.Text = "COM" + ComNumber.ToString();
                 }
             }
         }
 
-        bool Open_Com(SerialPort com, bool typeCOM, ComboBox cbox)
+        bool Open_Com(SerialPort com, bool typeCOM, ComboBox cbox, UInt32 baudRate)
         {
             bool flagChooseCOM;
             if (cbox.Text == "")
@@ -117,7 +118,7 @@ namespace WM_0xA_Set_RTC
                 {
                     typeCOM = true;
                     com.PortName = cbox.Text;
-                    com.BaudRate = 9600;                     // Tốc độ Baud: 9600
+                    com.BaudRate = (int)baudRate;                     // Tốc độ Baud: 9600
                     com.DataBits = 8;                        // 8 bit dữ liệu
                     com.Parity = Parity.None;                // None Parity
                     com.StopBits = StopBits.One;             // 1 Stop bit
@@ -211,7 +212,39 @@ namespace WM_0xA_Set_RTC
         }
         RTC_DateTime RTC_Read = new RTC_DateTime();
         RTC_DateTime RTC_Write = new RTC_DateTime();
-        private void PrintLog(byte[] message, UInt16 len_message, string str, string mode)
+
+    private readonly object _logFileLock = new object(); // Đảm bảo an toàn đa luồng (Thread-safe)
+
+    private void WriteLogToFile(string logMessage)
+    {
+        try
+        {
+            // 1. Tạo thư mục "Logs" nằm cùng thư mục chứa file .exe của phần mềm
+            string logFolder = Path.Combine(System.Windows.Forms.Application.StartupPath, "Logs");
+            if (!Directory.Exists(logFolder))
+            {
+                Directory.CreateDirectory(logFolder);
+            }
+
+            // 2. Tên file Log tự động thay đổi theo ngày (VD: UART_Log_2026_09_10.txt)
+            string fileName = $"UART_Log_{DateTime.Now:yyyy_MM_dd}.txt";
+            string filePath = Path.Combine(logFolder, fileName);
+
+            // 3. Khóa luồng để tránh đụng độ khi ngắt UART và Thread chính cùng ghi file
+            lock (_logFileLock)
+            {
+                using (StreamWriter writer = new StreamWriter(filePath, append: true))
+                {
+                    writer.WriteLine(logMessage);
+                }
+            }
+        }
+        catch
+        {
+            // Bỏ qua lỗi ghi file nếu ổ đĩa bị khóa hoặc bận để không làm gián đoạn luồng UART
+        }
+    }
+    private void PrintLog(byte[] message, UInt16 len_message, string str, string mode)
         {
             string timestamp = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss.fff");
             if ("SEND" == mode)
@@ -236,8 +269,12 @@ namespace WM_0xA_Set_RTC
             RTBox_Log.SelectionStart = RTBox_Log.TextLength;
             RTBox_Log.SelectionLength = 0;
 
-            RTBox_Log.AppendText($"[{timestamp}] {mode}: {str} [{len_message} bytes]: {hexData}{Environment.NewLine}");
+            string log = $"[{timestamp}] {mode}: {str} [{len_message} bytes]: {hexData}{Environment.NewLine}";
+            RTBox_Log.AppendText(log);
             RTBox_Log.ScrollToCaret();
+
+            // 4. Ghi log ra file
+            WriteLogToFile(log);
         }
 
         private string Get_Header()
@@ -309,13 +346,30 @@ namespace WM_0xA_Set_RTC
             ComSend.len = (byte)frameSeRTC.Length;
         }
 
+        void COM_Control_SendBuf(SerialPort com, bool send)
+        {
+            byte[] frame_on = { 0x01, 0xA0, 0x02, 0x00, 0x01, 0x5B, 0xC0, 0x03 };
+            byte[] frame_off = { 0x01, 0xA0, 0x02, 0x00, 0x00, 0x9A, 0x00, 0x03 };
+            if (true == send)
+            {
+                PrintLog(NULL, 0, "TURN ON MAGNET", "SEND");
+                COM_SendBuf(com,frame_on, (UInt16)frame_on.Length);
+            }
+            else
+            {
+                PrintLog(NULL, 0, "TURN OFF MAGNET", "SEND");
+                COM_SendBuf(com,frame_off, (UInt16)frame_off.Length);
+            }
+            Thread.Sleep(2000);
+        }
+
         private async Task<bool> WaitForResponseAsync(int timeoutMs = 5000)
         {
             int elapsed = 0;
             while (elapsed < timeoutMs)
             {
                 // Chỉ xử lý khi ngắt đã nhận xong và đã qua khoảng chờ ổn định frame (timeout >= 3)
-                if (COM_RecWM.flagGetData && COM_RecWM.timeout >= 3)
+                if (COM_RecWM.Flag_Enable_GetData && COM_RecWM.timeout >= 3)
                 {
                     return true; // Đã nhận đủ dữ liệu
                 }
@@ -332,32 +386,34 @@ namespace WM_0xA_Set_RTC
             Btn_SetRTC.Enabled = false;
             if (COM_WM == null || !COM_WM.IsOpen)
             {
-                Open_Com(COM_WM, COM_WMIsOpen, Cbo_ComWM);
+                Open_Com(COM_WM, COM_WMIsOpen, Cbo_ComWM, 9600);
             }
+            if (COM_Control == null || !COM_Control.IsOpen)
+            {
+                Open_Com(COM_Control, COM_ControlIsOpen, Cbo_ComControl, 57600);
+                COM_RecControl.Flag_Enable_GetData = false;
+            }
+            UInt16 times = 4;
             try
             {
-                for (int j = 0; j < 3; j++)
+                for (int j = 0; j < times; j++)
                 {
-                    // 1. Kiểm tra mở cổng COM
-
+                    COM_Control_SendBuf(COM_Control, true);
                     COM_t ComSend = new COM_t();
 
-                    // =========================================================================
-                    // BƯỚC 1: ĐỌC RTC (Chờ hoàn thành 100% mới chuyển bước)
-                    // =========================================================================
-                    COM_RecWM.Clear(); // Xóa sạch bộ đệm trước khi gửi
-                    PrintLog(null, 0, "1. Đọc RTC", "SEND");
+                    COM_RecWM.Clear();
+                    PrintLog(NULL, 0, "1. Đọc RTC lần " + (j + 1).ToString(), "SEND");
 
                     COM_MakeFrameWmReadRTC(ref ComSend);
                     COM_SendBuf(COM_WM, ComSend.buf, ComSend.len);
-
+                    COM_RecWM.Flag_Enable_GetData = true;
                     // Chờ nhận dữ liệu hoàn toàn (AWAIT ép chương trình dừng lại chờ tại đây)
                     bool isReadSuccess = await WaitForResponseAsync(5000);
 
                     if (!isReadSuccess)
                     {
                         PrintLog(NULL, 0, "Không nhận được phản hồi sau khi Đọc RTC.", "RECV");
-                        return; // DỪNG TIẾN TRÌNH: Không chạy xuống lệnh Ghi nếu Đọc thất bại
+                        return;
                     }
 
                     // Xử lý dữ liệu Đọc về
@@ -378,13 +434,13 @@ namespace WM_0xA_Set_RTC
                     // =========================================================================
                     RTC_Write = RTC_Read;
                     RTC_Write.Minute = 59;
-                    RTC_Write.Second = 55;
+                    RTC_Write.Second = 45;
 
                     // BẮT BUỘC: Reset hoàn toàn bộ đệm COM_RecWM và nghỉ 200ms để xả tuyến UART
                     COM_RecWM.Clear();
                     await Task.Delay(200);
                     ComSend.Clear();
-                    PrintLog(NULL, 0, "2. Ghi RTC", "SEND");
+                    PrintLog(NULL, 0, "2. Ghi RTC lần " + (j + 1).ToString(), "SEND");
                     COM_MakeFrameWmWriteRTC(ref ComSend, RTC_Write);
                     COM_SendBuf(COM_WM, ComSend.buf, ComSend.len);
 
@@ -399,14 +455,18 @@ namespace WM_0xA_Set_RTC
                         if (decryptedWrite != null && decryptedWrite.Length >= 6)
                         {
                             PrintLog(decryptedWrite, (UInt16)decryptedWrite.Length, "DECRYPTED WRITE OK", "RECV");
-                            PrintLog(NULL, 0, "Cài đặt RTC thành công!", "RECV");
+                            PrintLog(NULL, 0, "Cài đặt RTC thành công!" + (j + 1).ToString(), "RECV");
                         }
                     }
                     else
                     {
                         PrintLog(NULL, 0, "Không nhận được phản hồi sau khi Ghi RTC.", "RECV");
                     }
-                    Thread.Sleep(10000);
+                    COM_Control_SendBuf(COM_Control, false);
+                    if (j < (times - 1))
+                    {
+                        Thread.Sleep(60000);
+                    }
                 }
             }
             catch (Exception ex)
@@ -415,8 +475,12 @@ namespace WM_0xA_Set_RTC
             }
             finally
             {
-                // Đóng COM và bật lại nút bấm
+                COM_RecWM.Flag_Enable_GetData = false;
+                COM_RecControl.Flag_Enable_GetData = false;
+                PrintLog(NULL, 0, "finally", "SEND");
                 COM_Close(COM_WM, COM_WMIsOpen);
+                COM_Control_SendBuf(COM_Control, false);
+                COM_Close(COM_Control, COM_ControlIsOpen);
                 Btn_SetRTC.Enabled = true;
             }
         }
@@ -428,24 +492,29 @@ namespace WM_0xA_Set_RTC
 
         void Com_GetData(SerialPort com, COM_t COM_Rec)
         {
-            byte countByte = (byte)com.BytesToRead;
-            byte[] Rec = new byte[countByte];
-            com.Read(Rec, 0, countByte);
-            if (COM_MAX_LEN >= (COM_Rec.len + countByte))
+            if (true == COM_Rec.Flag_Enable_GetData)
             {
-                for (int i = 0; i < countByte; i++)
+                COM_Rec.timeout++;
+
+                byte countByte = (byte)com.BytesToRead;
+                byte[] Rec = new byte[countByte];
+                com.Read(Rec, 0, countByte);
+                if (COM_MAX_LEN >= (COM_Rec.len + countByte))
                 {
-                    COM_Rec.buf[COM_Rec.len + i] = Rec[i];
+                    for (int i = 0; i < countByte; i++)
+                    {
+                        COM_Rec.buf[COM_Rec.len + i] = Rec[i];
+                    }
+                    COM_Rec.len += countByte;
                 }
-                COM_Rec.len += countByte;
+                else
+                {
+                    Array.Clear(COM_Rec.buf, 0, COM_Rec.len);
+                    COM_Rec.len = 0;
+                }
+                COM_Rec.timeout = 0;
+                COM_Rec.Flag_Enable_GetData = true;
             }
-            else
-            {
-                Array.Clear(COM_Rec.buf, 0, COM_Rec.len);
-                COM_Rec.len = 0;
-            }
-            COM_Rec.timeout = 0;
-            COM_Rec.flagGetData = true;
         }
 
         private void COM_Port_DataReceived(object sender, SerialDataReceivedEventArgs e)
