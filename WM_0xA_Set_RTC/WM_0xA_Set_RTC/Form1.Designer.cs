@@ -37,6 +37,7 @@
             Cbo_ComControl = new ComboBox();
             Cbo_ComWM = new ComboBox();
             folderBrowserDialog1 = new FolderBrowserDialog();
+            Btn_RunAuto = new Button();
             SuspendLayout();
             // 
             // Btn_SetRTC
@@ -120,11 +121,23 @@
             Cbo_ComWM.Size = new Size(121, 26);
             Cbo_ComWM.TabIndex = 9;
             // 
+            // Btn_RunAuto
+            // 
+            Btn_RunAuto.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            Btn_RunAuto.Location = new Point(12, 268);
+            Btn_RunAuto.Name = "Btn_RunAuto";
+            Btn_RunAuto.Size = new Size(121, 35);
+            Btn_RunAuto.TabIndex = 10;
+            Btn_RunAuto.Text = "Run Auto";
+            Btn_RunAuto.UseVisualStyleBackColor = true;
+            Btn_RunAuto.Click += Btn_RunAuto_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(846, 486);
+            Controls.Add(Btn_RunAuto);
             Controls.Add(Cbo_ComWM);
             Controls.Add(Cbo_ComControl);
             Controls.Add(label2);
@@ -152,5 +165,6 @@
         private ComboBox Cbo_ComControl;
         private ComboBox Cbo_ComWM;
         private FolderBrowserDialog folderBrowserDialog1;
+        private Button Btn_RunAuto;
     }
 }

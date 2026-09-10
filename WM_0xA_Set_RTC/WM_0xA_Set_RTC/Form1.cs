@@ -1,10 +1,12 @@
+using System.IO;
+using System.IO.Ports;
+using System.Reflection;
 using System.Reflection.Metadata;
+using System.Text;
 using WinFormsApp1;
 using static System.Net.Mime.MediaTypeNames;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
-using System.IO.Ports;
-using System.Text;
-using System.IO;
 namespace WM_0xA_Set_RTC
 {
     public partial class Form1 : Form
@@ -213,38 +215,38 @@ namespace WM_0xA_Set_RTC
         RTC_DateTime RTC_Read = new RTC_DateTime();
         RTC_DateTime RTC_Write = new RTC_DateTime();
 
-    private readonly object _logFileLock = new object(); // Đảm bảo an toàn đa luồng (Thread-safe)
+        private readonly object _logFileLock = new object(); // Đảm bảo an toàn đa luồng (Thread-safe)
 
-    private void WriteLogToFile(string logMessage)
-    {
-        try
+        private void WriteLogToFile(string logMessage)
         {
-            // 1. Tạo thư mục "Logs" nằm cùng thư mục chứa file .exe của phần mềm
-            string logFolder = Path.Combine(System.Windows.Forms.Application.StartupPath, "Logs");
-            if (!Directory.Exists(logFolder))
+            try
             {
-                Directory.CreateDirectory(logFolder);
-            }
-
-            // 2. Tên file Log tự động thay đổi theo ngày (VD: UART_Log_2026_09_10.txt)
-            string fileName = $"UART_Log_{DateTime.Now:yyyy_MM_dd}.txt";
-            string filePath = Path.Combine(logFolder, fileName);
-
-            // 3. Khóa luồng để tránh đụng độ khi ngắt UART và Thread chính cùng ghi file
-            lock (_logFileLock)
-            {
-                using (StreamWriter writer = new StreamWriter(filePath, append: true))
+                // 1. Tạo thư mục "Logs" nằm cùng thư mục chứa file .exe của phần mềm
+                string logFolder = Path.Combine(System.Windows.Forms.Application.StartupPath, "Logs");
+                if (!Directory.Exists(logFolder))
                 {
-                    writer.WriteLine(logMessage);
+                    Directory.CreateDirectory(logFolder);
+                }
+
+                // 2. Tên file Log tự động thay đổi theo ngày (VD: UART_Log_2026_09_10.txt)
+                string fileName = $"UART_Log_{DateTime.Now:yyyy_MM_dd}.txt";
+                string filePath = Path.Combine(logFolder, fileName);
+
+                // 3. Khóa luồng để tránh đụng độ khi ngắt UART và Thread chính cùng ghi file
+                lock (_logFileLock)
+                {
+                    using (StreamWriter writer = new StreamWriter(filePath, append: true))
+                    {
+                        writer.WriteLine(logMessage);
+                    }
                 }
             }
+            catch
+            {
+                // Bỏ qua lỗi ghi file nếu ổ đĩa bị khóa hoặc bận để không làm gián đoạn luồng UART
+            }
         }
-        catch
-        {
-            // Bỏ qua lỗi ghi file nếu ổ đĩa bị khóa hoặc bận để không làm gián đoạn luồng UART
-        }
-    }
-    private void PrintLog(byte[] message, UInt16 len_message, string str, string mode)
+        private void PrintLog(byte[] message, UInt16 len_message, string str, string mode)
         {
             string timestamp = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss.fff");
             if ("SEND" == mode)
@@ -296,16 +298,25 @@ namespace WM_0xA_Set_RTC
             com.Write(buf, 0, len);
         }
 
-        UInt16 MakeFrame(ref byte[] buf, string header, UInt16 payLen, byte[] payload)
+        void MakeFrame(ref COM_t ComSend, string header, byte typePay, byte paramID, byte[] payload)
         {
-            int lenBuf = 0;
-            byte[] head = Encoding.ASCII.GetBytes(header);
-            lenBuf = head.Length;
-            Array.Copy(head, 0, buf, lenBuf, head.Length);
-            lenBuf += (UInt16)head.Length;
+            List<ParameterData> parameters = new List<ParameterData>();
 
-
-            return 10;
+            parameters.Add(new ParameterData
+            {
+                ParamId = typePay,
+                Data = payload
+            });
+            byte[] payload1 = EwmFrameBuilder.BuildOptSetPayload(parameters);
+            EwmFrameBuilder builder = new EwmFrameBuilder
+            {
+                TypePack = paramID,
+                Payload = payload1
+            };
+            builder.HEADER = header;
+            byte[] frame = builder.BuildFrame(builder.HEADER);
+            ComSend.buf = frame;
+            ComSend.len = (byte)frame.Length;
         }
         void COM_MakeFrameWmReadRTC(ref COM_t ComSend)
         {
@@ -324,6 +335,7 @@ namespace WM_0xA_Set_RTC
             byte[] frameReadRTC = builder3.BuildFrame(builder3.HEADER);
             ComSend.buf = frameReadRTC;
             ComSend.len = (byte)frameReadRTC.Length;
+            PrintLog(payload3, (ushort)payload3.Length, "PAYLOAD", "SEND");
         }
 
         void COM_MakeFrameWmWriteRTC(ref COM_t ComSend, RTC_DateTime rtc)
@@ -350,10 +362,10 @@ namespace WM_0xA_Set_RTC
                 Payload = payload3
             };
             builder3.HEADER = Get_Header();
-            byte[] frame3 = builder3.BuildFrame(builder3.HEADER);
             byte[] frameSeRTC = builder3.BuildFrame(builder3.HEADER);
             ComSend.buf = frameSeRTC;
             ComSend.len = (byte)frameSeRTC.Length;
+            PrintLog(payload3, (ushort)payload3.Length, "PAYLOAD", "SEND");
         }
 
         void COM_Control_SendBuf(SerialPort com, bool send)
@@ -363,12 +375,12 @@ namespace WM_0xA_Set_RTC
             if (true == send)
             {
                 PrintLog(NULL, 0, "TURN ON MAGNET", "SEND");
-                COM_SendBuf(com,frame_on, (UInt16)frame_on.Length);
+                COM_SendBuf(com, frame_on, (UInt16)frame_on.Length);
             }
             else
             {
                 PrintLog(NULL, 0, "TURN OFF MAGNET", "SEND");
-                COM_SendBuf(com,frame_off, (UInt16)frame_off.Length);
+                COM_SendBuf(com, frame_off, (UInt16)frame_off.Length);
             }
             Thread.Sleep(2000);
         }
@@ -448,7 +460,7 @@ namespace WM_0xA_Set_RTC
 
                     // BẮT BUỘC: Reset hoàn toàn bộ đệm COM_RecWM và nghỉ 200ms để xả tuyến UART
                     COM_RecWM.Clear();
-                    await Task.Delay(200);
+                    //await Task.Delay(200);
                     ComSend.Clear();
                     PrintLog(NULL, 0, "2. Ghi RTC lần " + (j + 1).ToString(), "SEND");
                     COM_MakeFrameWmWriteRTC(ref ComSend, RTC_Write);
@@ -532,6 +544,17 @@ namespace WM_0xA_Set_RTC
 
             Com_GetData(COM_WM, COM_RecWM);
 
+        }
+
+        private void Btn_RunAuto_Click(object sender, EventArgs e)
+        {
+            byte typePay = typeCmd.OptHesSet;
+            string seri = "12345678901234567890";
+            byte paramID= ParamID.MeterSerial;
+            byte[] au8seri = Encoding.ASCII.GetBytes(seri.PadRight(20, '\0'));
+            COM_t ComSend = new COM_t();
+            MakeFrame(ref ComSend, Get_Header(), typePay, paramID, au8seri);
+            PrintLog(ComSend.buf, ComSend.len, "","SEND");
         }
     }
 }
