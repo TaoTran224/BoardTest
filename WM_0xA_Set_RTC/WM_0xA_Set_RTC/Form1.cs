@@ -296,6 +296,17 @@ namespace WM_0xA_Set_RTC
             com.Write(buf, 0, len);
         }
 
+        UInt16 MakeFrame(ref byte[] buf, string header, UInt16 payLen, byte[] payload)
+        {
+            int lenBuf = 0;
+            byte[] head = Encoding.ASCII.GetBytes(header);
+            lenBuf = head.Length;
+            Array.Copy(head, 0, buf, lenBuf, head.Length);
+            lenBuf += (UInt16)head.Length;
+
+
+            return 10;
+        }
         void COM_MakeFrameWmReadRTC(ref COM_t ComSend)
         {
             List<byte> paramIds3 = new List<byte>
@@ -313,7 +324,6 @@ namespace WM_0xA_Set_RTC
             byte[] frameReadRTC = builder3.BuildFrame(builder3.HEADER);
             ComSend.buf = frameReadRTC;
             ComSend.len = (byte)frameReadRTC.Length;
-
         }
 
         void COM_MakeFrameWmWriteRTC(ref COM_t ComSend, RTC_DateTime rtc)
