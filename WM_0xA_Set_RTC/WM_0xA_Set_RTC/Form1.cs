@@ -415,7 +415,7 @@ namespace WM_0xA_Set_RTC
                 Open_Com(COM_Control, COM_ControlIsOpen, Cbo_ComControl, 57600);
                 COM_RecControl.Flag_Enable_GetData = false;
             }
-            UInt16 times = 4;
+            UInt16 times = UInt16.Parse(Txt_NumRecords.Text);
             try
             {
                 for (int j = 0; j < times; j++)
@@ -455,8 +455,8 @@ namespace WM_0xA_Set_RTC
                     // BƯỚC 2: GHI RTC MỚI (Chỉ chạy sau khi BƯỚC 1 đã hoàn tất)
                     // =========================================================================
                     RTC_Write = RTC_Read;
-                    RTC_Write.Minute = 59;
-                    RTC_Write.Second = 45;
+                    RTC_Write.Minute = byte.Parse(Txt_RtcMinBefore.Text);
+                    RTC_Write.Second = byte.Parse(Txt_RtcSecBefore.Text);
 
                     // BẮT BUỘC: Reset hoàn toàn bộ đệm COM_RecWM và nghỉ 200ms để xả tuyến UART
                     COM_RecWM.Clear();
@@ -487,7 +487,7 @@ namespace WM_0xA_Set_RTC
                     COM_Control_SendBuf(COM_Control, false);
                     if (j < (times - 1))
                     {
-                        Thread.Sleep(60000);
+                        Thread.Sleep(int.Parse(Txt_RtcWaitSec.Text) * 1000);
                     }
                 }
             }
@@ -550,11 +550,16 @@ namespace WM_0xA_Set_RTC
         {
             byte typePay = typeCmd.OptHesSet;
             string seri = "12345678901234567890";
-            byte paramID= ParamID.MeterSerial;
+            byte paramID = ParamID.MeterSerial;
             byte[] au8seri = Encoding.ASCII.GetBytes(seri.PadRight(20, '\0'));
             COM_t ComSend = new COM_t();
             MakeFrame(ref ComSend, Get_Header(), typePay, paramID, au8seri);
-            PrintLog(ComSend.buf, ComSend.len, "","SEND");
+            PrintLog(ComSend.buf, ComSend.len, "", "SEND");
+        }
+
+        private void RTBox_Log_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

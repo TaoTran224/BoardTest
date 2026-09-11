@@ -233,19 +233,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Tran Nhu Tao\\.nuget\\packages\\": {}
+    "C:\\Users\\Admin\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Firmware_TNT\\6_DA_2026\\BoardTest\\WM_0xA_Set_RTC\\WM_0xA_Set_RTC\\WM_0xA_Set_RTC.csproj",
+      "projectUniqueName": "D:\\1_Project_EMIC\\7_ToolTest\\BoardTest\\WM_0xA_Set_RTC\\WM_0xA_Set_RTC\\WM_0xA_Set_RTC.csproj",
       "projectName": "WM_0xA_Set_RTC",
-      "projectPath": "D:\\Firmware_TNT\\6_DA_2026\\BoardTest\\WM_0xA_Set_RTC\\WM_0xA_Set_RTC\\WM_0xA_Set_RTC.csproj",
-      "packagesPath": "C:\\Users\\Tran Nhu Tao\\.nuget\\packages\\",
-      "outputPath": "D:\\Firmware_TNT\\6_DA_2026\\BoardTest\\WM_0xA_Set_RTC\\WM_0xA_Set_RTC\\obj\\",
+      "projectPath": "D:\\1_Project_EMIC\\7_ToolTest\\BoardTest\\WM_0xA_Set_RTC\\WM_0xA_Set_RTC\\WM_0xA_Set_RTC.csproj",
+      "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+      "outputPath": "D:\\1_Project_EMIC\\7_ToolTest\\BoardTest\\WM_0xA_Set_RTC\\WM_0xA_Set_RTC\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Tran Nhu Tao\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
