@@ -52,3 +52,6 @@ D:\Firmware_TNT\6_DA_2026\BoardTest\WM_0xA_Set_RTC\WM_0xA_Set_RTC\bin\Debug\net8
 D:\Firmware_TNT\6_DA_2026\BoardTest\WM_0xA_Set_RTC\WM_0xA_Set_RTC\bin\Debug\net8.0-windows\runtimes\win\lib\net8.0\System.IO.Ports.dll
 D:\Firmware_TNT\6_DA_2026\BoardTest\WM_0xA_Set_RTC\WM_0xA_Set_RTC\obj\Debug\net8.0-windows\WM_0xA_Set_RTC.csproj.AssemblyReference.cache
 D:\Firmware_TNT\6_DA_2026\BoardTest\WM_0xA_Set_RTC\WM_0xA_Set_RTC\obj\Debug\net8.0-windows\WM_0xA_S.9AD6C469.Up2Date
+D:\Firmware_TNT\6_DA_2026\BoardTest\WM_0xA_Set_RTC\WM_0xA_Set_RTC\obj\Debug\net8.0-windows\WM_0xA_Set_RTC.Properties.Resources.resources
+D:\Firmware_TNT\6_DA_2026\BoardTest\WM_0xA_Set_RTC\WM_0xA_Set_RTC\bin\Debug\net8.0-windows\ExcelDataReader.dll
+D:\Firmware_TNT\6_DA_2026\BoardTest\WM_0xA_Set_RTC\WM_0xA_Set_RTC\bin\Debug\net8.0-windows\ExcelDataReader.DataSet.dll

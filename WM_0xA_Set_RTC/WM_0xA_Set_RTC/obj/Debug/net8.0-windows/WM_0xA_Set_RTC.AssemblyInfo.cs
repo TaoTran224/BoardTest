@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WM_0xA_Set_RTC")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b276ac83dc0ae1b57ba38c255b5d83357f4ce63c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f2e2b588a3d9023aa65f929a174df2adaeaccb6b")]
 [assembly: System.Reflection.AssemblyProductAttribute("WM_0xA_Set_RTC")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WM_0xA_Set_RTC")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

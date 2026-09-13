@@ -3,10 +3,13 @@ using System.IO.Ports;
 using System.Reflection;
 using System.Reflection.Metadata;
 using System.Text;
+using System.Timers;
 using WinFormsApp1;
 using static System.Net.Mime.MediaTypeNames;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
+using ExcelDataReader;
+
 namespace WM_0xA_Set_RTC
 {
     public partial class Form1 : Form
@@ -382,27 +385,50 @@ namespace WM_0xA_Set_RTC
                 PrintLog(NULL, 0, "TURN OFF MAGNET", "SEND");
                 COM_SendBuf(com, frame_off, (UInt16)frame_off.Length);
             }
-            Thread.Sleep(2000);
+            SmartDelaySec(2);
         }
 
         private async Task<bool> WaitForResponseAsync(int timeoutMs = 5000)
         {
             int elapsed = 0;
+
+            // BẮT BUỘC: Reset biến đếm timeout về 0 mỗi khi bắt đầu chờ frame mới
+            COM_RecWM.timeout = 0;
+
             while (elapsed < timeoutMs)
             {
-                // Chỉ xử lý khi ngắt đã nhận xong và đã qua khoảng chờ ổn định frame (timeout >= 3)
-                if (COM_RecWM.Flag_Enable_GetData && COM_RecWM.timeout >= 3)
+                // Điều kiện chuẩn: Cờ bật + Có ít nhất 1 byte dữ liệu + Đã ngắt xong frame (timeout >= 3)
+                if (COM_RecWM.Flag_Enable_GetData && COM_RecWM.len > 0 && COM_RecWM.timeout >= 3)
                 {
-                    return true; // Đã nhận đủ dữ liệu
+                    return true; // Đã nhận đủ dữ liệu thực tế
                 }
 
-                COM_RecWM.timeout++;
+                // Chỉ tăng timeout nếu đã bắt đầu nhận dữ liệu (tránh tăng khống khi đang chờ byte đầu tiên)
+                if (COM_RecWM.len > 0)
+                {
+                    COM_RecWM.timeout++;
+                }
+
                 await Task.Delay(100);
                 elapsed += 100;
             }
 
-            return false; // Hết 5000ms Timeout
+            return false; // Hết 5000ms mà không nhận được dữ liệu hợp lệ
         }
+
+        private void SmartDelaySec(int seconds)
+        {
+            long totalWaitMs = (long)(seconds * 1000);
+            long endTick = Environment.TickCount64 + totalWaitMs;
+
+            while (Environment.TickCount64 < endTick)
+            {
+                // Chỉ định rõ WinForms Application
+                System.Windows.Forms.Application.DoEvents();
+                Thread.Sleep(50);
+            }
+        }
+
         private async void Btn_Set_RTC_Click(object sender, EventArgs e)
         {
             Btn_SetRTC.Enabled = false;
@@ -415,98 +441,170 @@ namespace WM_0xA_Set_RTC
                 Open_Com(COM_Control, COM_ControlIsOpen, Cbo_ComControl, 57600);
                 COM_RecControl.Flag_Enable_GetData = false;
             }
+
             UInt16 times = UInt16.Parse(Txt_NumRecords.Text);
+            UInt16 timesSuccess = 0;
+            const int MAX_RETRY = 3;
+
             try
             {
                 for (int j = 0; j < times; j++)
                 {
                     COM_Control_SendBuf(COM_Control, true);
                     COM_t ComSend = new COM_t();
+                    RTC_DateTime RTC_Read = new RTC_DateTime();
 
-                    COM_RecWM.Clear();
-                    PrintLog(NULL, 0, "1. Đọc RTC lần " + (j + 1).ToString(), "SEND");
+                    // =========================================================================
+                    // BƯỚC 1: ĐỌC RTC (Thử lại tối đa 3 lần nếu gặp lỗi)
+                    // =========================================================================
+                    bool isReadSuccess = false;
 
-                    COM_MakeFrameWmReadRTC(ref ComSend);
-                    COM_SendBuf(COM_WM, ComSend.buf, ComSend.len);
-                    COM_RecWM.Flag_Enable_GetData = true;
-                    // Chờ nhận dữ liệu hoàn toàn (AWAIT ép chương trình dừng lại chờ tại đây)
-                    bool isReadSuccess = await WaitForResponseAsync(5000);
+                    for (int retry = 1; retry <= MAX_RETRY; retry++)
+                    {
+                        COM_RecWM.Flag_Enable_GetData = false;
+                        COM_RecWM.Clear();
+                        ComSend.Clear();
+
+                        string retryLog = retry > 1 ? $" (Thử lại lần {retry}/{MAX_RETRY})" : "";
+                        PrintLog(NULL, 0, $"1. Đọc RTC lần {j + 1}{retryLog}", "SEND");
+
+                        COM_MakeFrameWmReadRTC(ref ComSend);
+                        COM_RecWM.Flag_Enable_GetData = true;
+                        COM_SendBuf(COM_WM, ComSend.buf, ComSend.len);
+
+                        // WaitForResponseAsync đã tự chờ đủ 5000ms nếu bị Timeout
+                        bool isResp = await WaitForResponseAsync(5000);
+
+                        if (!isResp || COM_RecWM.len == 0)
+                        {
+                            PrintLog(NULL, 0, $"-> Lần {retry} không nhận được phản hồi Đọc RTC.", "RECV");
+                            continue;
+                        }
+
+                        PrintLog(COM_RecWM.buf, COM_RecWM.len, "Dữ liệu đệm RTC", "RECV");
+
+                        byte[] decryptedRead = null;
+                        try
+                        {
+                            decryptedRead = EwmFrameBuilder.ParseDecryptedPayload(COM_RecWM.buf, Get_Header());
+                        }
+                        catch (Exception exParse)
+                        {
+                            PrintLog(NULL, 0, $"-> Lần {retry} giải mã thất bại: {exParse.Message}", "RECV");
+                            continue;
+                        }
+
+                        if (decryptedRead == null || decryptedRead.Length < 6)
+                        {
+                            PrintLog(NULL, 0, $"-> Lần {retry} dữ liệu RTC đọc về bị sai cấu trúc!", "RECV");
+                            continue;
+                        }
+
+                        // Đọc thành công
+                        isReadSuccess = true;
+                        PrintLog(decryptedRead, (UInt16)decryptedRead.Length, "DECRYPTED READ", "RECV");
+                        RTC_Read = RTC_DateTime.FromByteArray(decryptedRead, 0);
+                        break;
+                    }
 
                     if (!isReadSuccess)
                     {
-                        PrintLog(NULL, 0, "Không nhận được phản hồi sau khi Đọc RTC.", "RECV");
-                        return;
+                        PrintLog(NULL, 0, $"==> Bỏ qua bước Ghi do Đọc RTC lần {j + 1} THẤT BẠI sau {MAX_RETRY} lần thử.", "RECV");
+                        COM_Control_SendBuf(COM_Control, false);
+
+                        if (j < (times - 1))
+                        {
+                            SmartDelaySec(int.Parse(Txt_RtcWaitSec.Text));
+                        }
+                        continue;
                     }
 
-                    // Xử lý dữ liệu Đọc về
-                    PrintLog(COM_RecWM.buf, COM_RecWM.len, "Dữ liệu đệm RTC", "RECV");
-                    byte[] decryptedRead = EwmFrameBuilder.ParseDecryptedPayload(COM_RecWM.buf, Get_Header());
-
-                    if (decryptedRead == null || decryptedRead.Length < 6)
-                    {
-                        PrintLog(NULL, 0, "Dữ liệu RTC đọc về bị lỗi hoặc sai cấu trúc!", "RECV");
-                        return; // DỪNG TIẾN TRÌNH
-                    }
-
-                    PrintLog(decryptedRead, (UInt16)decryptedRead.Length, "DECRYPTED READ", "RECV");
-                    RTC_Read = RTC_DateTime.FromByteArray(decryptedRead, 0);
-
                     // =========================================================================
-                    // BƯỚC 2: GHI RTC MỚI (Chỉ chạy sau khi BƯỚC 1 đã hoàn tất)
+                    // BƯỚC 2: GHI RTC MỚI (Chỉ chạy khi BƯỚC 1 đã Đọc thành công)
                     // =========================================================================
-                    RTC_Write = RTC_Read;
+                    RTC_DateTime RTC_Write = RTC_Read;
                     RTC_Write.Minute = byte.Parse(Txt_RtcMinBefore.Text);
                     RTC_Write.Second = byte.Parse(Txt_RtcSecBefore.Text);
 
-                    // BẮT BUỘC: Reset hoàn toàn bộ đệm COM_RecWM và nghỉ 200ms để xả tuyến UART
-                    COM_RecWM.Clear();
-                    //await Task.Delay(200);
-                    ComSend.Clear();
-                    PrintLog(NULL, 0, "2. Ghi RTC lần " + (j + 1).ToString(), "SEND");
-                    COM_MakeFrameWmWriteRTC(ref ComSend, RTC_Write);
-                    COM_SendBuf(COM_WM, ComSend.buf, ComSend.len);
+                    bool isWriteSuccess = false;
 
-                    // Chờ nhận dữ liệu phản hồi bước Ghi
-                    bool isWriteSuccess = await WaitForResponseAsync(5000);
-
-                    if (isWriteSuccess)
+                    for (int retry = 1; retry <= MAX_RETRY; retry++)
                     {
-                        PrintLog(COM_RecWM.buf, COM_RecWM.len, "Phản hồi Ghi RTC", "RECV");
-                        byte[] decryptedWrite = EwmFrameBuilder.ParseDecryptedPayload(COM_RecWM.buf, Get_Header());
+                        COM_RecWM.Flag_Enable_GetData = false;
+                        COM_RecWM.Clear();
+                        ComSend.Clear();
 
-                        if (decryptedWrite != null && decryptedWrite.Length >= 6)
+                        string retryLog = retry > 1 ? $" (Thử lại lần {retry}/{MAX_RETRY})" : "";
+                        PrintLog(NULL, 0, $"2. Ghi RTC lần {j + 1}{retryLog}", "SEND");
+
+                        COM_MakeFrameWmWriteRTC(ref ComSend, RTC_Write);
+                        COM_RecWM.Flag_Enable_GetData = true;
+                        COM_SendBuf(COM_WM, ComSend.buf, ComSend.len);
+
+                        bool isResp = await WaitForResponseAsync(5000);
+
+                        if (!isResp || COM_RecWM.len == 0)
                         {
-                            PrintLog(decryptedWrite, (UInt16)decryptedWrite.Length, "DECRYPTED WRITE OK", "RECV");
-                            PrintLog(NULL, 0, "Cài đặt RTC thành công!" + (j + 1).ToString(), "RECV");
+                            PrintLog(NULL, 0, $"-> Lần {retry} không nhận được phản hồi Ghi RTC.", "RECV");
+                            continue;
                         }
+
+                        PrintLog(COM_RecWM.buf, COM_RecWM.len, "Phản hồi Ghi RTC", "RECV");
+
+                        byte[] decryptedWrite = null;
+                        try
+                        {
+                            decryptedWrite = EwmFrameBuilder.ParseDecryptedPayload(COM_RecWM.buf, Get_Header());
+                        }
+                        catch (Exception exParse)
+                        {
+                            PrintLog(NULL, 0, $"-> Lần {retry} giải mã Ghi RTC thất bại: {exParse.Message}", "RECV");
+                            continue;
+                        }
+
+                        if (decryptedWrite == null || decryptedWrite.Length < 6)
+                        {
+                            PrintLog(NULL, 0, $"-> Lần {retry} phản hồi Ghi RTC sai cấu trúc!", "RECV");
+                            continue;
+                        }
+
+                        // Ghi thành công
+                        isWriteSuccess = true;
+                        PrintLog(decryptedWrite, (UInt16)decryptedWrite.Length, "DECRYPTED WRITE OK", "RECV");
+                        PrintLog(NULL, 0, $"Cài đặt RTC thành công lần {j + 1}!", "RECV");
+                        timesSuccess++;
+                        break;
                     }
-                    else
+
+                    if (!isWriteSuccess)
                     {
-                        PrintLog(NULL, 0, "Không nhận được phản hồi sau khi Ghi RTC.", "RECV");
+                        PrintLog(NULL, 0, $"==> Ghi RTC lần {j + 1} THẤT BẠI sau {MAX_RETRY} lần thử.", "RECV");
                     }
+
                     COM_Control_SendBuf(COM_Control, false);
+
                     if (j < (times - 1))
                     {
-                        Thread.Sleep(int.Parse(Txt_RtcWaitSec.Text) * 1000);
+                        SmartDelaySec(int.Parse(Txt_RtcWaitSec.Text));
                     }
                 }
+
+                PrintLog(NULL, 0, $"=== KẾT QUẢ: Thành công {timesSuccess}/{times} lần ===", "RECV");
             }
             catch (Exception ex)
             {
-                PrintLog(NULL, 0, "Lỗi xử lý", "SEND");
+                PrintLog(NULL, 0, "Lỗi xử lý hệ thống: " + ex.Message, "SEND");
             }
             finally
             {
                 COM_RecWM.Flag_Enable_GetData = false;
                 COM_RecControl.Flag_Enable_GetData = false;
-                PrintLog(NULL, 0, "finally", "SEND");
                 COM_Close(COM_WM, COM_WMIsOpen);
                 COM_Control_SendBuf(COM_Control, false);
                 COM_Close(COM_Control, COM_ControlIsOpen);
                 Btn_SetRTC.Enabled = true;
             }
         }
-
         private void Form1_Load(object sender, EventArgs e)
         {
             Cbo_TypeMeter.Text = "WM-02A";
@@ -546,20 +644,325 @@ namespace WM_0xA_Set_RTC
 
         }
 
-        private void Btn_RunAuto_Click(object sender, EventArgs e)
+        private async void Btn_RunAuto_Click(object sender, EventArgs e)
         {
-            byte typePay = typeCmd.OptHesSet;
-            string seri = "12345678901234567890";
-            byte paramID = ParamID.MeterSerial;
-            byte[] au8seri = Encoding.ASCII.GetBytes(seri.PadRight(20, '\0'));
-            COM_t ComSend = new COM_t();
-            MakeFrame(ref ComSend, Get_Header(), typePay, paramID, au8seri);
-            PrintLog(ComSend.buf, ComSend.len, "", "SEND");
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "Excel Files|*.xlsx;*.xls",
+                Title = "Chọn file kịch bản Auto Test"
+            };
+
+            if (openFileDialog.ShowDialog() != DialogResult.OK) return;
+
+            // 1. Đọc kịch bản test từ Excel
+            List<ExcelTestCase> listCases = ExcelHelper.LoadTestCasesFromExcel(openFileDialog.FileName);
+
+            PrintLog(NULL, 0, $"=== NẠP THÀNH CÔNG {listCases.Count} KỊCH BẢN TEST ===", "SEND");
+
+            // 2. Chạy lần lượt từng kịch bản
+            foreach (var tc in listCases)
+            {
+                PrintLog(NULL, 0, $"--- [STT {tc.STT}] Hạng mục: {tc.HangMuc} ---", "SEND");
+            }
         }
 
         private void RTBox_Log_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void Btn_Magnet_Click(object sender, EventArgs e)
+        {
+            Btn_Magnet.Enabled = false;
+            int times = Txt_MagnetTimes.Text == "" ? 1 : int.Parse(Txt_MagnetTimes.Text);
+            if (COM_Control == null || !COM_Control.IsOpen)
+            {
+                Open_Com(COM_Control, COM_ControlIsOpen, Cbo_ComControl, 57600);
+                COM_RecControl.Flag_Enable_GetData = false;
+            }
+            for (int j = 0; j < times; j++)
+            {
+                PrintLog(NULL, 0, "TURN ON MAGNET lần " + (j + 1).ToString(), "SEND");
+                COM_Control_SendBuf(COM_Control, true);
+                SmartDelaySec(int.Parse(Txt_MagnetTimeOn.Text));
+                PrintLog(NULL, 0, "TURN OFF MAGNET lần " + (j + 1).ToString(), "SEND");
+                COM_Control_SendBuf(COM_Control, false);
+                SmartDelaySec(int.Parse(Txt_MagnetTimeOff.Text));
+            }
+            COM_Close(COM_Control, COM_ControlIsOpen);
+            COM_RecControl.Flag_Enable_GetData = false;
+            Btn_Magnet.Enabled = true;
+
+        }
+
+        private void Btn_MagnetOn_Click(object sender, EventArgs e)
+        {
+            Btn_MagnetOn.Enabled = false;
+            int times = Txt_MagnetTimes.Text == "" ? 1 : int.Parse(Txt_MagnetTimes.Text);
+            if (COM_Control == null || !COM_Control.IsOpen)
+            {
+                Open_Com(COM_Control, COM_ControlIsOpen, Cbo_ComControl, 57600);
+                COM_RecControl.Flag_Enable_GetData = false;
+            }
+            COM_Control_SendBuf(COM_Control, true);
+            COM_Close(COM_Control, COM_ControlIsOpen);
+            COM_RecControl.Flag_Enable_GetData = false;
+            Btn_MagnetOn.Enabled = true;
+        }
+
+        private void Btn_MagnetOff_Click(object sender, EventArgs e)
+        {
+            Btn_MagnetOff.Enabled = false;
+            int times = Txt_MagnetTimes.Text == "" ? 1 : int.Parse(Txt_MagnetTimes.Text);
+            if (COM_Control == null || !COM_Control.IsOpen)
+            {
+                Open_Com(COM_Control, COM_ControlIsOpen, Cbo_ComControl, 57600);
+                COM_RecControl.Flag_Enable_GetData = false;
+            }
+            COM_Control_SendBuf(COM_Control, false);
+            COM_Close(COM_Control, COM_ControlIsOpen);
+            COM_RecControl.Flag_Enable_GetData = false;
+            Btn_MagnetOff.Enabled = true;
+        }
+
+        public static class RtcDataConverter
+        {
+            // Chuyển từ RTC_DateTime sang Chuỗi String (12 ký tự: YYMMDDhhmmss)
+            public static string ToStrFormat(RTC_DateTime rtc)
+            {
+                return $"{rtc.Year:D2}{rtc.Month:D2}{rtc.Day:D2}{rtc.Hour:D2}{rtc.Minute:D2}{rtc.Second:D2}";
+            }
+
+            // Chuyển từ RTC_DateTime sang Chuỗi Hex (ví dụ: "1A 09 0D 11 1E 00")
+            public static string ToHexFormat(RTC_DateTime rtc)
+            {
+                return $"{rtc.Year:X2} {rtc.Month:X2} {rtc.Day:X2} {rtc.Hour:X2} {rtc.Minute:X2} {rtc.Second:X2}";
+            }
+
+            // Gán dữ liệu vào RTC_DateTime từ chuỗi String (12 ký tự)
+            public static bool ParseStrFormat(string input, ref RTC_DateTime rtc)
+            {
+                input = input.Trim();
+                if (input.Length != 12) return false;
+
+                rtc.Year = byte.Parse(input.Substring(0, 2));
+                rtc.Month = byte.Parse(input.Substring(2, 2));
+                rtc.Day = byte.Parse(input.Substring(4, 2));
+                rtc.Hour = byte.Parse(input.Substring(6, 2));
+                rtc.Minute = byte.Parse(input.Substring(8, 2));
+                rtc.Second = byte.Parse(input.Substring(10, 2));
+                return true;
+            }
+
+            // Gán dữ liệu vào RTC_DateTime từ chuỗi Hex (6 byte hex cách nhau bởi khoảng trắng hoặc liền nhau)
+            public static bool ParseHexFormat(string input, ref RTC_DateTime rtc)
+            {
+                string hexClean = input.Replace(" ", "").Trim();
+                if (hexClean.Length != 12) return false;
+
+                rtc.Year = Convert.ToByte(hexClean.Substring(0, 2), 16);
+                rtc.Month = Convert.ToByte(hexClean.Substring(2, 2), 16);
+                rtc.Day = Convert.ToByte(hexClean.Substring(4, 2), 16);
+                rtc.Hour = Convert.ToByte(hexClean.Substring(6, 2), 16);
+                rtc.Minute = Convert.ToByte(hexClean.Substring(8, 2), 16);
+                rtc.Second = Convert.ToByte(hexClean.Substring(10, 2), 16);
+                return true;
+            }
+        }
+
+        private async void Btn_WriteRtcManual_Click(object sender, EventArgs e)
+        {
+            Btn_WriteRtcManual.Enabled = false;
+
+            // 1. Kiểm tra và Parse dữ liệu từ Tbox_RtcManual trước khi mở cổng truyền
+            string inputText = Tbox_RtcManual.Text.Trim();
+            RTC_DateTime RTC_Write = new RTC_DateTime();
+
+            bool isParseOk = rdo_RtcModeStr.Checked
+                ? RtcDataConverter.ParseStrFormat(inputText, ref RTC_Write)
+                : RtcDataConverter.ParseHexFormat(inputText, ref RTC_Write);
+
+            if (!isParseOk)
+            {
+                PrintLog(NULL, 0, "Lỗi: Chuỗi RTC đầu vào không hợp lệ (cần đúng 12 ký tự)!", "SEND");
+                Btn_WriteRtcManual.Enabled = true;
+                return;
+            }
+
+            if (COM_WM == null || !COM_WM.IsOpen) Open_Com(COM_WM, COM_WMIsOpen, Cbo_ComWM, 9600);
+            if (COM_Control == null || !COM_Control.IsOpen)
+            {
+                Open_Com(COM_Control, COM_ControlIsOpen, Cbo_ComControl, 57600);
+                COM_RecControl.Flag_Enable_GetData = false;
+            }
+
+            const int MAX_RETRY = 3;
+
+            try
+            {
+                COM_Control_SendBuf(COM_Control, true);
+                COM_t ComSend = new COM_t();
+                bool isWriteSuccess = false;
+
+                for (int retry = 1; retry <= MAX_RETRY; retry++)
+                {
+                    COM_RecWM.Flag_Enable_GetData = false;
+                    COM_RecWM.Clear();
+                    ComSend.Clear();
+
+                    string retryLog = retry > 1 ? $" (Thử lại lần {retry}/{MAX_RETRY})" : "";
+                    PrintLog(NULL, 0, $"[Write RTC] Ghi dữ liệu{retryLog}", "SEND");
+
+                    COM_MakeFrameWmWriteRTC(ref ComSend, RTC_Write);
+                    COM_RecWM.Flag_Enable_GetData = true;
+                    COM_SendBuf(COM_WM, ComSend.buf, ComSend.len);
+
+                    bool isResp = await WaitForResponseAsync(5000);
+
+                    if (!isResp || COM_RecWM.len == 0)
+                    {
+                        PrintLog(NULL, 0, $"-> Lần {retry} không nhận được phản hồi Ghi RTC.", "RECV");
+                        continue;
+                    }
+
+                    PrintLog(COM_RecWM.buf, COM_RecWM.len, "Phản hồi Ghi RTC", "RECV");
+
+                    byte[] decryptedWrite = null;
+                    try
+                    {
+                        decryptedWrite = EwmFrameBuilder.ParseDecryptedPayload(COM_RecWM.buf, Get_Header());
+                    }
+                    catch (Exception exParse)
+                    {
+                        PrintLog(NULL, 0, $"-> Lần {retry} giải mã Ghi RTC thất bại: {exParse.Message}", "RECV");
+                        continue;
+                    }
+
+                    if (decryptedWrite == null || decryptedWrite.Length < 6)
+                    {
+                        PrintLog(NULL, 0, $"-> Lần {retry} phản hồi Ghi RTC sai cấu trúc!", "RECV");
+                        continue;
+                    }
+
+                    // Ghi thành công
+                    isWriteSuccess = true;
+                    PrintLog(decryptedWrite, (UInt16)decryptedWrite.Length, "DECRYPTED WRITE OK", "RECV");
+                    PrintLog(NULL, 0, "==> Cài đặt RTC THÀNH CÔNG!", "RECV");
+                    break;
+                }
+
+                if (!isWriteSuccess)
+                {
+                    PrintLog(NULL, 0, $"==> Ghi RTC THẤT BẠI sau {MAX_RETRY} lần thử.", "RECV");
+                }
+            }
+            catch (Exception ex)
+            {
+                PrintLog(NULL, 0, "Lỗi xử lý Write RTC: " + ex.Message, "SEND");
+            }
+            finally
+            {
+                COM_RecWM.Flag_Enable_GetData = false;
+                COM_RecControl.Flag_Enable_GetData = false;
+                COM_Close(COM_WM, COM_WMIsOpen);
+                COM_Control_SendBuf(COM_Control, false);
+                COM_Close(COM_Control, COM_ControlIsOpen);
+                Btn_WriteRtcManual.Enabled = true;
+            }
+        }
+
+        private async void Btn_ReadRtcManual_Click(object sender, EventArgs e)
+        {
+            Btn_ReadRtcManual.Enabled = false;
+
+            if (COM_WM == null || !COM_WM.IsOpen) Open_Com(COM_WM, COM_WMIsOpen, Cbo_ComWM, 9600);
+            if (COM_Control == null || !COM_Control.IsOpen)
+            {
+                Open_Com(COM_Control, COM_ControlIsOpen, Cbo_ComControl, 57600);
+                COM_RecControl.Flag_Enable_GetData = false;
+            }
+
+            const int MAX_RETRY = 3;
+
+            try
+            {
+                COM_Control_SendBuf(COM_Control, true);
+                COM_t ComSend = new COM_t();
+                RTC_DateTime RTC_Read = new RTC_DateTime();
+                bool isReadSuccess = false;
+
+                for (int retry = 1; retry <= MAX_RETRY; retry++)
+                {
+                    COM_RecWM.Flag_Enable_GetData = false;
+                    COM_RecWM.Clear();
+                    ComSend.Clear();
+
+                    string retryLog = retry > 1 ? $" (Thử lại lần {retry}/{MAX_RETRY})" : "";
+                    PrintLog(NULL, 0, $"[Read RTC] Đọc dữ liệu{retryLog}", "SEND");
+
+                    COM_MakeFrameWmReadRTC(ref ComSend);
+                    COM_RecWM.Flag_Enable_GetData = true;
+                    COM_SendBuf(COM_WM, ComSend.buf, ComSend.len);
+
+                    bool isResp = await WaitForResponseAsync(5000);
+
+                    if (!isResp || COM_RecWM.len == 0)
+                    {
+                        PrintLog(NULL, 0, $"-> Lần {retry} không nhận được phản hồi Đọc RTC.", "RECV");
+                        continue;
+                    }
+
+                    PrintLog(COM_RecWM.buf, COM_RecWM.len, "Dữ liệu đệm RTC", "RECV");
+
+                    byte[] decryptedRead = null;
+                    try
+                    {
+                        decryptedRead = EwmFrameBuilder.ParseDecryptedPayload(COM_RecWM.buf, Get_Header());
+                    }
+                    catch (Exception exParse)
+                    {
+                        PrintLog(NULL, 0, $"-> Lần {retry} giải mã thất bại: {exParse.Message}", "RECV");
+                        continue;
+                    }
+
+                    if (decryptedRead == null || decryptedRead.Length < 6)
+                    {
+                        PrintLog(NULL, 0, $"-> Lần {retry} dữ liệu RTC đọc về sai cấu trúc!", "RECV");
+                        continue;
+                    }
+
+                    // Đọc thành công
+                    isReadSuccess = true;
+                    RTC_Read = RTC_DateTime.FromByteArray(decryptedRead, 0);
+
+                    // Format dữ liệu theo Str hoặc Hex và hiển thị lên TextBox
+                    string rtcDisplay = rdo_RtcModeStr.Checked
+                        ? RtcDataConverter.ToStrFormat(RTC_Read)
+                        : RtcDataConverter.ToHexFormat(RTC_Read);
+
+                    Tbox_RtcManual.Text = rtcDisplay;
+                    PrintLog(decryptedRead, (UInt16)decryptedRead.Length, $"DECRYPTED READ OK: {rtcDisplay}", "RECV");
+                    break;
+                }
+
+                if (!isReadSuccess)
+                {
+                    PrintLog(NULL, 0, $"==> Đọc RTC THẤT BẠI sau {MAX_RETRY} lần thử.", "RECV");
+                }
+            }
+            catch (Exception ex)
+            {
+                PrintLog(NULL, 0, "Lỗi xử lý Read RTC: " + ex.Message, "SEND");
+            }
+            finally
+            {
+                COM_RecWM.Flag_Enable_GetData = false;
+                COM_RecControl.Flag_Enable_GetData = false;
+                COM_Close(COM_WM, COM_WMIsOpen);
+                COM_Control_SendBuf(COM_Control, false);
+                COM_Close(COM_Control, COM_ControlIsOpen);
+                Btn_ReadRtcManual.Enabled = true;
+            }
         }
     }
 }
