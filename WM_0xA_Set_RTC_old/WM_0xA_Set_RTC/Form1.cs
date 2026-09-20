@@ -374,7 +374,13 @@ namespace WM_0xA_Set_RTC
         void COM_Control_SendBuf(SerialPort com, bool send)
         {
             byte[] frame_on = { 0x01, 0xA0, 0x02, 0x00, 0x01, 0x5B, 0xC0, 0x03 };
-            byte[] frame_off = { 0x01, 0xA0, 0x02, 0x00, 0x00, 0x9A, 0x00, 0x03 };
+            //byte[] frame_off = { 0x01, 0xA0, 0x02, 0x00, 0x00, 0x9A, 0x00, 0x03 };
+            byte[] frame_off =     { 0x01, 0xA0, 0x02, 0x00, 0x00, 0xFF, 0xFF, 0x03 };
+
+            UInt16 crc16 = EwmFrameBuilder.Crc16Cal(frame_off, 0, (UInt16)(frame_off.Length - 3));
+
+            frame_off[5] = (byte)(crc16 & 0xFF);         // CRC16 Low byte
+            frame_off[6] = (byte)((crc16 >> 8) & 0xFF);  // CRC16 High byte
             if (true == send)
             {
                 PrintLog(NULL, 0, "TURN ON MAGNET", "SEND");

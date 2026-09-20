@@ -319,11 +319,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Firmware_TNT\\6_DA_2026\\BoardTest\\WM_0xA_Set_RTC\\WM_0xA_Set_RTC\\WM_0xA_Set_RTC.csproj",
+      "projectUniqueName": "D:\\1_Project\\BoardTest\\WM_0xA_Set_RTC_old\\WM_0xA_Set_RTC\\WM_0xA_Set_RTC.csproj",
       "projectName": "WM_0xA_Set_RTC",
-      "projectPath": "D:\\Firmware_TNT\\6_DA_2026\\BoardTest\\WM_0xA_Set_RTC\\WM_0xA_Set_RTC\\WM_0xA_Set_RTC.csproj",
+      "projectPath": "D:\\1_Project\\BoardTest\\WM_0xA_Set_RTC_old\\WM_0xA_Set_RTC\\WM_0xA_Set_RTC.csproj",
       "packagesPath": "C:\\Users\\Tran Nhu Tao\\.nuget\\packages\\",
-      "outputPath": "D:\\Firmware_TNT\\6_DA_2026\\BoardTest\\WM_0xA_Set_RTC\\WM_0xA_Set_RTC\\obj\\",
+      "outputPath": "D:\\1_Project\\BoardTest\\WM_0xA_Set_RTC_old\\WM_0xA_Set_RTC\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Tran Nhu Tao\\AppData\\Roaming\\NuGet\\NuGet.Config",
