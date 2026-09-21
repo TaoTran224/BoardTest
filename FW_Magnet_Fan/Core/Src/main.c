@@ -22,7 +22,7 @@
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
-
+uint16_t LED_Blink = 0;
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -89,28 +89,65 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_IWDG_Init();
+  //MX_IWDG_Init();
   MX_TIM1_Init();
   MX_TIM2_Init();
-  MX_TIM3_Init();
-  MX_TIM4_Init();
-  MX_USART1_UART_Init();
+  //MX_TIM3_Init();
+  //MX_TIM4_Init();
+  //MX_USART1_UART_Init();
   MX_USART2_UART_Init();
-  MX_USART3_UART_Init();
+  //MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
-
+	__enable_irq();
+	HAL_TIM_Base_Start_IT(&htim1);
   /* USER CODE END 2 */
-
+  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
+  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  HAL_UART_Transmit(&huart2, (uint8_t *)"Hello World!\r\n", 14, 100);
   while (1)
   {
     /* USER CODE END WHILE */
-
+  __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, 500);
+  __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, 500);
+  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
+  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
+  HAL_Delay(1000);
+  HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_1);
+  HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_2);
+  HAL_Delay(2000);
+  __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, 300);
+  __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, 300);
+  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
+  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
+  HAL_Delay(1000);
+  HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_1);
+  HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_2);
+  HAL_Delay(2000);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
 }
+
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
+{
+	if (htim->Instance == htim1.Instance) //1ms
+	{
+        if (900 <= (LED_Blink++))
+        {
+            HAL_GPIO_WritePin(LED_RUN_GPIO_Port, LED_RUN_Pin, GPIO_PIN_RESET);
+		}
+        if (1000 <= LED_Blink)
+        {
+			HAL_GPIO_WritePin(LED_RUN_GPIO_Port, LED_RUN_Pin, GPIO_PIN_SET);
+            LED_Blink = 0;
+        }
+
+	}
+
+}
+
 
 /**
   * @brief System Clock Configuration

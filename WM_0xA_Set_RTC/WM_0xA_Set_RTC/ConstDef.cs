@@ -2,6 +2,7 @@
 
 namespace WinFormsApp1
 {
+
     public static class typeCmd
     {
         public const byte NbPushInfo = 1;  // Nb Push info

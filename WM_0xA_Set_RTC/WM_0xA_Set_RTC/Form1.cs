@@ -303,24 +303,84 @@ namespace WM_0xA_Set_RTC
 
         void MakeFrame(ref COM_t ComSend, string header, byte typePay, byte paramID, byte[] payload)
         {
-           
+            List<ParameterData> parameters = new List<ParameterData>();
+
+            parameters.Add(new ParameterData
+            {
+                ParamId = typePay,
+                Data = payload
+            });
+            byte[] payload1 = EwmFrameBuilder.BuildOptSetPayload(parameters);
+            EwmFrameBuilder builder = new EwmFrameBuilder
+            {
+                TypePack = paramID,
+                Payload = payload1
+            };
+            builder.HEADER = header;
+            byte[] frame = builder.BuildFrame(builder.HEADER);
+            ComSend.buf = frame;
+            ComSend.len = (byte)frame.Length;
         }
         void COM_MakeFrameWmReadRTC(ref COM_t ComSend)
         {
-            
-            //PrintLog(payload3, (ushort)payload3.Length, "PAYLOAD", "SEND");
+            List<byte> paramIds3 = new List<byte>
+            {
+                1
+            };
+            byte[] payload3 = EwmFrameBuilder.BuildOptReadPayload(paramIds3);
+            EwmFrameBuilder builder3 = new EwmFrameBuilder
+            {
+                TypePack = 6,
+                Payload = payload3
+            };
+
+            builder3.HEADER = Get_Header();
+            byte[] frameReadRTC = builder3.BuildFrame(builder3.HEADER);
+            ComSend.buf = frameReadRTC;
+            ComSend.len = (byte)frameReadRTC.Length;
+            PrintLog(payload3, (ushort)payload3.Length, "PAYLOAD", "SEND");
         }
 
         void COM_MakeFrameWmWriteRTC(ref COM_t ComSend, RTC_DateTime rtc)
         {
-            
-            //PrintLog(payload3, (ushort)payload3.Length, "PAYLOAD", "SEND");
+            List<ParameterData> parameters3 = new List<ParameterData>();
+            byte[] timeData = new byte[]
+            {
+                        (byte)(rtc.Year % 100),
+                        (byte)rtc.Month,
+                        (byte)rtc.Day,
+                        (byte)rtc.Hour,
+                        (byte)rtc.Minute,
+                        (byte)rtc.Second
+            };
+            parameters3.Add(new ParameterData
+            {
+                ParamId = 1,
+                Data = timeData
+            });
+            byte[] payload3 = EwmFrameBuilder.BuildOptSetPayload(parameters3);
+            EwmFrameBuilder builder3 = new EwmFrameBuilder
+            {
+                TypePack = 5,
+                Payload = payload3
+            };
+            builder3.HEADER = Get_Header();
+            byte[] frameSeRTC = builder3.BuildFrame(builder3.HEADER);
+            ComSend.buf = frameSeRTC;
+            ComSend.len = (byte)frameSeRTC.Length;
+            PrintLog(payload3, (ushort)payload3.Length, "PAYLOAD", "SEND");
         }
 
-        private async void COM_Control_SendBuf(SerialPort com, bool send)
+        void COM_Control_SendBuf(SerialPort com, bool send)
         {
             byte[] frame_on = { 0x01, 0xA0, 0x02, 0x00, 0x01, 0x5B, 0xC0, 0x03 };
-            byte[] frame_off = { 0x01, 0xA0, 0x02, 0x00, 0x00, 0x9A, 0x00, 0x03 };
+            //byte[] frame_off = { 0x01, 0xA0, 0x02, 0x00, 0x00, 0x9A, 0x00, 0x03 };
+            byte[] frame_off =     { 0x01, 0xA0, 0x02, 0x00, 0x00, 0xFF, 0xFF, 0x03 };
+
+            UInt16 crc16 = EwmFrameBuilder.Crc16Cal(frame_off, 0, (UInt16)(frame_off.Length - 3));
+
+            frame_off[5] = (byte)(crc16 & 0xFF);         // CRC16 Low byte
+            frame_off[6] = (byte)((crc16 >> 8) & 0xFF);  // CRC16 High byte
             if (true == send)
             {
                 PrintLog(NULL, 0, "TURN ON MAGNET", "SEND");
@@ -331,52 +391,52 @@ namespace WM_0xA_Set_RTC
                 PrintLog(NULL, 0, "TURN OFF MAGNET", "SEND");
                 COM_SendBuf(com, frame_off, (UInt16)frame_off.Length);
             }
-            await SmartDelaySecAsync(2);
+            SmartDelaySec(2);
         }
 
         private async Task<bool> WaitForResponseAsync(int timeoutMs = 5000)
         {
-            var totalSw = System.Diagnostics.Stopwatch.StartNew();
-            var quietSw = new System.Diagnostics.Stopwatch();
+            int elapsed = 0;
 
-            int lastLen = -1;
-            const int CHECK_INTERVAL = 15;        // Kiểm tra mỗi ~15ms (chu kỳ tối ưu của Windows Timer)
-            const int INTER_BYTE_TIMEOUT_MS = 300; // Ngắt frame khi bộ đệm đứng yên 300ms
+            // BẮT BUỘC: Reset biến đếm timeout về 0 mỗi khi bắt đầu chờ frame mới
+            COM_RecWM.timeout = 0;
 
-            while (totalSw.ElapsedMilliseconds < timeoutMs)
+            while (elapsed < timeoutMs)
             {
-                await Task.Delay(CHECK_INTERVAL);
-
-                // Đọc độ dài đệm hiện tại
-                int currentLen = COM_RecWM.len;
-
-                if (COM_RecWM.Flag_Enable_GetData && currentLen > 0)
+                // Điều kiện chuẩn: Cờ bật + Có ít nhất 1 byte dữ liệu + Đã ngắt xong frame (timeout >= 3)
+                if (COM_RecWM.Flag_Enable_GetData && COM_RecWM.len > 0 && COM_RecWM.timeout >= 3)
                 {
-                    // Trường hợp 1: Mới nhận thêm byte mới -> Reset lại thời gian tĩnh
-                    if (currentLen != lastLen)
-                    {
-                        lastLen = currentLen;
-                        quietSw.Restart();
-                    }
-                    // Trường hợp 2: Đã ngừng tăng byte và đủ thời gian khoảng tĩnh 300ms -> Chốt frame
-                    else if (quietSw.ElapsedMilliseconds >= INTER_BYTE_TIMEOUT_MS)
-                    {
-                        return true;
-                    }
+                    return true; // Đã nhận đủ dữ liệu thực tế
                 }
+
+                // Chỉ tăng timeout nếu đã bắt đầu nhận dữ liệu (tránh tăng khống khi đang chờ byte đầu tiên)
+                if (COM_RecWM.len > 0)
+                {
+                    COM_RecWM.timeout++;
+                }
+
+                await Task.Delay(100);
+                elapsed += 100;
             }
 
-            return false; // Hết timeoutMs tổng (5000ms) mà không nhận đủ dữ liệu
+            return false; // Hết 5000ms mà không nhận được dữ liệu hợp lệ
         }
 
-        private async Task SmartDelaySecAsync(int seconds)
+        private void SmartDelaySec(int seconds)
         {
-            await Task.Delay(seconds * 1000);
+            long totalWaitMs = (long)(seconds * 1000);
+            long endTick = Environment.TickCount64 + totalWaitMs;
+
+            while (Environment.TickCount64 < endTick)
+            {
+                // Chỉ định rõ WinForms Application
+                System.Windows.Forms.Application.DoEvents();
+                Thread.Sleep(50);
+            }
         }
 
         private async void Btn_Set_RTC_Click(object sender, EventArgs e)
         {
-
             Btn_SetRTC.Enabled = false;
             if (COM_WM == null || !COM_WM.IsOpen)
             {
@@ -432,7 +492,7 @@ namespace WM_0xA_Set_RTC
                         byte[] decryptedRead = null;
                         try
                         {
-                            //decryptedRead = EwmFrameBuilder.ParseDecryptedPayload(COM_RecWM.buf, Get_Header());
+                            decryptedRead = EwmFrameBuilder.ParseDecryptedPayload(COM_RecWM.buf, Get_Header());
                         }
                         catch (Exception exParse)
                         {
@@ -460,7 +520,7 @@ namespace WM_0xA_Set_RTC
 
                         if (j < (times - 1))
                         {
-                            await SmartDelaySecAsync(int.Parse(Txt_RtcWaitSec.Text));
+                            SmartDelaySec(int.Parse(Txt_RtcWaitSec.Text));
                         }
                         continue;
                     }
@@ -500,7 +560,7 @@ namespace WM_0xA_Set_RTC
                         byte[] decryptedWrite = null;
                         try
                         {
-                            //decryptedWrite = EwmFrameBuilder.ParseDecryptedPayload(COM_RecWM.buf, Get_Header());
+                            decryptedWrite = EwmFrameBuilder.ParseDecryptedPayload(COM_RecWM.buf, Get_Header());
                         }
                         catch (Exception exParse)
                         {
@@ -531,7 +591,7 @@ namespace WM_0xA_Set_RTC
 
                     if (j < (times - 1))
                     {
-                        await SmartDelaySecAsync(int.Parse(Txt_RtcWaitSec.Text));
+                        SmartDelaySec(int.Parse(Txt_RtcWaitSec.Text));
                     }
                 }
 
@@ -556,30 +616,37 @@ namespace WM_0xA_Set_RTC
             Cbo_TypeMeter.Text = "WM-02A";
         }
 
-        void Com_GetData(SerialPort com, ref COM_t COM_Rec)
+        void Com_GetData(SerialPort com, COM_t COM_Rec)
         {
             if (true == COM_Rec.Flag_Enable_GetData)
             {
+                COM_Rec.timeout++;
+
                 byte countByte = (byte)com.BytesToRead;
-                if (countByte == 0) return;
+                byte[] Rec = new byte[countByte];
+                com.Read(Rec, 0, countByte);
                 if (COM_MAX_LEN >= (COM_Rec.len + countByte))
                 {
-                    com.Read(COM_Rec.buf, COM_Rec.len, countByte);
+                    for (int i = 0; i < countByte; i++)
+                    {
+                        COM_Rec.buf[COM_Rec.len + i] = Rec[i];
+                    }
                     COM_Rec.len += countByte;
                 }
                 else
                 {
+                    Array.Clear(COM_Rec.buf, 0, COM_Rec.len);
                     COM_Rec.len = 0;
-                    com.DiscardInBuffer();
                 }
                 COM_Rec.timeout = 0;
+                COM_Rec.Flag_Enable_GetData = true;
             }
         }
 
         private void COM_Port_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
 
-            Com_GetData(COM_WM, ref COM_RecWM);
+            Com_GetData(COM_WM, COM_RecWM);
 
         }
 
@@ -610,7 +677,7 @@ namespace WM_0xA_Set_RTC
 
         }
 
-        private async void Btn_Magnet_Click(object sender, EventArgs e)
+        private void Btn_Magnet_Click(object sender, EventArgs e)
         {
             Btn_Magnet.Enabled = false;
             int times = Txt_MagnetTimes.Text == "" ? 1 : int.Parse(Txt_MagnetTimes.Text);
@@ -623,10 +690,10 @@ namespace WM_0xA_Set_RTC
             {
                 PrintLog(NULL, 0, "TURN ON MAGNET lần " + (j + 1).ToString(), "SEND");
                 COM_Control_SendBuf(COM_Control, true);
-                await SmartDelaySecAsync(int.Parse(Txt_MagnetTimeOn.Text));
+                SmartDelaySec(int.Parse(Txt_MagnetTimeOn.Text));
                 PrintLog(NULL, 0, "TURN OFF MAGNET lần " + (j + 1).ToString(), "SEND");
                 COM_Control_SendBuf(COM_Control, false);
-                await SmartDelaySecAsync(int.Parse(Txt_MagnetTimeOff.Text));
+                SmartDelaySec(int.Parse(Txt_MagnetTimeOff.Text));
             }
             COM_Close(COM_Control, COM_ControlIsOpen);
             COM_RecControl.Flag_Enable_GetData = false;
@@ -769,7 +836,7 @@ namespace WM_0xA_Set_RTC
                     byte[] decryptedWrite = null;
                     try
                     {
-                        //decryptedWrite = EwmFrameBuilder.ParseDecryptedPayload(COM_RecWM.buf, Get_Header());
+                        decryptedWrite = EwmFrameBuilder.ParseDecryptedPayload(COM_RecWM.buf, Get_Header());
                     }
                     catch (Exception exParse)
                     {
@@ -813,7 +880,6 @@ namespace WM_0xA_Set_RTC
         private async void Btn_ReadRtcManual_Click(object sender, EventArgs e)
         {
             Btn_ReadRtcManual.Enabled = false;
-            //clsAES128.aes_128_en(Payload);
 
             if (COM_WM == null || !COM_WM.IsOpen) Open_Com(COM_WM, COM_WMIsOpen, Cbo_ComWM, 9600);
             if (COM_Control == null || !COM_Control.IsOpen)
@@ -857,7 +923,7 @@ namespace WM_0xA_Set_RTC
                     byte[] decryptedRead = null;
                     try
                     {
-                        //decryptedRead = EwmFrameBuilder.ParseDecryptedPayload(COM_RecWM.buf, Get_Header());
+                        decryptedRead = EwmFrameBuilder.ParseDecryptedPayload(COM_RecWM.buf, Get_Header());
                     }
                     catch (Exception exParse)
                     {
