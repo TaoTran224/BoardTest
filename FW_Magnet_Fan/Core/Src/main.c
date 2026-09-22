@@ -80,11 +80,10 @@ int main(void)
 
 
   RS485_CH2_Process();
-
-  HAL_GPIO_WritePin(OUT0_GPIO_Port, GPIO_PIN_1, GPIO_PIN_RESET);
-  HAL_Delay(1000);
-  HAL_GPIO_WritePin(OUT0_GPIO_Port, GPIO_PIN_1, GPIO_PIN_SET);
-  HAL_Delay(1000);
+    if (true == Motor.bFlagCalTime)
+    {
+        MotorCalRandom();
+    }
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */

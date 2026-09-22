@@ -371,11 +371,11 @@ namespace WM_0xA_Set_RTC
             PrintLog(payload3, (ushort)payload3.Length, "PAYLOAD", "SEND");
         }
 
-        void COM_Control_SendBuf(SerialPort com, bool send)
+        void COM_ControlMagnet(SerialPort com, bool send)
         {
             byte[] frame_on = { 0x01, 0xA0, 0x02, 0x00, 0x01, 0x5B, 0xC0, 0x03 };
             //byte[] frame_off = { 0x01, 0xA0, 0x02, 0x00, 0x00, 0x9A, 0x00, 0x03 };
-            byte[] frame_off =     { 0x01, 0xA0, 0x02, 0x00, 0x00, 0xFF, 0xFF, 0x03 };
+            byte[] frame_off = { 0x01, 0xA0, 0x02, 0x00, 0x00, 0xFF, 0xFF, 0x03 };
 
             UInt16 crc16 = EwmFrameBuilder.Crc16Cal(frame_off, 0, (UInt16)(frame_off.Length - 3));
 
@@ -456,7 +456,7 @@ namespace WM_0xA_Set_RTC
             {
                 for (int j = 0; j < times; j++)
                 {
-                    COM_Control_SendBuf(COM_Control, true);
+                    COM_ControlMagnet(COM_Control, true);
                     COM_t ComSend = new COM_t();
                     RTC_DateTime RTC_Read = new RTC_DateTime();
 
@@ -516,7 +516,7 @@ namespace WM_0xA_Set_RTC
                     if (!isReadSuccess)
                     {
                         PrintLog(NULL, 0, $"==> Bỏ qua bước Ghi do Đọc RTC lần {j + 1} THẤT BẠI sau {MAX_RETRY} lần thử.", "RECV");
-                        COM_Control_SendBuf(COM_Control, false);
+                        COM_ControlMagnet(COM_Control, false);
 
                         if (j < (times - 1))
                         {
@@ -587,7 +587,7 @@ namespace WM_0xA_Set_RTC
                         PrintLog(NULL, 0, $"==> Ghi RTC lần {j + 1} THẤT BẠI sau {MAX_RETRY} lần thử.", "RECV");
                     }
 
-                    COM_Control_SendBuf(COM_Control, false);
+                    COM_ControlMagnet(COM_Control, false);
 
                     if (j < (times - 1))
                     {
@@ -606,7 +606,7 @@ namespace WM_0xA_Set_RTC
                 COM_RecWM.Flag_Enable_GetData = false;
                 COM_RecControl.Flag_Enable_GetData = false;
                 COM_Close(COM_WM, COM_WMIsOpen);
-                COM_Control_SendBuf(COM_Control, false);
+                COM_ControlMagnet(COM_Control, false);
                 COM_Close(COM_Control, COM_ControlIsOpen);
                 Btn_SetRTC.Enabled = true;
             }
@@ -689,10 +689,10 @@ namespace WM_0xA_Set_RTC
             for (int j = 0; j < times; j++)
             {
                 PrintLog(NULL, 0, "TURN ON MAGNET lần " + (j + 1).ToString(), "SEND");
-                COM_Control_SendBuf(COM_Control, true);
+                COM_ControlMagnet(COM_Control, true);
                 SmartDelaySec(int.Parse(Txt_MagnetTimeOn.Text));
                 PrintLog(NULL, 0, "TURN OFF MAGNET lần " + (j + 1).ToString(), "SEND");
-                COM_Control_SendBuf(COM_Control, false);
+                COM_ControlMagnet(COM_Control, false);
                 SmartDelaySec(int.Parse(Txt_MagnetTimeOff.Text));
             }
             COM_Close(COM_Control, COM_ControlIsOpen);
@@ -710,7 +710,7 @@ namespace WM_0xA_Set_RTC
                 Open_Com(COM_Control, COM_ControlIsOpen, Cbo_ComControl, 57600);
                 COM_RecControl.Flag_Enable_GetData = false;
             }
-            COM_Control_SendBuf(COM_Control, true);
+            COM_ControlMagnet(COM_Control, true);
             COM_Close(COM_Control, COM_ControlIsOpen);
             COM_RecControl.Flag_Enable_GetData = false;
             Btn_MagnetOn.Enabled = true;
@@ -725,7 +725,7 @@ namespace WM_0xA_Set_RTC
                 Open_Com(COM_Control, COM_ControlIsOpen, Cbo_ComControl, 57600);
                 COM_RecControl.Flag_Enable_GetData = false;
             }
-            COM_Control_SendBuf(COM_Control, false);
+            COM_ControlMagnet(COM_Control, false);
             COM_Close(COM_Control, COM_ControlIsOpen);
             COM_RecControl.Flag_Enable_GetData = false;
             Btn_MagnetOff.Enabled = true;
@@ -806,7 +806,7 @@ namespace WM_0xA_Set_RTC
 
             try
             {
-                COM_Control_SendBuf(COM_Control, true);
+                COM_ControlMagnet(COM_Control, true);
                 COM_t ComSend = new COM_t();
                 bool isWriteSuccess = false;
 
@@ -871,7 +871,7 @@ namespace WM_0xA_Set_RTC
                 COM_RecWM.Flag_Enable_GetData = false;
                 COM_RecControl.Flag_Enable_GetData = false;
                 COM_Close(COM_WM, COM_WMIsOpen);
-                COM_Control_SendBuf(COM_Control, false);
+                COM_ControlMagnet(COM_Control, false);
                 COM_Close(COM_Control, COM_ControlIsOpen);
                 Btn_WriteRtcManual.Enabled = true;
             }
@@ -892,7 +892,7 @@ namespace WM_0xA_Set_RTC
 
             try
             {
-                COM_Control_SendBuf(COM_Control, true);
+                COM_ControlMagnet(COM_Control, true);
                 COM_t ComSend = new COM_t();
                 RTC_DateTime RTC_Read = new RTC_DateTime();
                 bool isReadSuccess = false;
@@ -965,10 +965,42 @@ namespace WM_0xA_Set_RTC
                 COM_RecWM.Flag_Enable_GetData = false;
                 COM_RecControl.Flag_Enable_GetData = false;
                 COM_Close(COM_WM, COM_WMIsOpen);
-                COM_Control_SendBuf(COM_Control, false);
+                COM_ControlMagnet(COM_Control, false);
                 COM_Close(COM_Control, COM_ControlIsOpen);
                 Btn_ReadRtcManual.Enabled = true;
             }
+        }
+
+
+        void COM_ControlFanSpeed(SerialPort com, int speed)
+        {
+            byte[] frame = { 0x01, 0xA1, 0x02, 0x00, 0x00, 0xFF, 0xFF, 0x03 };
+            //byte[] frame_off = { 0x01, 0xA0, 0x02, 0x00, 0x00, 0x9A, 0x00, 0x03 };
+            frame[4] = (byte)speed;
+            if (100 < speed)
+            {
+                frame[4] = 101;
+            }
+            UInt16 crc16 = EwmFrameBuilder.Crc16Cal(frame, 0, (UInt16)(frame.Length - 3));
+            frame[5] = (byte)(crc16 & 0xFF);         // CRC16 Low byte
+            frame[6] = (byte)((crc16 >> 8) & 0xFF);  // CRC16 High byte
+            COM_SendBuf(com, frame, (UInt16)frame.Length);
+            SmartDelaySec(2);
+        }
+
+        private void Btn_FanControl_Click(object sender, EventArgs e)
+        {
+            Btn_FanControl.Enabled = false;
+            int speed = int.Parse(Txt_FanSpeed.Text);
+            if (COM_Control == null || !COM_Control.IsOpen)
+            {
+                Open_Com(COM_Control, COM_ControlIsOpen, Cbo_ComControl, 57600);
+                COM_RecControl.Flag_Enable_GetData = false;
+            }
+            COM_ControlFanSpeed(COM_Control, speed);
+            COM_Close(COM_Control, COM_ControlIsOpen);
+            COM_RecControl.Flag_Enable_GetData = false;
+            Btn_FanControl.Enabled = true;
         }
     }
 }

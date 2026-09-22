@@ -36,9 +36,9 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
             OutputDisplay();
         }
         Speed_Random++;
-        //MotorRandom();
-        //MagnetRun();
-        //MotorRun();
+        MotorRandom();
+        MagnetRun();
+        MotorRun();
     }
 	else if (htim->Instance == htim2.Instance) // 10ms
 	{

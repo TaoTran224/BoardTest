@@ -69,15 +69,15 @@
             backgroundWorker2 = new System.ComponentModel.BackgroundWorker();
             groupBox2 = new GroupBox();
             Btn_FanControl = new Button();
-            textBox1 = new TextBox();
+            Txt_FanSpeed = new TextBox();
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
+            groupBox3 = new GroupBox();
+            Btn_AutoResetStart = new Button();
+            label6 = new Label();
+            Tbox_AutoResetSecond = new TextBox();
             tabPage2 = new TabPage();
             tabPage3 = new TabPage();
-            groupBox3 = new GroupBox();
-            Tbox_AutoResetSecond = new TextBox();
-            label6 = new Label();
-            Btn_AutoResetStart = new Button();
             panel1.SuspendLayout();
             groupBox1.SuspendLayout();
             Mode.SuspendLayout();
@@ -85,8 +85,8 @@
             groupBox2.SuspendLayout();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
-            tabPage2.SuspendLayout();
             groupBox3.SuspendLayout();
+            tabPage2.SuspendLayout();
             SuspendLayout();
             // 
             // Btn_SetRTC
@@ -489,7 +489,7 @@
             // 
             groupBox2.BackColor = SystemColors.ActiveCaption;
             groupBox2.Controls.Add(Btn_FanControl);
-            groupBox2.Controls.Add(textBox1);
+            groupBox2.Controls.Add(Txt_FanSpeed);
             groupBox2.Font = new Font("Arial Narrow", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             groupBox2.Location = new Point(527, 205);
             groupBox2.Name = "groupBox2";
@@ -507,15 +507,16 @@
             Btn_FanControl.TabIndex = 20;
             Btn_FanControl.Text = "Speed";
             Btn_FanControl.UseVisualStyleBackColor = true;
+            Btn_FanControl.Click += Btn_FanControl_Click;
             // 
-            // textBox1
+            // Txt_FanSpeed
             // 
-            textBox1.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox1.Location = new Point(119, 30);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(55, 26);
-            textBox1.TabIndex = 23;
-            textBox1.Text = "35";
+            Txt_FanSpeed.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            Txt_FanSpeed.Location = new Point(119, 30);
+            Txt_FanSpeed.Name = "Txt_FanSpeed";
+            Txt_FanSpeed.Size = new Size(55, 26);
+            Txt_FanSpeed.TabIndex = 23;
+            Txt_FanSpeed.Text = "35";
             // 
             // tabControl1
             // 
@@ -544,27 +545,6 @@
             tabPage1.Text = "Read/Write";
             tabPage1.UseVisualStyleBackColor = true;
             // 
-            // tabPage2
-            // 
-            tabPage2.Controls.Add(Btn_RunAuto);
-            tabPage2.Location = new Point(4, 29);
-            tabPage2.Name = "tabPage2";
-            tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(999, 367);
-            tabPage2.TabIndex = 1;
-            tabPage2.Text = "tabPage2";
-            tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // tabPage3
-            // 
-            tabPage3.Location = new Point(4, 29);
-            tabPage3.Name = "tabPage3";
-            tabPage3.Padding = new Padding(3);
-            tabPage3.Size = new Size(999, 367);
-            tabPage3.TabIndex = 2;
-            tabPage3.Text = "tabPage3";
-            tabPage3.UseVisualStyleBackColor = true;
-            // 
             // groupBox3
             // 
             groupBox3.BackColor = SystemColors.ActiveCaption;
@@ -579,14 +559,15 @@
             groupBox3.TabStop = false;
             groupBox3.Text = "Auto write reset";
             // 
-            // Tbox_AutoResetSecond
+            // Btn_AutoResetStart
             // 
-            Tbox_AutoResetSecond.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            Tbox_AutoResetSecond.Location = new Point(98, 32);
-            Tbox_AutoResetSecond.Name = "Tbox_AutoResetSecond";
-            Tbox_AutoResetSecond.Size = new Size(88, 26);
-            Tbox_AutoResetSecond.TabIndex = 24;
-            Tbox_AutoResetSecond.Text = "35";
+            Btn_AutoResetStart.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            Btn_AutoResetStart.Location = new Point(21, 71);
+            Btn_AutoResetStart.Name = "Btn_AutoResetStart";
+            Btn_AutoResetStart.Size = new Size(110, 31);
+            Btn_AutoResetStart.TabIndex = 26;
+            Btn_AutoResetStart.Text = "Auto Reset";
+            Btn_AutoResetStart.UseVisualStyleBackColor = true;
             // 
             // label6
             // 
@@ -598,15 +579,35 @@
             label6.TabIndex = 25;
             label6.Text = "Seconds";
             // 
-            // Btn_AutoResetStart
+            // Tbox_AutoResetSecond
             // 
-            Btn_AutoResetStart.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            Btn_AutoResetStart.Location = new Point(21, 71);
-            Btn_AutoResetStart.Name = "Btn_AutoResetStart";
-            Btn_AutoResetStart.Size = new Size(110, 31);
-            Btn_AutoResetStart.TabIndex = 26;
-            Btn_AutoResetStart.Text = "Auto Reset";
-            Btn_AutoResetStart.UseVisualStyleBackColor = true;
+            Tbox_AutoResetSecond.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            Tbox_AutoResetSecond.Location = new Point(98, 32);
+            Tbox_AutoResetSecond.Name = "Tbox_AutoResetSecond";
+            Tbox_AutoResetSecond.Size = new Size(88, 26);
+            Tbox_AutoResetSecond.TabIndex = 24;
+            Tbox_AutoResetSecond.Text = "35";
+            // 
+            // tabPage2
+            // 
+            tabPage2.Controls.Add(Btn_RunAuto);
+            tabPage2.Location = new Point(4, 29);
+            tabPage2.Name = "tabPage2";
+            tabPage2.Padding = new Padding(3);
+            tabPage2.Size = new Size(999, 519);
+            tabPage2.TabIndex = 1;
+            tabPage2.Text = "tabPage2";
+            tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // tabPage3
+            // 
+            tabPage3.Location = new Point(4, 29);
+            tabPage3.Name = "tabPage3";
+            tabPage3.Padding = new Padding(3);
+            tabPage3.Size = new Size(999, 519);
+            tabPage3.TabIndex = 2;
+            tabPage3.Text = "tabPage3";
+            tabPage3.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -630,9 +631,9 @@
             groupBox2.PerformLayout();
             tabControl1.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
-            tabPage2.ResumeLayout(false);
             groupBox3.ResumeLayout(false);
             groupBox3.PerformLayout();
+            tabPage2.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -655,7 +656,7 @@
         private Label lable44;
         private Label label3;
         private TextBox Txt_RtcWaitSec;
-        private TextBox textBox1;
+        private TextBox Txt_FanSpeed;
         private Label label111;
         private TextBox Txt_NumRecords;
         private Button Btn_Magnet;

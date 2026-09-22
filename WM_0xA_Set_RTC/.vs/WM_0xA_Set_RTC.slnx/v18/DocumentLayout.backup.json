@@ -1,42 +1,39 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\1_Project\\BoardTest\\WM_0xA_Set_RTC_old\\",
+  "WorkspaceRootPath": "D:\\1_Project\\BoardTest\\WM_0xA_Set_RTC\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{21BCDB9E-ADD8-6CCD-BE0C-24144A8F73CE}|WM_0xA_Set_RTC\\WM_0xA_Set_RTC.csproj|D:\\1_Project\\BoardTest\\WM_0xA_Set_RTC_old\\wm_0xa_set_rtc\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{21BCDB9E-ADD8-6CCD-BE0C-24144A8F73CE}|WM_0xA_Set_RTC\\WM_0xA_Set_RTC.csproj|solutionrelative:wm_0xa_set_rtc\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{21BCDB9E-ADD8-6CCD-BE0C-24144A8F73CE}|WM_0xA_Set_RTC\\WM_0xA_Set_RTC.csproj|d:\\1_project\\boardtest\\wm_0xa_set_rtc_old\\wm_0xa_set_rtc\\ewmframebuilder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{21BCDB9E-ADD8-6CCD-BE0C-24144A8F73CE}|WM_0xA_Set_RTC\\WM_0xA_Set_RTC.csproj|solutionrelative:wm_0xa_set_rtc\\ewmframebuilder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{21BCDB9E-ADD8-6CCD-BE0C-24144A8F73CE}|WM_0xA_Set_RTC\\WM_0xA_Set_RTC.csproj|d:\\1_project\\boardtest\\wm_0xa_set_rtc_old\\wm_0xa_set_rtc\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{21BCDB9E-ADD8-6CCD-BE0C-24144A8F73CE}|WM_0xA_Set_RTC\\WM_0xA_Set_RTC.csproj|d:\\1_project\\boardtest\\wm_0xa_set_rtc\\wm_0xa_set_rtc\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{21BCDB9E-ADD8-6CCD-BE0C-24144A8F73CE}|WM_0xA_Set_RTC\\WM_0xA_Set_RTC.csproj|solutionrelative:wm_0xa_set_rtc\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{21BCDB9E-ADD8-6CCD-BE0C-24144A8F73CE}|WM_0xA_Set_RTC\\WM_0xA_Set_RTC.csproj|d:\\1_project\\boardtest\\wm_0xa_set_rtc_old\\wm_0xa_set_rtc\\constdef.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{21BCDB9E-ADD8-6CCD-BE0C-24144A8F73CE}|WM_0xA_Set_RTC\\WM_0xA_Set_RTC.csproj|D:\\1_Project\\BoardTest\\WM_0xA_Set_RTC\\wm_0xa_set_rtc\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{21BCDB9E-ADD8-6CCD-BE0C-24144A8F73CE}|WM_0xA_Set_RTC\\WM_0xA_Set_RTC.csproj|solutionrelative:wm_0xa_set_rtc\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{21BCDB9E-ADD8-6CCD-BE0C-24144A8F73CE}|WM_0xA_Set_RTC\\WM_0xA_Set_RTC.csproj|d:\\1_project\\boardtest\\wm_0xa_set_rtc\\wm_0xa_set_rtc\\constdef.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{21BCDB9E-ADD8-6CCD-BE0C-24144A8F73CE}|WM_0xA_Set_RTC\\WM_0xA_Set_RTC.csproj|solutionrelative:wm_0xa_set_rtc\\constdef.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{21BCDB9E-ADD8-6CCD-BE0C-24144A8F73CE}|WM_0xA_Set_RTC\\WM_0xA_Set_RTC.csproj|d:\\1_project\\boardtest\\wm_0xa_set_rtc_old\\wm_0xa_set_rtc\\clsencrypt.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{21BCDB9E-ADD8-6CCD-BE0C-24144A8F73CE}|WM_0xA_Set_RTC\\WM_0xA_Set_RTC.csproj|solutionrelative:wm_0xa_set_rtc\\clsencrypt.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{21BCDB9E-ADD8-6CCD-BE0C-24144A8F73CE}|WM_0xA_Set_RTC\\WM_0xA_Set_RTC.csproj|d:\\1_project\\boardtest\\wm_0xa_set_rtc_old\\wm_0xa_set_rtc\\form1.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{21BCDB9E-ADD8-6CCD-BE0C-24144A8F73CE}|WM_0xA_Set_RTC\\WM_0xA_Set_RTC.csproj|d:\\1_project\\boardtest\\wm_0xa_set_rtc\\wm_0xa_set_rtc\\form1.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{21BCDB9E-ADD8-6CCD-BE0C-24144A8F73CE}|WM_0xA_Set_RTC\\WM_0xA_Set_RTC.csproj|solutionrelative:wm_0xa_set_rtc\\form1.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{21BCDB9E-ADD8-6CCD-BE0C-24144A8F73CE}|WM_0xA_Set_RTC\\WM_0xA_Set_RTC.csproj|d:\\1_project\\boardtest\\wm_0xa_set_rtc_old\\wm_0xa_set_rtc\\form1.resx||{81828910-B8B3-4D2B-99A3-067027C180C1}",
+      "AbsoluteMoniker": "D:0:0:{21BCDB9E-ADD8-6CCD-BE0C-24144A8F73CE}|WM_0xA_Set_RTC\\WM_0xA_Set_RTC.csproj|d:\\1_project\\boardtest\\wm_0xa_set_rtc\\wm_0xa_set_rtc\\form1.resx||{81828910-B8B3-4D2B-99A3-067027C180C1}",
       "RelativeMoniker": "D:0:0:{21BCDB9E-ADD8-6CCD-BE0C-24144A8F73CE}|WM_0xA_Set_RTC\\WM_0xA_Set_RTC.csproj|solutionrelative:wm_0xa_set_rtc\\form1.resx||{81828910-B8B3-4D2B-99A3-067027C180C1}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{21BCDB9E-ADD8-6CCD-BE0C-24144A8F73CE}|WM_0xA_Set_RTC\\WM_0xA_Set_RTC.csproj|d:\\1_project\\boardtest\\wm_0xa_set_rtc_old\\wm_0xa_set_rtc\\wm_0xa_set_rtc.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
+      "AbsoluteMoniker": "D:0:0:{21BCDB9E-ADD8-6CCD-BE0C-24144A8F73CE}|WM_0xA_Set_RTC\\WM_0xA_Set_RTC.csproj|d:\\1_project\\boardtest\\wm_0xa_set_rtc\\wm_0xa_set_rtc\\wm_0xa_set_rtc.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
       "RelativeMoniker": "D:0:0:{21BCDB9E-ADD8-6CCD-BE0C-24144A8F73CE}|WM_0xA_Set_RTC\\WM_0xA_Set_RTC.csproj|solutionrelative:wm_0xa_set_rtc\\wm_0xa_set_rtc.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{21BCDB9E-ADD8-6CCD-BE0C-24144A8F73CE}|WM_0xA_Set_RTC\\WM_0xA_Set_RTC.csproj|d:\\1_project\\boardtest\\wm_0xa_set_rtc_old\\wm_0xa_set_rtc\\clsaes128.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{21BCDB9E-ADD8-6CCD-BE0C-24144A8F73CE}|WM_0xA_Set_RTC\\WM_0xA_Set_RTC.csproj|solutionrelative:wm_0xa_set_rtc\\clsaes128.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\1_Project\\BoardTest\\WM_0xA_Set_RTC_old\\WM_0xA_Set_RTC\\EwmFrameBuilder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\1_Project\\BoardTest\\WM_0xA_Set_RTC_old\\WM_0xA_Set_RTC\\clsEncrypt.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\1_Project\\BoardTest\\WM_0xA_Set_RTC_old\\WM_0xA_Set_RTC\\clsAES128.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -46,15 +43,28 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
+              "Title": "Form1.cs",
+              "DocumentMoniker": "D:\\1_Project\\BoardTest\\WM_0xA_Set_RTC\\WM_0xA_Set_RTC\\Form1.cs",
+              "RelativeDocumentMoniker": "WM_0xA_Set_RTC\\Form1.cs",
+              "ToolTip": "D:\\1_Project\\BoardTest\\WM_0xA_Set_RTC\\WM_0xA_Set_RTC\\Form1.cs*",
+              "RelativeToolTip": "WM_0xA_Set_RTC\\Form1.cs*",
+              "ViewState": "AgIAAMcDAAAAAAAAAAAWwNUDAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-08T06:52:42.284Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "ConstDef.cs",
-              "DocumentMoniker": "D:\\1_Project\\BoardTest\\WM_0xA_Set_RTC_old\\WM_0xA_Set_RTC\\ConstDef.cs",
+              "DocumentMoniker": "D:\\1_Project\\BoardTest\\WM_0xA_Set_RTC\\WM_0xA_Set_RTC\\ConstDef.cs",
               "RelativeDocumentMoniker": "WM_0xA_Set_RTC\\ConstDef.cs",
-              "ToolTip": "D:\\1_Project\\BoardTest\\WM_0xA_Set_RTC_old\\WM_0xA_Set_RTC\\ConstDef.cs",
+              "ToolTip": "D:\\1_Project\\BoardTest\\WM_0xA_Set_RTC\\WM_0xA_Set_RTC\\ConstDef.cs",
               "RelativeToolTip": "WM_0xA_Set_RTC\\ConstDef.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -62,85 +72,69 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "Form1.cs [Design]",
-              "DocumentMoniker": "D:\\1_Project\\BoardTest\\WM_0xA_Set_RTC_old\\WM_0xA_Set_RTC\\Form1.cs",
+              "DocumentMoniker": "D:\\1_Project\\BoardTest\\WM_0xA_Set_RTC\\WM_0xA_Set_RTC\\Form1.cs",
               "RelativeDocumentMoniker": "WM_0xA_Set_RTC\\Form1.cs",
-              "ToolTip": "D:\\1_Project\\BoardTest\\WM_0xA_Set_RTC_old\\WM_0xA_Set_RTC\\Form1.cs [Design]",
+              "ToolTip": "D:\\1_Project\\BoardTest\\WM_0xA_Set_RTC\\WM_0xA_Set_RTC\\Form1.cs [Design]",
               "RelativeToolTip": "WM_0xA_Set_RTC\\Form1.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-13T12:43:38.275Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2026-09-13T12:43:38.275Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 4,
               "Title": "Form1.resx",
-              "DocumentMoniker": "D:\\1_Project\\BoardTest\\WM_0xA_Set_RTC_old\\WM_0xA_Set_RTC\\Form1.resx",
+              "DocumentMoniker": "D:\\1_Project\\BoardTest\\WM_0xA_Set_RTC\\WM_0xA_Set_RTC\\Form1.resx",
               "RelativeDocumentMoniker": "WM_0xA_Set_RTC\\Form1.resx",
-              "ToolTip": "D:\\1_Project\\BoardTest\\WM_0xA_Set_RTC_old\\WM_0xA_Set_RTC\\Form1.resx",
+              "ToolTip": "D:\\1_Project\\BoardTest\\WM_0xA_Set_RTC\\WM_0xA_Set_RTC\\Form1.resx",
               "RelativeToolTip": "WM_0xA_Set_RTC\\Form1.resx",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001005|",
               "WhenOpened": "2026-09-13T11:40:22.919Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Form1.cs",
-              "DocumentMoniker": "D:\\1_Project\\BoardTest\\WM_0xA_Set_RTC_old\\WM_0xA_Set_RTC\\Form1.cs",
-              "RelativeDocumentMoniker": "WM_0xA_Set_RTC\\Form1.cs",
-              "ToolTip": "D:\\1_Project\\BoardTest\\WM_0xA_Set_RTC_old\\WM_0xA_Set_RTC\\Form1.cs",
-              "RelativeToolTip": "WM_0xA_Set_RTC\\Form1.cs",
-              "ViewState": "AgIAAGcBAAAAAAAAAAAwwGsBAAAdAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-08T06:52:42.284Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 6,
               "Title": "EwmFrameBuilder.cs",
               "DocumentMoniker": "D:\\1_Project\\BoardTest\\WM_0xA_Set_RTC_old\\WM_0xA_Set_RTC\\EwmFrameBuilder.cs",
-              "RelativeDocumentMoniker": "WM_0xA_Set_RTC\\EwmFrameBuilder.cs",
+              "RelativeDocumentMoniker": "..\\WM_0xA_Set_RTC_old\\WM_0xA_Set_RTC\\EwmFrameBuilder.cs",
               "ToolTip": "D:\\1_Project\\BoardTest\\WM_0xA_Set_RTC_old\\WM_0xA_Set_RTC\\EwmFrameBuilder.cs",
-              "RelativeToolTip": "WM_0xA_Set_RTC\\EwmFrameBuilder.cs",
+              "RelativeToolTip": "..\\WM_0xA_Set_RTC_old\\WM_0xA_Set_RTC\\EwmFrameBuilder.cs",
               "ViewState": "AgIAAHMAAAAAAAAAAAAcwJAAAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-10T14:47:07.144Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-09-10T14:47:07.144Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 5,
               "Title": "WM_0xA_Set_RTC",
-              "DocumentMoniker": "D:\\1_Project\\BoardTest\\WM_0xA_Set_RTC_old\\WM_0xA_Set_RTC\\WM_0xA_Set_RTC.csproj",
+              "DocumentMoniker": "D:\\1_Project\\BoardTest\\WM_0xA_Set_RTC\\WM_0xA_Set_RTC\\WM_0xA_Set_RTC.csproj",
               "RelativeDocumentMoniker": "WM_0xA_Set_RTC\\WM_0xA_Set_RTC.csproj",
-              "ToolTip": "D:\\1_Project\\BoardTest\\WM_0xA_Set_RTC_old\\WM_0xA_Set_RTC\\WM_0xA_Set_RTC.csproj",
+              "ToolTip": "D:\\1_Project\\BoardTest\\WM_0xA_Set_RTC\\WM_0xA_Set_RTC\\WM_0xA_Set_RTC.csproj",
               "RelativeToolTip": "WM_0xA_Set_RTC\\WM_0xA_Set_RTC.csproj",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
               "WhenOpened": "2026-09-09T07:01:21.796Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 3,
               "Title": "Form1.Designer.cs",
-              "DocumentMoniker": "D:\\1_Project\\BoardTest\\WM_0xA_Set_RTC_old\\WM_0xA_Set_RTC\\Form1.Designer.cs",
+              "DocumentMoniker": "D:\\1_Project\\BoardTest\\WM_0xA_Set_RTC\\WM_0xA_Set_RTC\\Form1.Designer.cs",
               "RelativeDocumentMoniker": "WM_0xA_Set_RTC\\Form1.Designer.cs",
-              "ToolTip": "D:\\1_Project\\BoardTest\\WM_0xA_Set_RTC_old\\WM_0xA_Set_RTC\\Form1.Designer.cs",
+              "ToolTip": "D:\\1_Project\\BoardTest\\WM_0xA_Set_RTC\\WM_0xA_Set_RTC\\Form1.Designer.cs",
               "RelativeToolTip": "WM_0xA_Set_RTC\\Form1.Designer.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-09T06:47:59.367Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-09-09T06:47:59.367Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 7,
               "Title": "clsEncrypt.cs",
               "DocumentMoniker": "D:\\1_Project\\BoardTest\\WM_0xA_Set_RTC_old\\WM_0xA_Set_RTC\\clsEncrypt.cs",
-              "RelativeDocumentMoniker": "WM_0xA_Set_RTC\\clsEncrypt.cs",
+              "RelativeDocumentMoniker": "..\\WM_0xA_Set_RTC_old\\WM_0xA_Set_RTC\\clsEncrypt.cs",
               "ToolTip": "D:\\1_Project\\BoardTest\\WM_0xA_Set_RTC_old\\WM_0xA_Set_RTC\\clsEncrypt.cs",
-              "RelativeToolTip": "WM_0xA_Set_RTC\\clsEncrypt.cs",
+              "RelativeToolTip": "..\\WM_0xA_Set_RTC_old\\WM_0xA_Set_RTC\\clsEncrypt.cs",
               "ViewState": "AgIAADEAAAAAAAAAAAAcwB4AAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-09-08T05:52:03.132Z"
@@ -150,13 +144,12 @@
               "DocumentIndex": 8,
               "Title": "clsAES128.cs",
               "DocumentMoniker": "D:\\1_Project\\BoardTest\\WM_0xA_Set_RTC_old\\WM_0xA_Set_RTC\\clsAES128.cs",
-              "RelativeDocumentMoniker": "WM_0xA_Set_RTC\\clsAES128.cs",
+              "RelativeDocumentMoniker": "..\\WM_0xA_Set_RTC_old\\WM_0xA_Set_RTC\\clsAES128.cs",
               "ToolTip": "D:\\1_Project\\BoardTest\\WM_0xA_Set_RTC_old\\WM_0xA_Set_RTC\\clsAES128.cs",
-              "RelativeToolTip": "WM_0xA_Set_RTC\\clsAES128.cs",
+              "RelativeToolTip": "..\\WM_0xA_Set_RTC_old\\WM_0xA_Set_RTC\\clsAES128.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-08T05:51:53.661Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-09-08T05:51:53.661Z"
             }
           ]
         },
