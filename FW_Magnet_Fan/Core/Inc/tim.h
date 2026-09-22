@@ -45,7 +45,7 @@ extern TIM_HandleTypeDef htim4;
 /* USER CODE END Private defines */
 
 void MX_TIM1_Init(void);
-void MX_TIM2_Init(void);
+void MX_TIM2_Init(uint16_t period);
 void MX_TIM3_Init(void);
 void MX_TIM4_Init(void);
 

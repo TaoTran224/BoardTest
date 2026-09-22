@@ -24,6 +24,9 @@ MotorType Motor;
 
 static CmdType Cmd;
 static CmdResultType CmdRes;
+
+
+static bool PWM_Flag_Start = false;
 void RS485_SendBuffer(RS485ChannelType ch, uint8_t* buf, uint16_t len)
 {
     HAL_UART_Transmit(&huart2, buf, len, (len << 1) + 10);
@@ -60,11 +63,11 @@ void MotorRun(void)
 {
     if (MODE_ON == Motor.eu8Mode)
     {
-        HAL_GPIO_WritePin(OUT0_GPIO_Port, OUT0_Pin, GPIO_PIN_RESET);
+        HAL_GPIO_WritePin(OUT0_GPIO_Port, GPIO_PIN_0, GPIO_PIN_RESET);
     }
     else if (MODE_OFF == Motor.eu8Mode)
     {
-        HAL_GPIO_WritePin(OUT0_GPIO_Port, OUT0_Pin, GPIO_PIN_SET);
+        HAL_GPIO_WritePin(OUT0_GPIO_Port, GPIO_PIN_0, GPIO_PIN_SET);
     }
 }
 
@@ -92,10 +95,9 @@ void MotorCalRandom(void)
 #endif 
     if (20 > rando)
     {
-        PWM_Stop();
-        PWM_DeInit(); 
+        duty = 0; 
     }
-    else if (70 < rando)
+    else if (80 < rando)
     {
         duty = 50;
     }
@@ -103,19 +105,34 @@ void MotorCalRandom(void)
     {
         duty = rando;
     }
-    Motor.eu8Mode = MODE_PWM;
-    PWM_Stop();
-    PWM_DeInit();
+    Motor.eu8Mode = MODE_PWM;  
+  
+    if (false == PWM_Flag_Start)
+    {
+#ifdef DBG_SEND
+        DBG_SendStr("1ST PWM\n");
+#endif
+        PWM_Flag_Start = true;
+    }
+    else
+    {
+#ifdef DBG_SEND
+        DBG_SendStr("2ND PWM\n");
+#endif
+        PWM_Stop();
+    }
     delay_ms(2);
-    PWM_Init(1000, duty);
-    delay_ms(2);
+    PWM_Init(1000, 100 - duty);
+    delay_ms(2); 
     PWM_Start();
+  
+  
     rando = Random(Speed_Random++)%100;
     if (5 > rando)
     {
         rando = 5;
     } 
-    Motor.u32TimeCycle = (uint32_t)rando*(uint32_t)987;
+    Motor.u32TimeCycle = (uint32_t)rando*(uint32_t)100;
     Motor.u32TimeRun = 0;
     Motor.bRandom = true;
     Motor.bFlagCalTime = false;
@@ -125,7 +142,23 @@ void MotorCalRandom(void)
 #endif    
 }
 
-
+void PWM_SetFlag1st(void)
+{
+    if (false == PWM_Flag_Start)
+    {
+#ifdef DBG_SEND
+        DBG_SendStr("1ST PWM\n");
+#endif
+        PWM_Flag_Start = true;
+    }
+    else
+    {
+#ifdef DBG_SEND
+        DBG_SendStr("2ND PWM\n");
+#endif
+        PWM_Stop();
+    }
+}
 static CmdType Board_UARTCheckFrameValid(CmdResultType* cmd_res, const uint8_t* src, const uint16_t src_len)
 {
     uint16_t crc16_cal = 0;
@@ -175,7 +208,7 @@ static CmdType Board_UARTCheckFrameValid(CmdResultType* cmd_res, const uint8_t* 
                     DBG_SendStr("Magnet OFF\n");
 #endif
                     Magnet.eu8Mode = MODE_OFF;
-                    return CMD_RES_SUCCESS;
+                    *cmd_res = CMD_RES_SUCCESS;
                 }
                 else
                 {
@@ -183,28 +216,29 @@ static CmdType Board_UARTCheckFrameValid(CmdResultType* cmd_res, const uint8_t* 
                     DBG_SendStr("Magnet ON\n");
 #endif
                     Magnet.eu8Mode = MODE_ON;
-                    return CMD_RES_SUCCESS;
+                    *cmd_res = CMD_RES_SUCCESS;
                 }
             }
-            return CMD_RES_INVALID_PAYLOAD;
+            return CMD_CONTROL_MAGNET;
             break;
 
         case CMD_CONTROL_MOTOR:
             if ( 100 < src[4])
             {
 #ifdef DBG_SEND
-                DBG_SendStr("CMD_CONTROL_MOTOR FAIL\n");
+                DBG_SendStr("CMD_CONTROL_MOTOR RANDOM\n");
 #endif
+                PWM_SetFlag1st();
                 MotorCalRandom();
             }
-            else if (0 == src[4])
+            /*else if (0 == src[4])
             {
 #ifdef DBG_SEND
                 DBG_SendStr("MOTOR OFF\n");
 #endif
-                Motor.eu8Mode = MODE_OFF;
                 Motor.bRandom = false;
-                PWM_DeInit();
+                Motor.eu8Mode = MODE_OFF;
+                PWM_SetFlag1st();
             }
             else if (100 == src[4])
             {
@@ -213,28 +247,30 @@ static CmdType Board_UARTCheckFrameValid(CmdResultType* cmd_res, const uint8_t* 
 #endif
                 Motor.bRandom = false;
                 Motor.eu8Mode = MODE_ON;
-                PWM_DeInit();
-            }
+                PWM_SetFlag1st();
+            }*/
             else
             {
 #ifdef DBG_SEND
-                DBG_SendStr("MOTOR PWM");
+                DBG_SendStr("MOTOR PWM\n");
                 logLen = sprintf(log1, " = %d\n", src[4]);
                 DBG_SendStr(log1);
 #endif
                 Motor.bRandom = false;
                 Motor.eu8Mode = MODE_PWM;
-                PWM_Stop();
-                PWM_DeInit();
+                PWM_SetFlag1st();
                 delay_ms(2);
-                PWM_Init(1000, src[4]);
+                PWM_Init(1000, 100 - src[4]);
                 delay_ms(2); 
                 PWM_Start();
             }
-            return CMD_RES_SUCCESS; 
+            *cmd_res = CMD_RES_SUCCESS;
+            return CMD_CONTROL_MOTOR; 
             break;
+
+        default:
+             break;   
     }
-    
 }
 
 
@@ -267,6 +303,9 @@ void RS485_CH2_Process(void)
 {
 	if (true == State.bits.S_PROCESS_RS485_CH2)
     {
+ #ifdef DBG_SEND
+        DBG_SendStr("RS485_CH2_Process\n");
+#endif
         CmdType Cmd = CMD_RES_INVALID_COMMAND;
         CmdResultType CmdRes = CMD_RES_ERROR;
         CmdRes = CMD_RES_ERROR;

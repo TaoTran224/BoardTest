@@ -94,4 +94,6 @@ void RS485_CH2_Process(void);
 void MotorRandom(void);
 void MagnetRun(void);
 void MotorRun(void);
+
+void MotorCalRandom(void);
 #endif

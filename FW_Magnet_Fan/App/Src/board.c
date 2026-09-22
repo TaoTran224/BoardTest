@@ -8,6 +8,7 @@
 #include "gpio.h"
 #include "log.h"
 #include "app.h"
+#include"pwm.h"
 
 uint8_t recUART1;
 uint8_t recUART2;
@@ -104,6 +105,7 @@ void StartUp(void)
   /* USER CODE BEGIN 2 */
 	__enable_irq();
 	HAL_TIM_Base_Start_IT(&htim1);
+  //PWM_Init(1000, 50);
   /* USER CODE END 2 */
 }
 
@@ -120,13 +122,7 @@ void delay_us(uint32_t t)
 
 void delay_ms(uint32_t t)
 {
-    uint32_t i = 0;
-    for ( i = 0; i < (6600 * t); i++)
-    {
-        ;;
-
-    }
-
+    HAL_Delay(t);
 }
 
 
