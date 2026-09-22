@@ -10,12 +10,13 @@
 #include <stdbool.h>
 #include <string.h>
 #include "board.h"
-
-#include "adc.h"
 #include "gpio.h"
 #include "iwdg.h"
 #include "tim.h"
 #include "usart.h"
+
+
+
 
 #define INPUT_MAX (uint8_t)6
 #define OUTPUT_MAX (uint8_t)4
@@ -46,11 +47,11 @@ typedef struct
 } __attribute__((packed)) InputType;
 
 extern InputType Input[INPUT_MAX];
-typedef enum
-{
-M_OFF = (uint8_t)0,
-M_ON = (uint8_t)1,
-M_BLINK = (uint8_t)2,
+
+typedef enum {
+MODE_OFF = 0,
+MODE_ON = 1,
+MODE_PWM = 2
 } OutputModeType;
 
 typedef struct

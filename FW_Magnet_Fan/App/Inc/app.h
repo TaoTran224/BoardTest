@@ -21,21 +21,46 @@ RS485_CH3
 typedef struct
 {
     uint8_t S_STARTUP : 1;
-	uint8_t S_PROCESS_INPUT : 1;
-	uint8_t S_PROCESS_RS485_CH1 : 1;
-	uint8_t S_PROCESS_RS485_CH3 : 1;
+    uint8_t S_PROCESS_INPUT : 1;
+    //uint8_t S_PROCESS_RS485_CH1 : 1;
+    uint8_t S_PROCESS_RS485_CH2 : 1;
+    //uint8_t S_PROCESS_RS485_CH3 : 1;
     uint8_t S_CONTROL_PUMP : 1;
 } BITS;
 
 
+
 typedef enum
 {
+    CMD_UNKNOWN = 0xFF,
 CMD_CONTROL_MAGNET = 0xA0,
 CMD_CONTROL_MOTOR = 0xA1,
 CMD_PULSE_RESET = 0xA2,
-} CommandType;
+} CmdType;
 
 
+typedef enum
+{
+    CMD_RES_UNKNOWN = 0xFF,
+
+    CMD_RES_SUCCESS = 0x00,
+    CMD_RES_INVALID_COMMAND = 0x01,
+    CMD_RES_CRC16_FAIL = 0x02,
+    CMD_RES_INVALID_PAYLOAD = 0x03,
+    CMD_RES_ERROR = 0x04
+} CmdResultType;
+
+typedef struct 
+{
+    bool bRandom;
+    bool bFlagCalTime;
+    uint32_t u32TimeRun;
+    uint8_t u8Velocity;
+    uint32_t u32TimeCycle;
+    OutputModeType eu8Mode;
+} MotorType;
+
+extern MotorType Motor;
 typedef union
 {
     BITS bits;
@@ -53,8 +78,9 @@ typedef struct
     bool bFlagRec;
 } __attribute__((packed)) UARTDataType;
 
-extern UARTDataType RS485Ch1;
-extern UARTDataType RS485Ch3;
+//extern UARTDataType RS485Ch1;
+extern UARTDataType RS485Ch2;
+//extern UARTDataType RS485Ch3;
 
 extern uint8_t Lora_u8Seq;
 
@@ -64,7 +90,8 @@ extern bool Flag_BilletJamp;
 void RS485_SendBuffer(RS485ChannelType ch, uint8_t* buf, uint16_t len);
 void RS485_SendStr(RS485ChannelType ch, char* str);
 
-void RS485_CH1_Process(void);
-void RS485_CH3_Process(void);
-
+void RS485_CH2_Process(void);
+void MotorRandom(void);
+void MagnetRun(void);
+void MotorRun(void);
 #endif

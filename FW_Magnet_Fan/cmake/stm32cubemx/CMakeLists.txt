@@ -13,6 +13,9 @@ target_compile_definitions(stm32cubemx INTERFACE
 )
 
 target_include_directories(stm32cubemx INTERFACE
+    ../../App/Inc
+    ../../Common
+    ../../Common/Inc
     ../../Core/Inc
     ../../Drivers/STM32F1xx_HAL_Driver/Inc
     ../../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy
@@ -21,6 +24,15 @@ target_include_directories(stm32cubemx INTERFACE
 )
 
 target_sources(stm32cubemx INTERFACE
+    ../../App/Src/app.c
+    ../../App/Src/pwm.c
+    ../../App/Src/board.c
+    ../../App/Src/export_pulse_to_reset_mcu.c
+    ../../App/Src/interrupt.c
+    ../../App/Src/Pump.c
+    ../../Common/Src/calculator.c
+    ../../Common/Src/log.c
+    ../../Common/Src/crc16.c
     ../../Core/Src/main.c
     ../../Core/Src/gpio.c
     ../../Core/Src/iwdg.c

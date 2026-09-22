@@ -9,4 +9,5 @@ extern volatile uint32_t Speed_Random;
 
 void OutputDisplay(void);
 void OutputCalTime(void);
+uint8_t Random(uint8_t random);
 #endif /* _PUMP_H */

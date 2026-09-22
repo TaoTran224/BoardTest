@@ -1,13 +1,13 @@
 
 
-#include <board.h>
+#include "board.h"
 #include "main.h"
-#include "adc.h"
 #include "iwdg.h"
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
 #include "log.h"
+#include "app.h"
 
 uint8_t recUART1;
 uint8_t recUART2;
@@ -78,86 +78,33 @@ void StartUp(void)
 
 	/* Reset of all peripherals, Initializes the Flash interface and the Systick. */
 	HAL_Init();
+  /* USER CODE BEGIN Init */
 
-	/* USER CODE BEGIN Init */
+  /* USER CODE END Init */
 
-	/* USER CODE END Init */
+  /* Configure the system clock */
+  SystemClock_Config();
 
-	/* Configure the system clock */
-	SystemClock_Config();
+  /* USER CODE BEGIN SysInit */
 
-	/* USER CODE BEGIN SysInit */
+  /* USER CODE END SysInit */
 
-	/* USER CODE END SysInit */
+  /* Initialize all configured peripherals */
+  MX_GPIO_Init();
+  //MX_IWDG_Init();
+  MX_TIM1_Init();
+  //MX_TIM2_Init();
+  //MX_TIM3_Init();
+  //MX_TIM4_Init();
+  MX_USART1_UART_Init();
+  MX_USART2_UART_Init();
+  //MX_USART3_UART_Init();
 
-	/* Initialize all configured peripherals */
-	MX_GPIO_Init();
-	//MX_ADC1_Init();
-
-	for (uint8_t i = 0; i < 5; i++)
-	{
-	  HAL_GPIO_WritePin(LED_RUN_GPIO_Port, LED_RUN_Pin, GPIO_PIN_RESET);
-	  HAL_Delay(100);
-	  HAL_GPIO_WritePin(LED_RUN_GPIO_Port, LED_RUN_Pin, GPIO_PIN_SET);
-	  HAL_Delay(400);
-	}
-
-	//MX_IWDG_Init();
-	MX_TIM1_Init();
-	//MX_TIM2_Init();
-	MX_TIM3_Init();
-	MX_TIM4_Init();
-
-	SetupInit();
+  HAL_UART_Receive_IT(&huart2, &recUART2, 1);
+  /* USER CODE BEGIN 2 */
 	__enable_irq();
 	HAL_TIM_Base_Start_IT(&htim1);
-	//HAL_TIM_Base_Start_IT(&htim2);
-	HAL_TIM_Base_Start_IT(&htim3);
-	HAL_TIM_Base_Start_IT(&htim4);
-
-	MX_USART1_UART_Init();
-	MX_USART2_UART_Init();
-	MX_USART3_UART_Init();
-	/* USER CODE BEGIN 2 */
-    HAL_UART_Receive_IT(&huart1, &recUART1, 1);
-    HAL_UART_Receive_IT(&huart2, &recUART2, 1);
-	HAL_UART_Receive_IT(&huart3, &recUART3, 1);
-
-    /* USER CODE END 2 */
-    /*for (uint8_t i = 0; i < OUTPUT_MAX; i++)
-    {
-        HAL_GPIO_WritePin(OutputP[i].GPIO, OutputP[i].GPIO_Pin, GPIO_PIN_RESET);
-        WDT_Clear();
-        HAL_Delay(1000);
-        WDT_Clear();
-        HAL_Delay(1000);
-         WDT_Clear();
-        HAL_Delay(1000);
-        HAL_GPIO_WritePin(OutputP[i].GPIO, OutputP[i].GPIO_Pin, GPIO_PIN_SET);
-        HAL_Delay(100);
-    }*/
-    /*for (uint8_t i = 0; i < OUTPUT_MAX; i++)
-    {
-        HAL_GPIO_WritePin(OutputN[i].GPIO, OutputN[i].GPIO_Pin, GPIO_PIN_RESET);
-        HAL_Delay(500);
-        HAL_GPIO_WritePin(OutputN[i].GPIO, OutputN[i].GPIO_Pin, GPIO_PIN_SET);
-        HAL_Delay(1000);
-    }*/  
-	/* Infinite loop */
-	/* USER CODE BEGIN WHILE */
-    WDT_Clear();
-    HAL_Delay(1000);
-    WDT_Clear();
-    HAL_Delay(1000);
-    WDT_Clear();
-    HAL_Delay(1000);
-    /*for (uint8_t i = 0; i < 3; i++)
-    {
-        OutputP[i].bFlagStart = true;
-        OutputP[i].u32TimeOn = 5123;
-        OutputP[i].u32TimeCycle = 10321;
-    }*/
-
+  /* USER CODE END 2 */
 }
 
 void delay_us(uint32_t t)
@@ -188,115 +135,23 @@ void WDT_Clear(void)
 	//HAL_IWDG_Refresh(&hiwdg);
 }
 
-void Input_Init(void)
-{
-    memset(InputInf, 0, sizeof(InputInf));
-    memset(Input, 0, sizeof(Input));
-    InputInf[0].GPIO_Pin = INPUT_0_Pin;
-    InputInf[0].GPIO = INPUT_0_GPIO_Port;
-    InputInf[1].GPIO_Pin = INPUT_1_Pin;
-    InputInf[1].GPIO = INPUT_1_GPIO_Port;
-    InputInf[2].GPIO_Pin = INPUT_2_Pin;
-    InputInf[2].GPIO = INPUT_2_GPIO_Port;
-    InputInf[3].GPIO_Pin = INPUT_3_Pin;
-    InputInf[3].GPIO = INPUT_3_GPIO_Port;
-    InputInf[4].GPIO_Pin = INPUT_4_Pin;
-    InputInf[4].GPIO = INPUT_4_GPIO_Port;
-    InputInf[5].GPIO_Pin = INPUT_5_Pin;
-    InputInf[5].GPIO = INPUT_5_GPIO_Port;
-}
+
 void OutputN_Init(void)
 {
     memset(OutputN, 0, sizeof(OutputN));
-    OutputN[0].GPIO_Pin = OUT_N_0_Pin;
-    OutputN[0].GPIO = OUT_N_0_GPIO_Port;
-    OutputN[1].GPIO_Pin = OUT_N_1_Pin;
-    OutputN[1].GPIO = OUT_N_1_GPIO_Port;
-    OutputN[2].GPIO_Pin = OUT_N_2_Pin;
-    OutputN[2].GPIO = OUT_N_2_GPIO_Port;
-    OutputN[3].GPIO_Pin = OUT_N_3_Pin;
-    OutputN[3].GPIO = OUT_N_3_GPIO_Port;
+    OutputN[0].GPIO_Pin = GPIO_PIN_1;
+    OutputN[0].GPIO = GPIOA;
 }
 
 void OutputP_Init(void)
 {
     memset(OutputP, 0, sizeof(OutputP));
-    OutputP[0].GPIO_Pin = OUT_P_0_Pin;
-    OutputP[0].GPIO = OUT_P_0_GPIO_Port;
-    OutputP[1].GPIO_Pin = OUT_P_1_Pin;
-    OutputP[1].GPIO = OUT_P_1_GPIO_Port;
-    OutputP[2].GPIO_Pin = OUT_P_2_Pin;
-    OutputP[2].GPIO = OUT_P_2_GPIO_Port;
-    OutputP[3].GPIO_Pin = OUT_P_3_Pin;
-    OutputP[3].GPIO = OUT_P_3_GPIO_Port;
+    OutputP[0].GPIO_Pin = GPIO_PIN_0;
+    OutputP[0].GPIO = GPIOA;
 }
 
 void SetupInit(void)
 {
-    Input_Init();
     OutputN_Init();
     OutputP_Init();
-}
-void Input_Detect(void)
-{
-    for (uint8_t i = 0; i < INPUT_MAX; i++)
-    {
-        if (GPIO_PIN_RESET == HAL_GPIO_ReadPin(InputInf[i].GPIO, InputInf[i].GPIO_Pin))
-        {
-            Input[i].bIsPress = true;
-        }
-        else
-        {
-            Input[i].bIsPress = false;
-        }
-    }
-}
-
-void OutputP_Display(void)
-{
-    for (uint8_t i = 0; i < OUTPUT_MAX; i++)
-    {
-        if (true == Input[i].bIsPress)
-        {
-            HAL_GPIO_WritePin(OutputP[i].GPIO, OutputP[i].GPIO_Pin, GPIO_PIN_RESET);
-            OutputP[i].eu8Mode = M_ON;
-        }
-        else
-        {
-            HAL_GPIO_WritePin(OutputP[i].GPIO, OutputP[i].GPIO_Pin, GPIO_PIN_SET);
-            OutputP[i].eu8Mode = M_OFF;
-        }
-    }
-}
-
-void OutputN_Display(void)
-{
-    if (true == Input[4].bIsPress)
-    {
-        HAL_GPIO_WritePin(OutputN[0].GPIO, OutputN[0].GPIO_Pin, GPIO_PIN_RESET);
-        HAL_GPIO_WritePin(OutputN[2].GPIO, OutputN[2].GPIO_Pin, GPIO_PIN_RESET);
-        OutputN[0].eu8Mode = M_ON;
-        OutputN[2].eu8Mode = M_ON;
-    }
-    else
-    {
-        HAL_GPIO_WritePin(OutputN[0].GPIO, OutputN[0].GPIO_Pin, GPIO_PIN_SET);
-        HAL_GPIO_WritePin(OutputN[2].GPIO, OutputN[2].GPIO_Pin, GPIO_PIN_SET);
-        OutputN[0].eu8Mode = M_OFF;
-        OutputN[2].eu8Mode = M_OFF;
-    }
-    if (true == Input[5].bIsPress)
-    {
-        HAL_GPIO_WritePin(OutputN[1].GPIO, OutputN[1].GPIO_Pin, GPIO_PIN_RESET);
-        HAL_GPIO_WritePin(OutputN[3].GPIO, OutputN[3].GPIO_Pin, GPIO_PIN_RESET);
-        OutputN[1].eu8Mode = M_ON;
-        OutputN[3].eu8Mode = M_ON;
-    }
-    else
-    {
-        HAL_GPIO_WritePin(OutputN[1].GPIO, OutputN[1].GPIO_Pin, GPIO_PIN_SET);
-        HAL_GPIO_WritePin(OutputN[3].GPIO, OutputN[3].GPIO_Pin, GPIO_PIN_SET);
-        OutputN[1].eu8Mode = M_OFF;
-        OutputN[3].eu8Mode = M_OFF; 
-    }
 }
