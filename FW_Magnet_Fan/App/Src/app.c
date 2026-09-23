@@ -42,11 +42,11 @@ void MagnetRun(void)//out0
 {
     if (MODE_ON == Magnet.eu8Mode)
     {
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);
+        HAL_GPIO_WritePin(GPIO_MAGNET, GPIO_MAGNET_PIN, GPIO_PIN_RESET);
     }
     else
     {
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_SET);
+        HAL_GPIO_WritePin(GPIO_MAGNET, GPIO_MAGNET_PIN, GPIO_PIN_SET);
     }
 }
 
@@ -63,11 +63,11 @@ void MotorRun(void)
 {
     if (MODE_ON == Motor.eu8Mode)
     {
-        HAL_GPIO_WritePin(OUT0_GPIO_Port, GPIO_PIN_0, GPIO_PIN_RESET);
+        HAL_GPIO_WritePin(GPIO_PWM, GPIO_PWM_PIN, GPIO_PIN_SET);
     }
     else if (MODE_OFF == Motor.eu8Mode)
     {
-        HAL_GPIO_WritePin(OUT0_GPIO_Port, GPIO_PIN_0, GPIO_PIN_SET);
+        HAL_GPIO_WritePin(GPIO_PWM, GPIO_PWM_PIN, GPIO_PIN_RESET);
     }
 }
 
@@ -122,7 +122,7 @@ void MotorCalRandom(void)
         PWM_Stop();
     }
     delay_ms(2);
-    PWM_Init(1000, 100 - duty);
+    PWM_Init(1000, duty);
     delay_ms(2); 
     PWM_Start();
   
@@ -132,7 +132,7 @@ void MotorCalRandom(void)
     {
         rando = 5;
     } 
-    Motor.u32TimeCycle = (uint32_t)rando*(uint32_t)100;
+    Motor.u32TimeCycle = (uint32_t)rando*(uint32_t)432;
     Motor.u32TimeRun = 0;
     Motor.bRandom = true;
     Motor.bFlagCalTime = false;
@@ -260,7 +260,7 @@ static CmdType Board_UARTCheckFrameValid(CmdResultType* cmd_res, const uint8_t* 
                 Motor.eu8Mode = MODE_PWM;
                 PWM_SetFlag1st();
                 delay_ms(2);
-                PWM_Init(1000, 100 - src[4]);
+                PWM_Init(1000, src[4]);
                 delay_ms(2); 
                 PWM_Start();
             }
