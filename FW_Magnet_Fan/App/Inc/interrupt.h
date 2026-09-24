@@ -2,10 +2,9 @@
 #define _INTERRUP_H_
 
 #include "board.h"
-#include "app.h"
+#include "main.h"
 
 
-#define BUTTON_TIMEOUT (uint32_t)(10)
-
-
+extern volatile uint32_t u32PulseTimeCount;
+extern volatile uint32_t u32PulseTimeWait;
 #endif

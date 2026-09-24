@@ -79,7 +79,8 @@ int main(void)
     /* USER CODE END WHILE */
 
 
-  RS485_CH2_Process();
+    RS485_CH2_Process();
+    Pulse_Ouput();
     if (true == Motor.bFlagCalTime)
     {
         MotorCalRandom();

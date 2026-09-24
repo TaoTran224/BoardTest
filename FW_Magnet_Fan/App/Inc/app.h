@@ -26,6 +26,7 @@ typedef struct
     uint8_t S_PROCESS_RS485_CH2 : 1;
     //uint8_t S_PROCESS_RS485_CH3 : 1;
     uint8_t S_CONTROL_PUMP : 1;
+    uint8_t S_PULSE : 1;
 } BITS;
 
 
@@ -91,6 +92,7 @@ void RS485_SendBuffer(RS485ChannelType ch, uint8_t* buf, uint16_t len);
 void RS485_SendStr(RS485ChannelType ch, char* str);
 
 void RS485_CH2_Process(void);
+void Pulse_Ouput(void);
 void MotorRandom(void);
 void MagnetRun(void);
 void MotorRun(void);

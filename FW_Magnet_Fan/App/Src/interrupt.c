@@ -7,7 +7,8 @@
 #include "app.h"
 
 volatile uint16_t LED_Blink = 0;
-
+volatile uint32_t u32PulseTimeCount = 0;
+volatile uint32_t u32PulseTimeWait = 10000;
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
 {
@@ -39,6 +40,12 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
         MotorRandom();
         MagnetRun();
         MotorRun();
+
+        if ((u32PulseTimeCount++) >= u32PulseTimeWait)
+        {
+            u32PulseTimeCount = 0;
+            State.bits.S_PULSE = true;
+        }
     }
 	else if (htim->Instance == htim2.Instance) // 10ms
 	{

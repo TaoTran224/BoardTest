@@ -50,6 +50,28 @@ void MagnetRun(void)//out0
     }
 }
 
+void Pulse_Ouput(void)
+{
+    if (true == State.bits.S_PULSE)
+    {
+#ifdef DBG_SEND
+        DBG_SendStr("Pulse_Ouput\n");
+#endif
+        Motor.bFlagCalTime = false;
+        Motor.bRandom = false;
+        Motor.eu8Mode = MODE_OFF;
+        delay_ms(10000);
+        HAL_GPIO_WritePin(GPIOA, OUT0_Pin, GPIO_PIN_RESET);
+        delay_us(100);
+        HAL_GPIO_WritePin(GPIOA, OUT0_Pin, GPIO_PIN_SET);
+        
+        u32PulseTimeWait = 20000; //+ Speed_Random%5000;
+        u32PulseTimeCount = 0;
+        Motor.bRandom = true;
+        State.bits.S_PULSE = false;
+    }
+}
+
 static CmdType UART_GetCmd(uint8_t cmd)
 {
     if (((uint8_t)CMD_CONTROL_MAGNET == cmd) || ((uint8_t)CMD_CONTROL_MOTOR == cmd))
@@ -97,7 +119,11 @@ void MotorCalRandom(void)
     {
         duty = 0; 
     }
-    else if (80 < rando)
+    else (30 > rando)
+    {
+        duty = 30;
+    }
+    else if (50 < rando)
     {
         duty = 50;
     }
