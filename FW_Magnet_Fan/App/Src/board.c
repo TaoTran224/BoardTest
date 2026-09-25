@@ -92,7 +92,7 @@ void StartUp(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  //MX_IWDG_Init();
+  MX_IWDG_Init();
   MX_TIM1_Init();
   //MX_TIM2_Init();
   //MX_TIM3_Init();
@@ -120,17 +120,26 @@ void delay_us(uint32_t t)
 
 }
 
+void WDT_Clear(void)
+{
+	HAL_IWDG_Refresh(&hiwdg);
+}
+
 void delay_ms(uint32_t t)
 {
     HAL_Delay(t);
 }
 
-
-void WDT_Clear(void)
+void delay_s(uint16_t s)
 {
-	//HAL_IWDG_Refresh(&hiwdg);
-}
-
+    uint16_t i = 0;
+    for (i = 0; i < s; i++)
+    {
+        WDT_Clear();
+        HAL_Delay(999);
+    }
+    WDT_Clear();
+} 
 
 void OutputN_Init(void)
 {

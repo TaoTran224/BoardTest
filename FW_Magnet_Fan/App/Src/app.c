@@ -27,6 +27,26 @@ static CmdResultType CmdRes;
 
 
 static bool PWM_Flag_Start = false;
+
+
+void PWM_SetFlag1st(void)
+{
+    if (false == PWM_Flag_Start)
+    {
+#ifdef DBG_SEND
+        DBG_SendStr("1ST PWM\n");
+#endif
+        PWM_Flag_Start = true;
+    }
+    else
+    {
+#ifdef DBG_SEND
+        DBG_SendStr("2ND PWM\n");
+#endif
+        PWM_Stop();
+    }
+}
+
 void RS485_SendBuffer(RS485ChannelType ch, uint8_t* buf, uint16_t len)
 {
     HAL_UART_Transmit(&huart2, buf, len, (len << 1) + 10);
@@ -55,19 +75,25 @@ void Pulse_Ouput(void)
     if (true == State.bits.S_PULSE)
     {
 #ifdef DBG_SEND
-        DBG_SendStr("Pulse_Ouput\n");
+        DBG_SendStr("Pulse_Ouput START\n");
 #endif
         Motor.bFlagCalTime = false;
         Motor.bRandom = false;
         Motor.eu8Mode = MODE_OFF;
-        delay_ms(10000);
-        HAL_GPIO_WritePin(GPIOA, OUT0_Pin, GPIO_PIN_RESET);
-        delay_us(100);
-        HAL_GPIO_WritePin(GPIOA, OUT0_Pin, GPIO_PIN_SET);
+        PWM_Init(1000, 0);
+        delay_ms(2); 
+        PWM_Start();
+        delay_s(22);
+        HAL_GPIO_WritePin(GPIOA, GPIO_MAGNET_PIN, GPIO_PIN_RESET);
+        delay_ms(200);
+        HAL_GPIO_WritePin(GPIOA, GPIO_MAGNET_PIN, GPIO_PIN_SET);
         
-        u32PulseTimeWait = 20000; //+ Speed_Random%5000;
+        u32PulseTimeWait = 234000 + Speed_Random%61234;
         u32PulseTimeCount = 0;
         Motor.bRandom = true;
+#ifdef DBG_SEND
+        DBG_SendStr("Pulse_Ouput STOP\n");
+#endif
         State.bits.S_PULSE = false;
     }
 }
@@ -112,20 +138,20 @@ void MotorCalRandom(void)
     rando = Random(Speed_Random++)%100;
 #ifdef DBG_SEND
     DBG_SendStr("MotorCalRandom\n");
-    logLen = sprintf(log1, "rando = %d", rando);
+    logLen = sprintf(log1, "rando = %d\n", rando);
     DBG_SendStr(log1);
 #endif 
-    if (20 > rando)
+    if (15 > rando)
     {
         duty = 0; 
     }
-    else (30 > rando)
+    else if (30 > rando)
     {
         duty = 30;
     }
     else if (50 < rando)
     {
-        duty = 50;
+        duty = 40;
     }
     else
     {
@@ -133,20 +159,7 @@ void MotorCalRandom(void)
     }
     Motor.eu8Mode = MODE_PWM;  
   
-    if (false == PWM_Flag_Start)
-    {
-#ifdef DBG_SEND
-        DBG_SendStr("1ST PWM\n");
-#endif
-        PWM_Flag_Start = true;
-    }
-    else
-    {
-#ifdef DBG_SEND
-        DBG_SendStr("2ND PWM\n");
-#endif
-        PWM_Stop();
-    }
+    PWM_SetFlag1st();
     delay_ms(2);
     PWM_Init(1000, duty);
     delay_ms(2); 
@@ -163,28 +176,12 @@ void MotorCalRandom(void)
     Motor.bRandom = true;
     Motor.bFlagCalTime = false;
 #ifdef DBG_SEND
-    logLen = sprintf(log1, "rando = %d", rando);
+    logLen = sprintf(log1, "rando = %d, duty = %d\n", rando, duty);
     DBG_SendStr(log1);
 #endif    
 }
 
-void PWM_SetFlag1st(void)
-{
-    if (false == PWM_Flag_Start)
-    {
-#ifdef DBG_SEND
-        DBG_SendStr("1ST PWM\n");
-#endif
-        PWM_Flag_Start = true;
-    }
-    else
-    {
-#ifdef DBG_SEND
-        DBG_SendStr("2ND PWM\n");
-#endif
-        PWM_Stop();
-    }
-}
+
 static CmdType Board_UARTCheckFrameValid(CmdResultType* cmd_res, const uint8_t* src, const uint16_t src_len)
 {
     uint16_t crc16_cal = 0;

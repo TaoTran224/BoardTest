@@ -10,7 +10,7 @@ uint16_t logTime;
 
 void DBG_SendBuffer(uint8_t *buf, const uint16_t len)
 {
-    HAL_UART_Transmit(&huart1, buf, len, len);
+    HAL_UART_Transmit(&huart2, buf, len, len);
 
 //    HAL_GPIO_WritePin(RS485_ENB_GPIO_Port, RS485_ENB_Pin, GPIO_PIN_SET);
 //    HAL_Delay(1);

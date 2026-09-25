@@ -82,6 +82,8 @@ void delay_us(uint32_t t);
 
 void delay_ms(uint32_t t);
 
+void delay_s(uint16_t s);
+
 void SetupInit(void);
 void WDT_Clear(void);
 void Pulse(void);

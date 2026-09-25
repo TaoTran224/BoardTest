@@ -38,7 +38,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
         }
         Speed_Random++;
         MotorRandom();
-        MagnetRun();
+        //MagnetRun();
         MotorRun();
 
         if ((u32PulseTimeCount++) >= u32PulseTimeWait)

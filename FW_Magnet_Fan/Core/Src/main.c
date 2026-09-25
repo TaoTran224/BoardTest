@@ -78,7 +78,7 @@ int main(void)
   {
     /* USER CODE END WHILE */
 
-
+    WDT_Clear();
     RS485_CH2_Process();
     Pulse_Ouput();
     if (true == Motor.bFlagCalTime)
