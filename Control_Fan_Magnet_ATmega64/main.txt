@@ -1,0 +1,248 @@
+13.09.17
+-tam OK: doc duoc cong to CE-18G, CE-18, 
+-Doc UI bang phan mem test a Hung bi loi: tra cham 1 form ( nhung dung Terminal binh thuong)???  check lai vs a Hung sau
+
+-No save channel toi eeprom
+
+14.09.17  Ban ko co AES
+Tam chot, cho thu nghiem tren HHU
+
+15.09.17 Ban co AES
+Tam oK
+-Dinh kem RSSI
+
+170717
+-HHUID random theo timer
+-Tach 2 foem UI rieng biet de fix loi du lieu U, I sai,
+ -Dat time_Scan IWAITT=20, scan 5+15 lan==> Thoi gian monitor tu luc doc-->nhan dien nang: 3.47s
+ -chua doc duoc Huu hong????
+ 
+ --> Fix them loi UI bang: neu I>200.xx--> retry
+
+Dang test
+--> fix loi khong doc duoc Huu hong bang cach sua trong ngat RXD0
+ //if(STATE_ID == STATE_WAITSTAR) //?????
+    if((STATE_ID == STATE_WAITSTAR)||(STATE_ID == STATE_WAITHHU))
+    -->check lai a Hung,( code nguyen ban anh Hung cho, build ra cung loi)????
+    
+    18.07.17
+    -retry time =3
+    -fix HHU Huu hong: trong theo phuong an nhu 170717      
+    19.09.17
+    add internal wdt
+    
+26.09.17
+-Fix loi khong doc duoc cong to CE-18 khi da dang ky vao he thong DCU
+
+27.09.17
+update LED cho SCH EKEMP801 va X6
+
+280917
+Khong Send Close truoc khi giao tiep--> giam loi
+
+
+@home
+Thay delay_ms(30) sau khi cos RFFlag thanh delay_ms(50) de giam thieu doc loi khi doc nhieu lan
+--> dang test doc 100 lan cac loai cong to
+
+
+
+290917
+Can chinh lai cac time cho phu hop, ti le doc tot hon
+--> Dang test-->OK
+
+16.10.17
+
+Fix lai thanh ghi PKTCTRL1=0x00 de doc duoc de cac cong to trong he thong HESH
+
+
+061217
+Tao code cho phan cung moi PCB tich hop tren HHU G4 cua Huu hong cap cho dien luc hanoi
+Muc dich: Su dung HHU G4 cua huu hong de doc duoc cong to EMIC, huu hong
+
+Hard G4:
+Cum RF:
+- CSN-A64      -OK
+- SCK           -OK
+- MOSI          -OK
+- MISO          -OK
+- TE            -PA1
+- RE            -PA2
+- GDO2          -OK
+- GDO0          -OK
+
+
+Cum RS232
+-RXD1   -OK
+-TXD1   -OK
+-RXD0   -OK
+-TXD0   -OK
+
+Cum LED
+-LED1           PE6
+-LED2           PE5
+
+POWER HH        PA3 Nguoc muc: 0: co nguon, 1: tat nguon
+
+Bo chan WDT_IN
+
+--> da buid code
+
+141217
+- Add Make_HHU_ID(), Clear_Tx_Buff(), Check_SEQ()
+- Add form send SoftwearID (4 bytes)
+- Add LED nhay 2s/1 lan de bao trang thai modul
+
+--> cho nap test
+
+181217
+Add moi lan doc RF gui 3 lan form RF
+221217
+thay cau hinh UART1 buad57600 bps x2 mode de giam loi UART
+// USART1 initialization
+// Communication Parameters: 8 Data, 1 Stop, No Parity
+// USART1 Receiver: On
+// USART1 Transmitter: On
+// USART1 Mode: Asynchronous
+// USART1 Baud Rate: 57600 (Double Speed Mode)
+    UCSR1A=0x02;
+    UCSR1B=0x98;
+    UCSR1C=0x06;
+    UBRR1H=0x00;
+    UBRR1L=0x10;     //UBRRL=0x67 <=> 4800; //0x33 <=> 9600        ;  UBRR1L=0x08;<=> 57600
+    
+
+080118
+V3
+fix loi HHU G4 dung phan mem Huu hong doc cong to CE-18G ko doc duoc
+sua lai trong ngat nhan UART0: put luon sang UART1
+
+100118
+V4
+Doc CE-18: Dong byte XOR chi khi dung CMD ID trong switch 
+
+100118 night
+- Trong ngat UART0: check trang thai, check error    
+    if((STATE_ID == STATE_WAITSTAR)||(STATE_ID == STATE_WAITHHU))
+    {
+    
+        if ((status & (FRAMING_ERROR | PARITY_ERROR | DATA_OVERRUN))==0)
+        {  
+            putchar1(data);  
+        }
+    }      
+
+28.01.18
+- Add Send_Close
+- HHUID1++; (init =0xAA)
+- Bat chat hon trong ham: ProcessRF_Scan_Frame():
+    + Check SEQ=1;
+    + Check them het tat ca cac byte co dinh : 0xFF, 0xFA, HHUID
+- Check SEQ_ID: =1 khi Re scan; =2 khi Re Kwh, U cmd; =3 khi re I_cmd
+
+
+31.01.17
+-Xu ly giam toi thieu loi nham data giua 2 cong to (tuong tu cach Thuong Tin)
+
+-Put luon tung byte sang machj huu hong
+-Xu ly byte timout
+--> dang test
+Co send Log 18+48+48=114 byte moi lan gui, cho softwear xu ly log
+050218
+-xu ly uart1 byte timeout, form timeout
+-Baudrate UART0 Huu hong x2 mode, 57600bps (do thay update firmwear Huu hong NG tren G3)
+--> Thu nghiem nap fw cu cho mach Huu hong (Code MSP430F6736 all mem 01.03.2016)
+--> chay phan mem huu hong tren HHU G3--> tu chay update->thanh cong NMH10
+-Option Send_log #ifdef  
+         
+210318
+Add form RESET Chip de nap BLS
+
+
+110418
+ thu nghiem sen 4x49 byte log RF TX, RX
+ Tat ca cac phien ban tren tat ca cac loai HHU can sua lai doan check sum payload trong ham ProcessRF_Mesh(void) thuoc file Mesh_RF.c  cu the nhu sau:
+
+- Hien tai: 
+if(Payload_Checksum(Payload_Buff,Payload_Buff[7]+8)==Payload_Buff[Payload_Buff[7]+8]); //checksum
+
+- can sua thanh
+if(Payload_Checksum(Payload_Buff,Payload_Buff[7]+7)==Payload_Buff[Payload_Buff[7]+7]) //checksum
+//thay 7 thanh 8, bo dau ";" cuoi ham if de fix loi khong chay doanj checksum
+
+070518 V06
+- Cmd FW ID doi sang RF code metertype =0x01 : dong bo voi phan mem tren HHU
+- bo delay(100)ms  trong ham putbuffer1 de tranh khong treo chuong trinh tren HHU
+
+080518 V06
+-Khi doc UI
+send 18 byte UART +214 byte log U + 214 byte log I=410 byte
+- Khi doc dien nang
+send 18 byte UART+214 byte log E
+log example:
+-------------------------------------------------------------------------------------------
+
+Log khi doc test (kem UI) cong to 18100514 : 54.79kWh, 198.75V, 0.00A
+08/05/2018 14:08:46
+send: 68 12 00 00 02 18 10 05 14 00 00 00 00 00 00 00 09 16  	//doc E
+rec: False_214 == 
+68 12 25 00 02 18 10 05 14 00 00 00 54 79 00 00 01 16 			//18 bytes UART
+2E 6A 02 CB CB FF FA CB CB 00 00 00 20 00 20 00 16 00 01 00 11 00 01 00 0E C0 01 81 00 03 01 00 01 08 00 FF 02 00 71 00 00 00 00 00 00 00 00 00 00  //49 byte log send E chua ma hoa AES 
+2E 6A 02 CB CB FF FA CB CB 00 00 00 20 00 20 C0 51 03 92 47 5D 07 7F 72 FB A8 D8 8E 34 D6 50 BA B7 E1 54 A3 FB 88 77 22 87 95 2B 1D 03 3C EE 10 96  //49 byte log send E da ma hoa AES 
+2E EA 02 CB CB FF FA 00 00 CB CB 00 20 00 20 C0 0F 5A 28 FE 7B 3A 54 55 15 62 A5 89 8D 69 4E 2C 75 97 45 8B A6 29 65 86 BB B4 32 E8 06 4C 83 DF CD  //49 byte log rec E da ma hoa AES  
+2E EA 02 CB CB FF FA 00 00 CB CB 00 20 00 20 00 01 00 01 00 11 00 0A C4 01 81 00 06 00 00 15 67 E5 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  //49 byte log rec E chua ma hoa AES 
+08/05/2018 14:08:49
+send: 68 12 00 00 02 18 10 05 14 06 00 00 00 00 00 00 0F 16
+rec: False_410 == 
+68 12 25 00 02 18 10 05 14 06 01 98 75 00 00 00 C6 16 
+2E 6A 02 CC D0 FF FA CC D0 00 00 00 20 00 20 00 16 00 01 00 11 00 01 00 0E C0 01 81 00 03 01 00 20 07 00 FF 02 00 8F 00 00 00 00 00 00 00 00 00 00  //49 byte log send U chua ma hoa AES 
+2E 6A 02 CC D0 FF FA CC D0 00 00 00 20 00 20 C0 51 03 92 47 5D 07 7F 72 FB A8 D8 8E 34 D6 50 F8 DE 16 A4 1D 13 91 AF C5 D3 0E 90 3D C1 67 12 8F 70   //49 byte log send U chua ma hoa AES 
+2E EA 02 CC D0 FF FA 00 00 CC D0 00 20 00 20 C0 0F 5A 28 FE 7B 3A 54 55 15 62 A5 89 8D 69 4E 5D 8E C9 CA 8B 10 1F D3 1A 05 C7 3C F1 B5 21 10 81 CA   //49 byte log send U chua ma hoa AES 
+2E EA 02 CC D0 FF FA 00 00 CC D0 00 20 00 20 00 01 00 01 00 11 00 0A C4 01 81 00 06 00 00 4D A3 59 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  //49 byte log send U chua ma hoa AES 
+ 
+2E 6A 03 CC D0 FF FA CC D0 00 00 00 20 00 20 00 16 00 01 00 11 00 01 00 0E C0 01 81 00 03 01 00 1F 07 00 FF 02 00 8E 00 00 00 00 00 00 00 00 00 00   //49 byte log send I chua ma hoa AES 
+2E 6A 03 CC D0 FF FA CC D0 00 00 00 20 00 20 C0 51 03 92 47 5D 07 7F 72 FB A8 D8 8E 34 D6 50 CF F6 1E 7B 3E 90 4D 51 9B 71 24 65 AE 7A 2C 6B A6 53  //49 byte log send I chua ma hoa AES 
+2E EA 03 CC D0 FF FA 00 00 CC D0 00 20 00 20 C0 0F 5A 28 FE 7B 3A 54 55 15 62 A5 89 8D 69 4E 79 8A 95 66 08 91 76 BF 29 9F 34 9F A3 96 25 FC 0F AD   //49 byte log send I chua ma hoa AES 
+2E EA 03 CC D0 FF FA 00 00 CC D0 00 20 00 20 00 01 00 01 00 11 00 0A C4 01 81 00 06 00 00 00 00 69 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  //49 byte log send I chua ma hoa AES 
+
+-------------------------------------------------------------------------------------------
+
+v10290518
+Log full EUI
+Fix kenh CH bang 8: byt[17] form Scan=8
+Sau khi gui scan xong, chuyen ve kenh fix de cho nhan scan
+==> Nap thu 03 HHU G4 290518 cho Dien luc thanh oai
+
+250718: Phien ban cho NPC 1 kenh RF 408.925MHZ
+- F0: 408.125MHz
+- Test fix ch= 408.925Mhz
+- Test doc cong to huu hong: 12 cong to cac loai muon tu Hung yen 240718
+
+180818
+Update thong tin hardwear
+/*
+Hardwear ver
+x1: Ver 1.00 HPC
+x2: Ver 1.18 HPC
+x3: Ver 1.18 G3-G4
+x4: Ver 1.00 X6
+x5: Ver 1.00 EKEMP INSILDE
+x6: Ver 1.00 EKEMP OUTSIDE
+
+*/
+
+
+280818  V11 280818
+Tren nen code Thai Binh V10 180818
+-define oprion send log
+-Define PCB: G4 or Ekemp
+-Define RF 1CH or 16 CH
+-SWID =0x01
+chua test
+
+
+250918: Tong hop code 1CH-16CH vao ver 11
+- dua theo ma buff[4] va buf[9] de biet duoc doc cong to loai nao? doc cai gi?
+- add byte RSSI cong to CE-18G
+
+==> chua test

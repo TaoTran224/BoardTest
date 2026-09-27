@@ -58,18 +58,25 @@ void Error_Handler(void);
 
 /* Private defines -----------------------------------------------------------*/
 
+//#define BOARD_MODE_PC_CONTROL
+
 #define GPIO_PWM GPIOA
 #define GPIO_PWM_PIN GPIO_PIN_1
+#define GPIO_PWM_POWER GPIOA
+#define GPIO_PWM_POWER_PIN GPIO_PIN_0
+
+#define GPIO_PULSE GPIOA
+#define GPIO_PULSE_PIN GPIO_PIN_5
 #define GPIO_MAGNET GPIOA
-#define GPIO_MAGNET_PIN GPIO_PIN_0
+#define GPIO_MAGNET_PIN GPIO_PIN_4
 
 #define TIME_CHANNEL_PWM TIM_CHANNEL_2
 
 #define LED_RUN_Pin GPIO_PIN_13
 #define LED_RUN_GPIO_Port GPIOC
-#define OUT0_Pin GPIO_PIN_4
+//#define OUT0_Pin GPIO_PIN_4
 #define OUT0_GPIO_Port GPIOA
-#define OUT1_Pin GPIO_PIN_5
+//#define OUT1_Pin GPIO_PIN_5
 #define OUT1_GPIO_Port GPIOA
 #define OUT2_Pin GPIO_PIN_6
 #define OUT2_GPIO_Port GPIOA

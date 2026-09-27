@@ -8,7 +8,7 @@ uint8_t logLen;
 uint16_t logTime;
 
 
-void DBG_SendBuffer(uint8_t *buf, const uint16_t len)
+void DBG_SendBuffer(const uint8_t *buf, const uint16_t len)
 {
     HAL_UART_Transmit(&huart2, buf, len, len);
 
@@ -50,7 +50,7 @@ void ConvertHexToStr(uint8_t* ch, uint8_t hex)
 	}
 }
 
-void DBG_SendHexToStr(uint8_t* buf, uint16_t len)
+void DBG_SendHexToStr(const uint8_t* buf, const uint16_t len)
 {
 	uint8_t str[3] = {0,0,0x20};//0x20:space
 	DBG_SendStr("\nHEX[");

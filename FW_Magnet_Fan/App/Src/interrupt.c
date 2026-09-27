@@ -14,6 +14,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
 {
 	if (htim->Instance == htim1.Instance) //1ms
 	{
+         Speed_Random++;
         if (900 <= (LED_Blink++))
         {
             HAL_GPIO_WritePin(LED_RUN_GPIO_Port, LED_RUN_Pin, GPIO_PIN_RESET);
@@ -23,7 +24,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
 			HAL_GPIO_WritePin(LED_RUN_GPIO_Port, LED_RUN_Pin, GPIO_PIN_SET);
             LED_Blink = 0;
         }
-        Speed_Random++;
 		if ((true == RS485Ch2.bFlagRec) && (false == State.bits.S_PROCESS_RS485_CH2))
         {
             if (100 <= RS485Ch2.u16Timeout++)
@@ -36,16 +36,15 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
         {
             OutputDisplay();
         }
-        Speed_Random++;
-        MotorRandom();
-        //MagnetRun();
-        MotorRun();
-
+ 
         if ((u32PulseTimeCount++) >= u32PulseTimeWait)
         {
             u32PulseTimeCount = 0;
             State.bits.S_PULSE = true;
         }
+        MotorRandom();
+        MotorRun();
+        MagnetRun();
     }
 	else if (htim->Instance == htim2.Instance) // 10ms
 	{

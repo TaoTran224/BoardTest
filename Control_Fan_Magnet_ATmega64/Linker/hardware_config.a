@@ -1,0 +1,615 @@
+;
+;#include "hardware_config.h"
+;PCODE: $00000000 VOL: 0
+	#ifndef __SLEEP_DEFINED__
+;PCODE: $00000001 VOL: 0
+	#define __SLEEP_DEFINED__
+;PCODE: $00000002 VOL: 0
+	.EQU __se_bit=0x20
+;PCODE: $00000003 VOL: 0
+	.EQU __sm_mask=0x1C
+;PCODE: $00000004 VOL: 0
+	.EQU __sm_powerdown=0x10
+;PCODE: $00000005 VOL: 0
+	.EQU __sm_powersave=0x18
+;PCODE: $00000006 VOL: 0
+	.EQU __sm_standby=0x14
+;PCODE: $00000007 VOL: 0
+	.EQU __sm_ext_standby=0x1C
+;PCODE: $00000008 VOL: 0
+	.EQU __sm_adc_noise_red=0x08
+;PCODE: $00000009 VOL: 0
+	.SET power_ctrl_reg=mcucr
+;PCODE: $0000000A VOL: 0
+	#endif
+;PCODE: $0000000B VOL: 0
+;PCODE: $0000000C VOL: 0
+;
+;
+;static void LEDInit(void)
+; 0001 0006 {
+
+	.CSEG
+;PCODE: $0000000D VOL: 0
+;PCODE: $0000000E VOL: 0
+; 0001 0007 // LED1
+; 0001 0008     DDRD.5=1;
+;PCODE: $0000000F VOL: 0
+;PCODE: $00000010 VOL: 0
+; 0001 0009 // LED2
+; 0001 000A     DDRD.6=1;
+;PCODE: $00000011 VOL: 0
+;PCODE: $00000012 VOL: 0
+; 0001 000B }
+;PCODE: $00000013 VOL: 0
+;PCODE: $00000014 VOL: 0
+;
+;
+;//void LEDRedOn(void)
+;//{
+;//    PORTD.6=0;
+;//}
+;//void LEDRedOff(void)
+;//{
+;//    PORTD.6=1;
+;//}
+;
+;void LEDGreenOn(void)
+; 0001 0018 {
+;PCODE: $00000015 VOL: 0
+;PCODE: $00000016 VOL: 0
+; 0001 0019     PORTD.5=0;
+;PCODE: $00000017 VOL: 0
+;PCODE: $00000018 VOL: 0
+; 0001 001A }
+;PCODE: $00000019 VOL: 0
+;PCODE: $0000001A VOL: 0
+;
+;void LEDGreenOff(void)
+; 0001 001D {
+;PCODE: $0000001B VOL: 0
+;PCODE: $0000001C VOL: 0
+; 0001 001E     PORTD.5=1;
+;PCODE: $0000001D VOL: 0
+;PCODE: $0000001E VOL: 0
+; 0001 001F }
+;PCODE: $0000001F VOL: 0
+;PCODE: $00000020 VOL: 0
+;
+;static void Timer0Init(void)
+; 0001 0022 {
+;PCODE: $00000021 VOL: 0
+;PCODE: $00000022 VOL: 0
+; 0001 0023     ASSR=0x00;
+;PCODE: $00000023 VOL: 0
+;PCODE: $00000024 VOL: 0
+; 0001 0024     OCR0=0x00;
+;PCODE: $00000025 VOL: 0
+;PCODE: $00000026 VOL: 0
+; 0001 0025     TCCR0=0x04;             // Prescaling = 64
+;PCODE: $00000027 VOL: 0
+;PCODE: $00000028 VOL: 0
+; 0001 0026     TCNT0=131;               // 56 <=>1.6ms;  131 <=>1 ms
+;PCODE: $00000029 VOL: 0
+;PCODE: $0000002A VOL: 0
+; 0001 0027     TIMSK |= (1<<TOIE0);    // TC0 overflow interrupt enable
+;PCODE: $0000002B VOL: 0
+;PCODE: $0000002C VOL: 0
+;PCODE: $0000002D VOL: 0
+; 0001 0028 }
+;PCODE: $0000002E VOL: 0
+;PCODE: $0000002F VOL: 0
+;
+;//void DisableInterrupt(void)
+;//{
+;//    EIMSK=0x00;
+;//}
+;
+;void EnableInterrupt(void)
+; 0001 0030 {
+;PCODE: $00000030 VOL: 0
+;PCODE: $00000031 VOL: 0
+; 0001 0031     EIMSK=0x01;
+;PCODE: $00000032 VOL: 0
+;PCODE: $00000033 VOL: 0
+; 0001 0032 }
+;PCODE: $00000034 VOL: 0
+;PCODE: $00000035 VOL: 0
+;
+;static void ConfigHardware(void)
+; 0001 0035 {
+;PCODE: $00000036 VOL: 0
+;PCODE: $00000037 VOL: 0
+; 0001 0036     //SDN Si4432
+; 0001 0037     DDRB.7=1;
+;PCODE: $00000038 VOL: 0
+;PCODE: $00000039 VOL: 0
+; 0001 0038 // SI4432
+; 0001 0039     // External Interrupt(s) initialization
+; 0001 003A     // INT0: On
+; 0001 003B     // INT0 Mode: Failling Edge
+; 0001 003C     EICRA=0x02;
+;PCODE: $0000003A VOL: 0
+;PCODE: $0000003B VOL: 0
+; 0001 003D     EICRB=0x00;
+;PCODE: $0000003C VOL: 0
+;PCODE: $0000003D VOL: 0
+; 0001 003E     EIMSK=0x01;
+;PCODE: $0000003E VOL: 0
+;PCODE: $0000003F VOL: 0
+; 0001 003F     EIFR=0x01;
+;PCODE: $00000040 VOL: 0
+;PCODE: $00000041 VOL: 0
+; 0001 0040 
+; 0001 0041 //CC1101
+; 0001 0042     // External Interrupt(s) initialization
+; 0001 0043     // INT0: On
+; 0001 0044 //    // INT0 Mode: Rising Edge
+; 0001 0045 //    EICRA=0x03;
+; 0001 0046 //    EICRB=0x00;
+; 0001 0047 //    EIMSK=0x01;
+; 0001 0048 //    EIFR=0x01;
+; 0001 0049 
+; 0001 004A     // Timer(s)/Counter(s) Interrupt(s) initialization
+; 0001 004B     TIMSK=0x00;
+;PCODE: $00000042 VOL: 0
+;PCODE: $00000043 VOL: 0
+; 0001 004C 
+; 0001 004D     ETIMSK=0x00;
+;PCODE: $00000044 VOL: 0
+;PCODE: $00000045 VOL: 0
+; 0001 004E // USART0 initialization
+; 0001 004F // Communication Parameters: 8 Data, 1 Stop, No Parity
+; 0001 0050 // USART0 Receiver: On
+; 0001 0051 // USART0 Transmitter: On
+; 0001 0052 // USART0 Mode: Asynchronous
+; 0001 0053 // USART0 Baud Rate: 57600 (Double Speed Mode)
+; 0001 0054     UCSR0A=0x02;
+;PCODE: $00000046 VOL: 0
+;PCODE: $00000047 VOL: 0
+; 0001 0055     UCSR0B=0x98;
+;PCODE: $00000048 VOL: 0
+;PCODE: $00000049 VOL: 0
+; 0001 0056     UCSR0C=0x06;
+;PCODE: $0000004A VOL: 0
+;PCODE: $0000004B VOL: 0
+; 0001 0057     UBRR0H=0x00;
+;PCODE: $0000004C VOL: 0
+;PCODE: $0000004D VOL: 0
+; 0001 0058     UBRR0L=0x10;
+;PCODE: $0000004E VOL: 0
+;PCODE: $0000004F VOL: 0
+; 0001 0059 
+; 0001 005A // USART1 initialization
+; 0001 005B // Communication Parameters: 8 Data, 1 Stop, No Parity
+; 0001 005C // USART1 Receiver: On
+; 0001 005D // USART1 Transmitter: On
+; 0001 005E // USART1 Mode: Asynchronous
+; 0001 005F // USART1 Baud Rate: 57600 (Double Speed Mode)
+; 0001 0060     UCSR1A=0x02;
+;PCODE: $00000050 VOL: 0
+;PCODE: $00000051 VOL: 0
+; 0001 0061     UCSR1B=0x98;
+;PCODE: $00000052 VOL: 0
+;PCODE: $00000053 VOL: 0
+; 0001 0062     UCSR1C=0x06;
+;PCODE: $00000054 VOL: 0
+;PCODE: $00000055 VOL: 0
+; 0001 0063     UBRR1H=0x00;
+;PCODE: $00000056 VOL: 0
+;PCODE: $00000057 VOL: 0
+; 0001 0064     UBRR1L=0x10;
+;PCODE: $00000058 VOL: 0
+;PCODE: $00000059 VOL: 0
+; 0001 0065 }
+;PCODE: $0000005A VOL: 0
+;PCODE: $0000005B VOL: 0
+;
+;static void PullupRxTx(void)
+; 0001 0068 {
+;PCODE: $0000005C VOL: 0
+;PCODE: $0000005D VOL: 0
+; 0001 0069     PORTE.0=1; //RXD0 pullup
+;PCODE: $0000005E VOL: 0
+;PCODE: $0000005F VOL: 0
+; 0001 006A     PORTD.2=1; //RXD1 pullup
+;PCODE: $00000060 VOL: 0
+;PCODE: $00000061 VOL: 0
+; 0001 006B }
+;PCODE: $00000062 VOL: 0
+;PCODE: $00000063 VOL: 0
+;
+;static void Internal_Watchdog_Init()//1s wdt
+; 0001 006E {
+;PCODE: $00000064 VOL: 0
+;PCODE: $00000065 VOL: 0
+; 0001 006F     WDTCR=0x1E;
+;PCODE: $00000066 VOL: 0
+;PCODE: $00000067 VOL: 0
+; 0001 0070     WDTCR=0x0E;//disable change WDE
+;PCODE: $00000068 VOL: 0
+;PCODE: $00000069 VOL: 0
+; 0001 0071 }
+;PCODE: $0000006A VOL: 0
+;PCODE: $0000006B VOL: 0
+;
+;
+;void HardwareInit(void)
+; 0001 0075 {
+;PCODE: $0000006C VOL: 0
+;PCODE: $0000006D VOL: 0
+; 0001 0076     LEDInit();
+;PCODE: $0000006E VOL: 0
+; 0001 0077     ConfigHardware();
+;PCODE: $0000006F VOL: 0
+; 0001 0078     Output_Init();
+;PCODE: $00000070 VOL: 0
+; 0001 0079     PullupRxTx();
+;PCODE: $00000071 VOL: 0
+; 0001 007A     Timer0Init();
+;PCODE: $00000072 VOL: 0
+; 0001 007B     Internal_Watchdog_Init();
+;PCODE: $00000073 VOL: 0
+; 0001 007C     EnableInterrupt();
+;PCODE: $00000074 VOL: 0
+; 0001 007D }
+;PCODE: $00000075 VOL: 0
+;PCODE: $00000076 VOL: 0
+;
+;
+;void Reset_WDT(void)
+; 0001 0081 {
+;PCODE: $00000077 VOL: 0
+;PCODE: $00000078 VOL: 0
+; 0001 0082     //internal WDT
+; 0001 0083     #asm("WDR") ;//clear WDT
+;PCODE: $00000079 VOL: 0
+	WDR
+;PCODE: $0000007A VOL: 0
+; 0001 0084 }
+;PCODE: $0000007B VOL: 0
+;PCODE: $0000007C VOL: 0
+;
+;
+;
+;//void UART1SendChar(uint8_t c)
+;//{
+;//    while(!(UCSR1A & DATA_REGISTER_EMPTY)) {}
+;//    UDR1=c;
+;//}
+;//
+;//void UART1SendBuffer(uint8_t *buffer, uint16_t len)
+;//{
+;//    uint16_t i=0;
+;//    #asm("cli")
+;//    for(i=0; i<len;i++)
+;//    {
+;//        UART1SendChar(buffer[i]);
+;//    }
+;//    #asm("sei")
+;//}
+;//
+;//void UART1SendString(char *str)
+;//{
+;//    uint16_t i=0;
+;//    #asm("cli")
+;//    for(i=0; i<strlen(str);i++)
+;//    {
+;//        UART1SendChar(str[i]);
+;//    }
+;//    #asm("sei")
+;//}
+;
+;void UART0SendChar(uint8_t c)
+; 0001 00A5 {
+;PCODE: $0000007D VOL: 0
+;PCODE: $0000007E VOL: 0
+; 0001 00A6     while(!(UCSR0A & DATA_REGISTER_EMPTY)) {}
+;	c -> Y+0
+;PCODE: $0000007F VOL: 0
+;PCODE: $00000080 VOL: 0
+;PCODE: $00000081 VOL: 0
+;PCODE: $00000082 VOL: 0
+;PCODE: $00000083 VOL: 0
+;PCODE: $00000084 VOL: 0
+; 0001 00A7     UDR0=c;
+;PCODE: $00000085 VOL: 0
+;PCODE: $00000086 VOL: 0
+; 0001 00A8 }
+;PCODE: $00000087 VOL: 0
+;PCODE: $00000088 VOL: 0
+;PCODE: $00000089 VOL: 0
+;
+;void UART0SendBuffer(uint8_t *buffer, uint16_t len)
+; 0001 00AB {
+;PCODE: $0000008A VOL: 0
+;PCODE: $0000008B VOL: 0
+; 0001 00AC     uint16_t i=0;
+; 0001 00AD     #asm("cli")
+;PCODE: $0000008C VOL: 0
+;PCODE: $0000008D VOL: 0
+;	*buffer -> Y+4
+;	len -> Y+2
+;	i -> R16,R17
+;PCODE: $0000008E VOL: 0
+;PCODE: $0000008F VOL: 0
+;PCODE: $00000090 VOL: 0
+	cli
+;PCODE: $00000091 VOL: 0
+; 0001 00AE     for(i=0; i<len;i++)
+;PCODE: $00000092 VOL: 0
+;PCODE: $00000093 VOL: 0
+;PCODE: $00000094 VOL: 0
+;PCODE: $00000095 VOL: 0
+;PCODE: $00000096 VOL: 0
+;PCODE: $00000097 VOL: 0
+;PCODE: $00000098 VOL: 0
+;PCODE: $00000099 VOL: 0
+;PCODE: $0000009A VOL: 0
+; 0001 00AF     {
+; 0001 00B0         UART0SendChar(buffer[i]);
+;PCODE: $0000009B VOL: 0
+;PCODE: $0000009C VOL: 0
+;PCODE: $0000009D VOL: 0
+;PCODE: $0000009E VOL: 0
+;PCODE: $0000009F VOL: 0
+;PCODE: $000000A0 VOL: 0
+; 0001 00B1     }
+;PCODE: $000000A1 VOL: 0
+;PCODE: $000000A2 VOL: 0
+;PCODE: $000000A3 VOL: 0
+;PCODE: $000000A4 VOL: 0
+;PCODE: $000000A5 VOL: 0
+; 0001 00B2     #asm("sei")
+;PCODE: $000000A6 VOL: 0
+	sei
+;PCODE: $000000A7 VOL: 0
+; 0001 00B3 }
+;PCODE: $000000A8 VOL: 0
+;PCODE: $000000A9 VOL: 0
+;PCODE: $000000AA VOL: 0
+;PCODE: $000000AB VOL: 0
+;PCODE: $000000AC VOL: 0
+;PCODE: $000000AD VOL: 0
+;PCODE: $000000AE VOL: 0
+;
+;//void UART0SendString(char *str)
+;//{
+;//    uint16_t i=0;
+;//    #asm("cli")
+;//    for(i=0; i<strlen(str);i++)
+;//    {
+;//        UART0SendChar(str[i]);
+;//    }
+;//    #asm("sei")
+;//}
+;
+;
+;
+;
+;void Output_Init(void)
+; 0001 00C4 {
+;PCODE: $000000AF VOL: 0
+;PCODE: $000000B0 VOL: 0
+; 0001 00C5     DDRB.3 = 1;//MISO/out2
+;PCODE: $000000B1 VOL: 0
+;PCODE: $000000B2 VOL: 0
+; 0001 00C6     DDRB.2 = 1;//MOSI/out0
+;PCODE: $000000B3 VOL: 0
+;PCODE: $000000B4 VOL: 0
+; 0001 00C7     DDRB.1 = 1;//SCK/out1
+;PCODE: $000000B5 VOL: 0
+;PCODE: $000000B6 VOL: 0
+; 0001 00C8     DDRB.0 = 1;//CSN/out3
+;PCODE: $000000B7 VOL: 0
+;PCODE: $000000B8 VOL: 0
+; 0001 00C9     PORTB.3 = 1;
+;PCODE: $000000B9 VOL: 0
+;PCODE: $000000BA VOL: 0
+; 0001 00CA     PORTB.2 = 1;
+;PCODE: $000000BB VOL: 0
+;PCODE: $000000BC VOL: 0
+; 0001 00CB     PORTB.1 = 1;
+;PCODE: $000000BD VOL: 0
+;PCODE: $000000BE VOL: 0
+; 0001 00CC     PORTB.0 = 1;
+;PCODE: $000000BF VOL: 0
+;PCODE: $000000C0 VOL: 0
+; 0001 00CD 
+; 0001 00CE     DDRB.5 = 1;//PWM1
+;PCODE: $000000C1 VOL: 0
+;PCODE: $000000C2 VOL: 0
+; 0001 00CF     PORTB.5 = 1;
+;PCODE: $000000C3 VOL: 0
+;PCODE: $000000C4 VOL: 0
+; 0001 00D0 }
+;PCODE: $000000C5 VOL: 0
+;PCODE: $000000C6 VOL: 0
+;
+;//void OutputRun(uint8_t seq, BOOL on_off)
+;//{
+;//    if (0 == seq)
+;//    {
+;//        if (TRUE == on_off)
+;//        {
+;//            PORTB.3 = 0;
+;//        }
+;//        else
+;//        {
+;//            PORTB.3 = 1;
+;//        }
+;//    }
+;//    else if (1 == seq)
+;//    {
+;//        if (TRUE == on_off)
+;//        {
+;//            PORTB.2 = 0;
+;//        }
+;//        else
+;//        {
+;//            PORTB.2 = 1;
+;//        }
+;//    }
+;//    else if (2 == seq)
+;//    {
+;//        if (TRUE == on_off)
+;//        {
+;//            PORTB.1 = 0;
+;//        }
+;//        else
+;//        {
+;//            PORTB.1 = 1;
+;//        }
+;//    }
+;//}
+;
+;
+;void PWM1_Init(uint32_t freq, uint8_t duty)
+; 0001 00F9 {
+;PCODE: $000000C7 VOL: 0
+;PCODE: $000000C8 VOL: 0
+; 0001 00FA     uint16_t top;
+; 0001 00FB     // Set OC1A (PD5) output
+; 0001 00FC     DDRB.5 = 1;
+;PCODE: $000000C9 VOL: 0
+;PCODE: $000000CA VOL: 0
+;	freq -> Y+3
+;	duty -> Y+2
+;	top -> R16,R17
+;PCODE: $000000CB VOL: 0
+;PCODE: $000000CC VOL: 0
+; 0001 00FD     PORTB.5 = 0;
+;PCODE: $000000CD VOL: 0
+;PCODE: $000000CE VOL: 0
+; 0001 00FE     TCCR1A = (1 << COM1A1) | (1 << WGM11);
+;PCODE: $000000CF VOL: 0
+;PCODE: $000000D0 VOL: 0
+; 0001 00FF     TCCR1B = (1 << WGM13) | (1 << WGM12); // ? chua set prescaler
+;PCODE: $000000D1 VOL: 0
+;PCODE: $000000D2 VOL: 0
+; 0001 0100 
+; 0001 0101     top = (uint16_t)(1000000 / freq) - 1;
+;PCODE: $000000D3 VOL: 0
+;PCODE: $000000D4 VOL: 0
+;PCODE: $000000D5 VOL: 0
+;PCODE: $000000D6 VOL: 0
+;PCODE: $000000D7 VOL: 0
+;PCODE: $000000D8 VOL: 0
+; 0001 0102     ICR1 = top;
+;PCODE: $000000D9 VOL: 0
+;PCODE: $000000DA VOL: 0
+; 0001 0103 
+; 0001 0104     // Set duty
+; 0001 0105     OCR1A = (uint16_t)((uint32_t)duty * (uint32_t)top / (uint32_t)100);
+;PCODE: $000000DB VOL: 0
+;PCODE: $000000DC VOL: 0
+;PCODE: $000000DD VOL: 0
+;PCODE: $000000DE VOL: 0
+;PCODE: $000000DF VOL: 0
+;PCODE: $000000E0 VOL: 0
+;PCODE: $000000E1 VOL: 0
+;PCODE: $000000E2 VOL: 0
+;PCODE: $000000E3 VOL: 0
+;PCODE: $000000E4 VOL: 0
+;PCODE: $000000E5 VOL: 0
+; 0001 0106 }
+;PCODE: $000000E6 VOL: 0
+;PCODE: $000000E7 VOL: 0
+;PCODE: $000000E8 VOL: 0
+;PCODE: $000000E9 VOL: 0
+;PCODE: $000000EA VOL: 0
+;PCODE: $000000EB VOL: 0
+;PCODE: $000000EC VOL: 0
+;
+;void PWM1_Start(void)
+; 0001 0109 {
+;PCODE: $000000ED VOL: 0
+;PCODE: $000000EE VOL: 0
+; 0001 010A     TCCR1B |= (1 << CS11); // b?t d?u ch?y t?i dây
+;PCODE: $000000EF VOL: 0
+;PCODE: $000000F0 VOL: 0
+;PCODE: $000000F1 VOL: 0
+; 0001 010B }
+;PCODE: $000000F2 VOL: 0
+;PCODE: $000000F3 VOL: 0
+;
+;void PWM1_Stop(void)
+; 0001 010E {
+;PCODE: $000000F4 VOL: 0
+;PCODE: $000000F5 VOL: 0
+; 0001 010F 
+; 0001 0110     // Clear prescaler bits ? d?ng Timer
+; 0001 0111     TCCR1B &= ~((1 << CS12) | (1 << CS11) | (1 << CS10));
+;PCODE: $000000F6 VOL: 0
+;PCODE: $000000F7 VOL: 0
+;PCODE: $000000F8 VOL: 0
+; 0001 0112 }
+;PCODE: $000000F9 VOL: 0
+;PCODE: $000000FA VOL: 0
+;//
+;//void PWM1_SetDuty(uint8_t duty)
+;//{
+;//    OCR1A = (uint16_t)(duty * ICR1 / 100);
+;//}
+;//
+;//void PWM1_SetFreq(uint32_t freq)
+;//{
+;//    uint16_t top = (uint16_t)(1000000 / freq) - 1;
+;//    ICR1 = top;
+;//}
+;
+;void PWM1_DeInit(void)
+; 0001 0120 {
+;PCODE: $000000FB VOL: 0
+;PCODE: $000000FC VOL: 0
+; 0001 0121     // 1. Ng?t k?t n?i PWM kh?i chân OC1A
+; 0001 0122     TCCR1A &= ~((1 << COM1A1) | (1 << COM1A0));
+;PCODE: $000000FD VOL: 0
+;PCODE: $000000FE VOL: 0
+;PCODE: $000000FF VOL: 0
+; 0001 0123 
+; 0001 0124     // 2. D?ng Timer (clear prescaler)
+; 0001 0125     TCCR1B &= ~((1 << CS12) | (1 << CS11) | (1 << CS10));
+;PCODE: $00000100 VOL: 0
+;PCODE: $00000101 VOL: 0
+;PCODE: $00000102 VOL: 0
+; 0001 0126 
+; 0001 0127     // 3. Reset toàn b? thanh ghi Timer1 v? m?c d?nh
+; 0001 0128     TCCR1A = 0x00;
+;PCODE: $00000103 VOL: 0
+;PCODE: $00000104 VOL: 0
+; 0001 0129     TCCR1B = 0x00;
+;PCODE: $00000105 VOL: 0
+;PCODE: $00000106 VOL: 0
+; 0001 012A     TCCR1C = 0x00;
+;PCODE: $00000107 VOL: 0
+;PCODE: $00000108 VOL: 0
+; 0001 012B 
+; 0001 012C     // 4. Reset counter và compare
+; 0001 012D     TCNT1 = 0x0000;
+;PCODE: $00000109 VOL: 0
+;PCODE: $0000010A VOL: 0
+; 0001 012E     ICR1  = 0x0000;
+;PCODE: $0000010B VOL: 0
+;PCODE: $0000010C VOL: 0
+; 0001 012F     OCR1A = 0x0000;
+;PCODE: $0000010D VOL: 0
+;PCODE: $0000010E VOL: 0
+; 0001 0130     OCR1B = 0x0000;
+;PCODE: $0000010F VOL: 0
+;PCODE: $00000110 VOL: 0
+; 0001 0131 
+; 0001 0132     // 5. Clear interrupt flags (n?u có)
+; 0001 0133     TIFR  |= (1 << TOV1) | (1 << OCF1A) | (1 << OCF1B) | (1 << ICF1);
+;PCODE: $00000111 VOL: 0
+;PCODE: $00000112 VOL: 0
+;PCODE: $00000113 VOL: 0
+; 0001 0134 
+; 0001 0135     // 6. Disable interrupt Timer1 (n?u b?n có dùng)
+; 0001 0136     TIMSK &= ~((1 << TOIE1) | (1 << OCIE1A) | (1 << OCIE1B) | (1 << TICIE1));
+;PCODE: $00000114 VOL: 0
+;PCODE: $00000115 VOL: 0
+;PCODE: $00000116 VOL: 0
+; 0001 0137 }
+;PCODE: $00000117 VOL: 0
+;PCODE: $00000118 VOL: 0

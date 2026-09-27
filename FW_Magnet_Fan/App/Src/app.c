@@ -22,13 +22,9 @@ UARTDataType RS485Ch2;
 OutputType Magnet;
 MotorType Motor;
 
-static CmdType Cmd;
-static CmdResultType CmdRes;
-
-
+//static CmdType Cmd;
+//static CmdResultType CmdRes;
 static bool PWM_Flag_Start = false;
-
-
 void PWM_SetFlag1st(void)
 {
     if (false == PWM_Flag_Start)
@@ -57,7 +53,6 @@ void RS485_SendStr(RS485ChannelType ch, char* str)
 	RS485_SendBuffer(ch, (uint8_t*)str, strlen(str));
 }
 
-
 void MagnetRun(void)//out0
 {
     if (MODE_ON == Magnet.eu8Mode)
@@ -70,7 +65,7 @@ void MagnetRun(void)//out0
     }
 }
 
-void Pulse_Ouput(void)
+void Pulse_ResetOuput(void)
 {
     if (true == State.bits.S_PULSE)
     {
@@ -81,14 +76,13 @@ void Pulse_Ouput(void)
         Motor.bRandom = false;
         Motor.eu8Mode = MODE_OFF;
         PWM_Init(1000, 0);
-        delay_ms(2); 
         PWM_Start();
-        delay_s(22);
-        HAL_GPIO_WritePin(GPIOA, GPIO_MAGNET_PIN, GPIO_PIN_RESET);
-        delay_ms(200);
-        HAL_GPIO_WritePin(GPIOA, GPIO_MAGNET_PIN, GPIO_PIN_SET);
-        
-        u32PulseTimeWait = 234000 + Speed_Random%61234;
+        delay_s(2);
+        HAL_GPIO_WritePin(GPIO_PULSE, GPIO_PULSE_PIN, GPIO_PIN_RESET);
+        delay_ms(10);
+        HAL_GPIO_WritePin(GPIO_PULSE, GPIO_PULSE_PIN, GPIO_PIN_SET);
+        delay_s(2);
+        u32PulseTimeWait = 721000 + Speed_Random%61234;
         u32PulseTimeCount = 0;
         Motor.bRandom = true;
 #ifdef DBG_SEND
@@ -112,10 +106,16 @@ void MotorRun(void)
     if (MODE_ON == Motor.eu8Mode)
     {
         HAL_GPIO_WritePin(GPIO_PWM, GPIO_PWM_PIN, GPIO_PIN_SET);
+        HAL_GPIO_WritePin(GPIO_PWM_POWER, GPIO_PWM_POWER_PIN, GPIO_PIN_RESET);
     }
     else if (MODE_OFF == Motor.eu8Mode)
     {
         HAL_GPIO_WritePin(GPIO_PWM, GPIO_PWM_PIN, GPIO_PIN_RESET);
+        HAL_GPIO_WritePin(GPIO_PWM_POWER, GPIO_PWM_POWER_PIN, GPIO_PIN_SET);
+    }
+    else if (MODE_PWM == Motor.eu8Mode)
+    {
+        HAL_GPIO_WritePin(GPIO_PWM_POWER, GPIO_PWM_POWER_PIN, GPIO_PIN_RESET);
     }
 }
 
@@ -145,36 +145,41 @@ void MotorCalRandom(void)
     {
         duty = 0; 
     }
-    else if (30 > rando)
+    else if (30 >= rando)
     {
         duty = 30;
     }
-    else if (50 < rando)
+    else if (30 < rando)
     {
-        duty = 40;
+        duty = 31;
     }
     else
     {
         duty = rando;
     }
     Motor.eu8Mode = MODE_PWM;  
-  
+    //duty = 40; 
     PWM_SetFlag1st();
     delay_ms(2);
     PWM_Init(1000, duty);
     delay_ms(2); 
     PWM_Start();
   
-  
     rando = Random(Speed_Random++)%100;
     if (5 > rando)
     {
         rando = 5;
-    } 
+    }
+    
     Motor.u32TimeCycle = (uint32_t)rando*(uint32_t)432;
     Motor.u32TimeRun = 0;
     Motor.bRandom = true;
     Motor.bFlagCalTime = false;
+
+    if (0 == duty)
+    {
+        Motor.eu8Mode = MODE_OFF;
+    }
 #ifdef DBG_SEND
     logLen = sprintf(log1, "rando = %d, duty = %d\n", rando, duty);
     DBG_SendStr(log1);
@@ -186,7 +191,6 @@ static CmdType Board_UARTCheckFrameValid(CmdResultType* cmd_res, const uint8_t* 
 {
     uint16_t crc16_cal = 0;
     uint16_t crc16_rec = 0;
-
     CmdType cmd = CMD_UNKNOWN;
 #ifdef DBG_SEND
     DBG_SendStr("Board_BLECheckFrameValid\n");
@@ -296,17 +300,14 @@ static CmdType Board_UARTCheckFrameValid(CmdResultType* cmd_res, const uint8_t* 
     }
 }
 
-
 static void Board_SendFrameToApp(CmdType cmd, CmdResultType cmd_res, uint8_t* payload, uint16_t len)
 {
-
     uint8_t buf[64];
 	uint8_t buf_len = len + 7;
 	uint16_t crc;
 #ifdef DBG_SEND
     DBG_SendStr("Board_SendFrameToApp\n");
 #endif
-
 	buf[0] = STX;
 	buf[1] = cmd;
 	buf[2] = cmd_res;
@@ -320,7 +321,6 @@ static void Board_SendFrameToApp(CmdType cmd, CmdResultType cmd_res, uint8_t* pa
 #endif
     RS485_SendBuffer(RS485_CH2, RS485Ch2.au8Buf, RS485Ch2.u8Len);
 }
-
 
 void RS485_CH2_Process(void)
 {
@@ -338,5 +338,3 @@ void RS485_CH2_Process(void)
         State.bits.S_PROCESS_RS485_CH2 = false;
     }
 }
-
-

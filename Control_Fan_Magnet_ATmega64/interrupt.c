@@ -1,0 +1,92 @@
+
+#include "interrupt.h"
+#include "main.h"
+#include "hardware_config.h"
+#include "app.h"
+
+volatile uint32_t Speed_Random=0x12345678;
+
+uint8_t UART_au8Rec[UART_RX_SIZE];
+uint16_t UART_u16Len;
+
+static bool UART_enableRec;
+static uint16_t UART_timeout;
+
+
+//static uint16_t iCounter;
+//static uint16_t iTimeout;
+uint8_t rando;
+
+static uint16_t iCounterRun;
+
+volatile uint32_t u32PulseTimeCount = 0;
+volatile uint32_t u32PulseTimeWait = 10000;
+
+interrupt [TIM0_OVF] void timer0_ovf(void)
+{
+    TCNT0=131;
+    Speed_Random++;
+    MotorRandom();
+    // NOTE: calculations are in *TICKS* (not milliseconds)
+    if (S_RUN == BoardState)
+    {
+        if(iCounterRun++>=900)
+        {
+            LEDGreenOn();
+        }
+        if(iCounterRun>=1000)
+        {
+            LEDGreenOff();
+            iCounterRun=0;
+        }    
+    }
+
+    if (true == UART_enableRec)
+    {
+        if ((200 <= (UART_timeout++)) || (136 <= UART_u16Len)) // len frame update fw
+        {
+            UART_enableRec = false;
+            UART_timeout = 0;
+            if (S_RUN == BoardState)
+            {
+                BoardState = S_UART_PROCESS;
+            }
+        }
+    }
+    MagnetRun();
+    MotorRun();
+}
+
+// USART0 Receiver interrupt service routine
+interrupt [USART0_RXC] void usart0_rx_isr(void)
+{
+    uint8_t status = 0;
+    uint8_t data = 0;
+    status = UCSR0A;
+    data = UDR0;
+    UART_enableRec = true;
+    UART_timeout = 0;
+    if ((S_RUN == BoardState) && ((status & (FRAMING_ERROR | PARITY_ERROR | DATA_OVERRUN)) == 0))
+    {
+        UART_au8Rec[UART_u16Len++] = data;
+            
+        if ((UART_RX_SIZE - (uint16_t)1) <= UART_u16Len)
+        {
+            memset(&UART_au8Rec, 0, sizeof(UART_au8Rec));
+            UART_u16Len = 0;
+        }
+    }
+}
+
+
+// USART1 Receiver interrupt service routine
+interrupt [USART1_RXC] void usart1_rx_isr(void)
+{
+}
+
+
+// External Interrupt 0 service routine
+interrupt [EXT_INT0] void ext_int0_isr(void)
+{
+    BoardState = S_RUN; 
+}

@@ -16,7 +16,7 @@ void Log_SendByte(const uint8_t data);
 
 void DBG_SendStr(const char* str);
 
-void DBG_SendBuffer(uint8_t *buf, const uint16_t len);
+void DBG_SendBuffer(const uint8_t *buf, const uint16_t len);
 
-void DBG_SendHexToStr(uint8_t* buf, uint16_t len);
+void DBG_SendHexToStr(const uint8_t* buf, uint16_t len);
 #endif

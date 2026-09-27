@@ -18,10 +18,6 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "iwdg.h"
-#include "tim.h"
-#include "usart.h"
-#include "gpio.h"
 #include "log.h"
 #include "board.h"
 #include "app.h"
@@ -74,19 +70,24 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1)
-  {
+    while (1)
+    {
     /* USER CODE END WHILE */
 
-    WDT_Clear();
-    RS485_CH2_Process();
-    Pulse_Ouput();
-    if (true == Motor.bFlagCalTime)
-    {
-        MotorCalRandom();
+        WDT_Clear();
+        RS485_CH2_Process();
+        Pulse_ResetOuput();
+        if (true == Motor.bFlagCalTime)
+        {
+            MotorCalRandom();
+        }
+        HAL_GPIO_WritePin(GPIO_PULSE, GPIO_PULSE_PIN, GPIO_PIN_RESET);
+        delay_ms(500);
+        HAL_GPIO_WritePin(GPIO_PULSE, GPIO_PULSE_PIN, GPIO_PIN_SET);
+        delay_ms(500);
+ 
+        /* USER CODE BEGIN 3 */
     }
-    /* USER CODE BEGIN 3 */
-  }
   /* USER CODE END 3 */
 }
 

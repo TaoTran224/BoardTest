@@ -1,0 +1,6 @@
+VERSION:3 SOURCE_TIMESTAMP:5C9752A0
+NODE:M LEVEL:0 LINE:9 "CRC16_H_"
+NODE:I LEVEL:0 LINE:11 "C:\Users\Tran Nhu Tao\Downloads\Control_Fan_Magnet_ATmega64\Control_Fan_Magnet_ATmega64\main.h"
+NODE:I LEVEL:0 LINE:12 "C:\cvavr2\inc\stdbool.h"
+NODE:I LEVEL:0 LINE:13 "C:\cvavr2\inc\stdint.h"
+NODE:I LEVEL:0 LINE:14 "C:\cvavr2\inc\stdio.h"

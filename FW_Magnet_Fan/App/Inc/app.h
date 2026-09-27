@@ -43,7 +43,6 @@ CMD_PULSE_RESET = 0xA2,
 typedef enum
 {
     CMD_RES_UNKNOWN = 0xFF,
-
     CMD_RES_SUCCESS = 0x00,
     CMD_RES_INVALID_COMMAND = 0x01,
     CMD_RES_CRC16_FAIL = 0x02,
@@ -85,14 +84,11 @@ extern UARTDataType RS485Ch2;
 
 extern uint8_t Lora_u8Seq;
 
-extern bool Flag_Broken;
-extern bool Flag_BilletJamp;
-
 void RS485_SendBuffer(RS485ChannelType ch, uint8_t* buf, uint16_t len);
 void RS485_SendStr(RS485ChannelType ch, char* str);
 
 void RS485_CH2_Process(void);
-void Pulse_Ouput(void);
+void Pulse_ResetOuput(void);
 void MotorRandom(void);
 void MagnetRun(void);
 void MotorRun(void);

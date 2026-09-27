@@ -1,0 +1,8 @@
+VERSION:3 SOURCE_TIMESTAMP:5C985724
+NODE:M LEVEL:0 LINE:4 "__LOG_H"
+NODE:I LEVEL:0 LINE:5 "C:\Users\Tran Nhu Tao\Downloads\Control_Fan_Magnet_ATmega64\Control_Fan_Magnet_ATmega64\main.h"
+NODE:I LEVEL:0 LINE:6 "inc_def.h"
+NODE:I LEVEL:0 LINE:7 "C:\cvavr2\inc\string.h"
+NODE:I LEVEL:0 LINE:8 "C:\cvavr2\inc\stdio.h"
+NODE:I LEVEL:0 LINE:9 "C:\cvavr2\inc\stdint.h"
+NODE:M LEVEL:0 LINE:11 "LOG_MAX_SIZE"

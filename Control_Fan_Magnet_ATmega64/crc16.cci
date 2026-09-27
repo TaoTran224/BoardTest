@@ -1,0 +1,3 @@
+VERSION:3 SOURCE_TIMESTAMP:5C276C63
+NODE:I LEVEL:0 LINE:1 "C:\Users\Tran Nhu Tao\Downloads\Control_Fan_Magnet_ATmega64\Control_Fan_Magnet_ATmega64\crc16.h"
+NODE:F LEVEL:0 LINE:3 "crc16(const uint8_t * buf,uint16_t len)"

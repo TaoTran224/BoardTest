@@ -1,0 +1,311 @@
+
+#include "hardware_config.h"
+
+
+static void LEDInit(void)
+{
+// LED1    
+    DDRD.5=1;
+// LED2
+    DDRD.6=1;
+}
+
+
+//void LEDRedOn(void)
+//{
+//    PORTD.6=0;
+//}
+//void LEDRedOff(void)
+//{
+//    PORTD.6=1;
+//}
+
+void LEDGreenOn(void)
+{
+    PORTD.5=0;
+}
+                                                                                                                                                                                                                                                                 
+void LEDGreenOff(void)
+{
+    PORTD.5=1;
+}
+
+static void Timer0Init(void)
+{
+    ASSR=0x00;
+    OCR0=0x00;
+    TCCR0=0x04;             // Prescaling = 64
+    TCNT0=131;               // 56 <=>1.6ms;  131 <=>1 ms
+    TIMSK |= (1<<TOIE0);    // TC0 overflow interrupt enable
+}
+
+//void DisableInterrupt(void)
+//{
+//    EIMSK=0x00;
+//}
+
+void EnableInterrupt(void)
+{
+    EIMSK=0x01;
+}
+
+static void ConfigHardware(void)
+{
+    //SDN Si4432
+    DDRB.7=1;  
+// SI4432
+    // External Interrupt(s) initialization
+    // INT0: On
+    // INT0 Mode: Failling Edge   
+    EICRA=0x02;
+    EICRB=0x00;
+    EIMSK=0x01;
+    EIFR=0x01;
+
+//CC1101 
+    // External Interrupt(s) initialization
+    // INT0: On
+//    // INT0 Mode: Rising Edge
+//    EICRA=0x03;
+//    EICRB=0x00;
+//    EIMSK=0x01;
+//    EIFR=0x01;      
+    
+    // Timer(s)/Counter(s) Interrupt(s) initialization
+    TIMSK=0x00;
+
+    ETIMSK=0x00;
+// USART0 initialization
+// Communication Parameters: 8 Data, 1 Stop, No Parity
+// USART0 Receiver: On
+// USART0 Transmitter: On
+// USART0 Mode: Asynchronous
+// USART0 Baud Rate: 57600 (Double Speed Mode)
+    UCSR0A=0x02;
+    UCSR0B=0x98;
+    UCSR0C=0x06;
+    UBRR0H=0x00;
+    UBRR0L=0x10;
+
+// USART1 initialization
+// Communication Parameters: 8 Data, 1 Stop, No Parity
+// USART1 Receiver: On
+// USART1 Transmitter: On
+// USART1 Mode: Asynchronous
+// USART1 Baud Rate: 57600 (Double Speed Mode)
+    UCSR1A=0x02;
+    UCSR1B=0x98;
+    UCSR1C=0x06;
+    UBRR1H=0x00;
+    UBRR1L=0x10;
+}
+
+static void PullupRxTx(void)
+{
+    PORTE.0=1; //RXD0 pullup
+    PORTD.2=1; //RXD1 pullup
+}
+
+static void Internal_Watchdog_Init()//1s wdt
+{
+    WDTCR=0x1E;
+    WDTCR=0x0E;//disable change WDE
+}
+
+
+void HardwareInit(void)
+{
+    LEDInit();
+    ConfigHardware();
+    Output_Init();
+    PullupRxTx();
+    Timer0Init();
+    Internal_Watchdog_Init();
+    EnableInterrupt(); 
+}
+
+
+void Reset_WDT(void)
+{
+    //internal WDT
+    #asm("WDR") ;//clear WDT
+}
+
+
+
+//void UART1SendChar(uint8_t c)
+//{
+//    while(!(UCSR1A & DATA_REGISTER_EMPTY)) {}
+//    UDR1=c;
+//}
+//
+//void UART1SendBuffer(uint8_t *buffer, uint16_t len)
+//{
+//    uint16_t i=0;
+//    #asm("cli")
+//    for(i=0; i<len;i++)
+//    {
+//        UART1SendChar(buffer[i]);
+//    }
+//    #asm("sei")
+//}
+//
+//void UART1SendString(char *str)
+//{
+//    uint16_t i=0;
+//    #asm("cli")
+//    for(i=0; i<strlen(str);i++)
+//    {
+//        UART1SendChar(str[i]);
+//    }
+//    #asm("sei")
+//}
+
+void UART0SendChar(uint8_t c)
+{
+    while(!(UCSR0A & DATA_REGISTER_EMPTY)) {}
+    UDR0=c;
+}
+
+void UART0SendBuffer(uint8_t *buffer, uint16_t len)
+{
+    uint16_t i=0;
+    #asm("cli")
+    for(i=0; i<len;i++)
+    {
+        UART0SendChar(buffer[i]);
+    }
+    #asm("sei")
+}
+
+//void UART0SendString(char *str)
+//{
+//    uint16_t i=0;
+//    #asm("cli")
+//    for(i=0; i<strlen(str);i++)
+//    {
+//        UART0SendChar(str[i]);
+//    }
+//    #asm("sei")
+//}
+
+
+
+
+void Output_Init(void)
+{
+    DDRB.3 = 1;//MISO/out2
+    DDRB.2 = 1;//MOSI/out0
+    DDRB.1 = 1;//SCK/out1
+    DDRB.0 = 1;//CSN/out3
+    PORTB.3 = 1;
+    PORTB.2 = 1;
+    PORTB.1 = 1;
+    PORTB.0 = 1;
+
+    DDRB.5 = 1;//PWM1
+    PORTB.5 = 1;
+}
+
+//void OutputRun(uint8_t seq, BOOL on_off)
+//{
+//    if (0 == seq)
+//    {
+//        if (TRUE == on_off)
+//        {
+//            PORTB.3 = 0;
+//        }
+//        else
+//        {
+//            PORTB.3 = 1;
+//        }
+//    }
+//    else if (1 == seq)
+//    {
+//        if (TRUE == on_off)
+//        {
+//            PORTB.2 = 0;
+//        }
+//        else
+//        {
+//            PORTB.2 = 1;
+//        }
+//    }
+//    else if (2 == seq)
+//    {
+//        if (TRUE == on_off)
+//        {
+//            PORTB.1 = 0;
+//        }
+//        else
+//        {
+//            PORTB.1 = 1;
+//        }
+//    }
+//}
+
+
+void PWM1_Init(uint32_t freq, uint8_t duty)
+{
+    uint16_t top;
+    // Set OC1A (PD5) output
+    DDRB.5 = 1;
+    PORTB.5 = 0;
+    TCCR1A = (1 << COM1A1) | (1 << WGM11);
+    TCCR1B = (1 << WGM13) | (1 << WGM12); // ? chua set prescaler
+
+    top = (uint16_t)(1000000 / freq) - 1;
+    ICR1 = top;
+
+    // Set duty
+    OCR1A = (uint16_t)((uint32_t)duty * (uint32_t)top / (uint32_t)100);
+}
+
+void PWM1_Start(void)
+{
+    TCCR1B |= (1 << CS11); // b?t d?u ch?y t?i dây
+}
+
+void PWM1_Stop(void)
+{
+
+    // Clear prescaler bits ? d?ng Timer
+    TCCR1B &= ~((1 << CS12) | (1 << CS11) | (1 << CS10));
+}
+//
+//void PWM1_SetDuty(uint8_t duty)
+//{
+//    OCR1A = (uint16_t)(duty * ICR1 / 100);
+//}
+//
+//void PWM1_SetFreq(uint32_t freq)
+//{
+//    uint16_t top = (uint16_t)(1000000 / freq) - 1;
+//    ICR1 = top;
+//}
+
+void PWM1_DeInit(void)
+{
+    // 1. Ng?t k?t n?i PWM kh?i chân OC1A
+    TCCR1A &= ~((1 << COM1A1) | (1 << COM1A0));
+
+    // 2. D?ng Timer (clear prescaler)
+    TCCR1B &= ~((1 << CS12) | (1 << CS11) | (1 << CS10));
+
+    // 3. Reset toàn b? thanh ghi Timer1 v? m?c d?nh
+    TCCR1A = 0x00;
+    TCCR1B = 0x00;
+    TCCR1C = 0x00;
+
+    // 4. Reset counter và compare
+    TCNT1 = 0x0000;
+    ICR1  = 0x0000;
+    OCR1A = 0x0000;
+    OCR1B = 0x0000;
+
+    // 5. Clear interrupt flags (n?u có)
+    TIFR  |= (1 << TOV1) | (1 << OCF1A) | (1 << OCF1B) | (1 << ICF1);
+
+    // 6. Disable interrupt Timer1 (n?u b?n có dùng)
+    TIMSK &= ~((1 << TOIE1) | (1 << OCIE1A) | (1 << OCIE1B) | (1 << TICIE1));
+}

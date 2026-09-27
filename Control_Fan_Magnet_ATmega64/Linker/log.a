@@ -1,0 +1,92 @@
+;
+;#include "log.h"
+;#include "hardware_config.h"
+;PCODE: $00000000 VOL: 0
+	#ifndef __SLEEP_DEFINED__
+;PCODE: $00000001 VOL: 0
+	#define __SLEEP_DEFINED__
+;PCODE: $00000002 VOL: 0
+	.EQU __se_bit=0x20
+;PCODE: $00000003 VOL: 0
+	.EQU __sm_mask=0x1C
+;PCODE: $00000004 VOL: 0
+	.EQU __sm_powerdown=0x10
+;PCODE: $00000005 VOL: 0
+	.EQU __sm_powersave=0x18
+;PCODE: $00000006 VOL: 0
+	.EQU __sm_standby=0x14
+;PCODE: $00000007 VOL: 0
+	.EQU __sm_ext_standby=0x1C
+;PCODE: $00000008 VOL: 0
+	.EQU __sm_adc_noise_red=0x08
+;PCODE: $00000009 VOL: 0
+	.SET power_ctrl_reg=mcucr
+;PCODE: $0000000A VOL: 0
+	#endif
+;PCODE: $0000000B VOL: 0
+;PCODE: $0000000C VOL: 0
+;#include <string.h>
+;
+;#ifdef DBG_SEND
+;char log1[LOG_MAX_SIZE];
+;uint8_t logLen;
+;//uint16_t logTime;
+;
+;void DBG_SendStr(const char* str)
+;{
+;    UART0SendBuffer(str, strlen(str));
+;}
+;
+;void DBG_SendBuffer(const uint8_t *buf, const uint16_t len)
+;{
+;    UART0SendBuffer(buf, len);
+;}
+;
+;void ConvertHexToStr(uint8_t* ch, uint8_t hex)
+;{
+;    if (9 >= (hex>>4))
+;    {
+;        ch[0] = (hex>>4) + 0x30;
+;    }
+;    else
+;    {
+;        ch[0] = (hex>>4) + 0x37;
+;    }
+;    if (9 >= (0x0F & hex))
+;    {
+;        ch[1] = (0x0F & hex) + 0x30;
+;    }
+;    else
+;    {
+;        ch[1] = (0x0F & hex) + 0x37;
+;    }
+;}
+;
+;static void UART_SendStr(const char* str)
+;{
+;    UART0SendBuffer(str, strlen(str));
+;}
+;
+;static void UART_SendBuf(const uint8_t* buf, const uint16_t len)
+;{
+;    UART0SendBuffer(buf, len);
+;}
+;void DBG_SendHexToStr(const uint8_t* buf, const uint16_t len)
+;{
+;    uint16_t i;
+;    uint8_t str[3] = {0,0,0x20};//0x20:space
+;    UART_SendStr("\nHEX[ ");
+;
+;    for (i = 0; i < len; i++)
+;    {
+;        ConvertHexToStr(str, buf[i]);
+;        if ((len - 1) == i)
+;        {
+;            UART_SendBuf(str, sizeof(str) - 1);
+;            break;
+;        }
+;        UART_SendBuf(str, sizeof(str));
+;	}
+;	UART_SendStr(" ]ENDHEX\n");
+;}
+;#endif

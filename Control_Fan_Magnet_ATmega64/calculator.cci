@@ -1,0 +1,7 @@
+VERSION:3 SOURCE_TIMESTAMP:5C975AD1
+NODE:I LEVEL:0 LINE:2 "C:\Users\Tran Nhu Tao\Downloads\Control_Fan_Magnet_ATmega64\Control_Fan_Magnet_ATmega64\calculator.h"
+NODE:I LEVEL:0 LINE:3 "C:\Users\Tran Nhu Tao\Downloads\Control_Fan_Magnet_ATmega64\Control_Fan_Magnet_ATmega64\inc_def.h"
+NODE:I LEVEL:0 LINE:4 "C:\cvavr2\inc\string.h"
+NODE:I LEVEL:0 LINE:5 "C:\cvavr2\inc\stdbool.h"
+NODE:I LEVEL:0 LINE:6 "C:\cvavr2\inc\stdint.h"
+NODE:I LEVEL:0 LINE:7 "C:\cvavr2\inc\stdio.h"

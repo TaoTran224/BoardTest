@@ -1,0 +1,68 @@
+
+#include "log.h"
+#include "hardware_config.h"
+#include <string.h>
+
+#ifdef DBG_SEND
+char log1[LOG_MAX_SIZE];
+uint8_t logLen;
+//uint16_t logTime;
+
+void DBG_SendStr(const char* str)
+{
+    UART0SendBuffer(str, strlen(str));
+}
+
+void DBG_SendBuffer(const uint8_t *buf, const uint16_t len)
+{
+    UART0SendBuffer(buf, len);
+}
+
+void ConvertHexToStr(uint8_t* ch, uint8_t hex)
+{
+    if (9 >= (hex>>4))
+    {
+        ch[0] = (hex>>4) + 0x30;
+    }
+    else
+    {
+        ch[0] = (hex>>4) + 0x37;
+    }
+    if (9 >= (0x0F & hex))
+    {
+        ch[1] = (0x0F & hex) + 0x30;
+    }
+    else
+    {
+        ch[1] = (0x0F & hex) + 0x37;
+    }
+}
+
+static void UART_SendStr(const char* str)
+{
+    UART0SendBuffer(str, strlen(str));
+}
+
+static void UART_SendBuf(const uint8_t* buf, const uint16_t len)
+{
+    UART0SendBuffer(buf, len);
+}
+void DBG_SendHexToStr(const uint8_t* buf, const uint16_t len)
+{
+    uint16_t i;
+    uint8_t str[3] = {0,0,0x20};//0x20:space
+    UART_SendStr("\nHEX[ ");
+
+    for (i = 0; i < len; i++)
+    {
+        ConvertHexToStr(str, buf[i]);
+        if ((len - 1) == i)
+        {
+            UART_SendBuf(str, sizeof(str) - 1);
+            break;
+        }
+        UART_SendBuf(str, sizeof(str));
+	}
+	UART_SendStr(" ]ENDHEX\n");
+}
+#endif 

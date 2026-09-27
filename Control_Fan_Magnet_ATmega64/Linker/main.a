@@ -1,0 +1,98 @@
+;
+;#include "Global.h"
+;#include "calculator.h"
+;#include "hardware_config.h"
+;PCODE: $00000000 VOL: 0
+	#ifndef __SLEEP_DEFINED__
+;PCODE: $00000001 VOL: 0
+	#define __SLEEP_DEFINED__
+;PCODE: $00000002 VOL: 0
+	.EQU __se_bit=0x20
+;PCODE: $00000003 VOL: 0
+	.EQU __sm_mask=0x1C
+;PCODE: $00000004 VOL: 0
+	.EQU __sm_powerdown=0x10
+;PCODE: $00000005 VOL: 0
+	.EQU __sm_powersave=0x18
+;PCODE: $00000006 VOL: 0
+	.EQU __sm_standby=0x14
+;PCODE: $00000007 VOL: 0
+	.EQU __sm_ext_standby=0x1C
+;PCODE: $00000008 VOL: 0
+	.EQU __sm_adc_noise_red=0x08
+;PCODE: $00000009 VOL: 0
+	.SET power_ctrl_reg=mcucr
+;PCODE: $0000000A VOL: 0
+	#endif
+;PCODE: $0000000B VOL: 0
+;PCODE: $0000000C VOL: 0
+;#include "interrupt.h"
+;#include "app.h"
+;
+;#include "log.h"
+;
+;
+;void main(void)
+; 0000 000C {
+
+	.CSEG
+;PCODE: $0000000D VOL: 0
+; 0000 000D     HardwareInit();
+;PCODE: $0000000E VOL: 0
+; 0000 000E 
+; 0000 000F     Reset_WDT();
+;PCODE: $0000000F VOL: 0
+; 0000 0010     //=========================================
+; 0000 0011 #ifdef DBG_SEND
+; 0000 0012     DBG_SendStr("START UP\n");
+; 0000 0013 #endif
+; 0000 0014     Reset_WDT();
+;PCODE: $00000010 VOL: 0
+; 0000 0015     #asm("sei")
+;PCODE: $00000011 VOL: 0
+	sei
+;PCODE: $00000012 VOL: 0
+; 0000 0016     BoardState = S_RUN;
+;PCODE: $00000013 VOL: 0
+;PCODE: $00000014 VOL: 0
+; 0000 0017     while (1)
+;PCODE: $00000015 VOL: 0
+; 0000 0018     {
+; 0000 0019          Reset_WDT();
+;PCODE: $00000016 VOL: 0
+; 0000 001A //		switch (BoardState)
+; 0000 001B //		{
+; 0000 001C //		case S_UART_PROCESS:
+; 0000 001D //			Board_UARTProcessRec();
+; 0000 001E //			break;
+; 0000 001F //		case S_RUN:
+; 0000 0020 //            if (true == Motor.bFlagCalTime)
+; 0000 0021 //            {
+; 0000 0022 //                MotorCalRandom();
+; 0000 0023 //            }
+; 0000 0024 //			break;
+; 0000 0025 //
+; 0000 0026 //		default:
+; 0000 0027 //			break;
+; 0000 0028 //		}
+; 0000 0029 
+; 0000 002A         Pulse_Ouput();
+;PCODE: $00000017 VOL: 0
+; 0000 002B         if (true == Motor.bFlagCalTime)
+;PCODE: $00000018 VOL: 0
+;PCODE: $00000019 VOL: 0
+;PCODE: $0000001A VOL: 0
+;PCODE: $0000001B VOL: 0
+; 0000 002C         {
+; 0000 002D             MotorCalRandom();
+;PCODE: $0000001C VOL: 0
+; 0000 002E         }
+; 0000 002F 
+; 0000 0030     }
+;PCODE: $0000001D VOL: 0
+;PCODE: $0000001E VOL: 0
+;PCODE: $0000001F VOL: 0
+; 0000 0031 }
+;PCODE: $00000020 VOL: 0
+;PCODE: $00000021 VOL: 0
+;PCODE: $00000022 VOL: 0

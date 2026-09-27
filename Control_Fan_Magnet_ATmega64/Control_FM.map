@@ -1,0 +1,25 @@
+RAM Allocation
+Variable                                                          Address   Size
+--------------------------------------------------------------------------------
+Speed_Random                                                      0x0500       4
+rando                                                             0x0504       1
+UART_au8Rec                                                       0x0505     136
+UART_u16Len                                                       0x058D       2
+u32PulseTimeWait                                                  0x058F       4
+BoardState                                                        0x0593       1
+Magnet                                                            0x0594       5
+Motor                                                             0x0599      12
+UART_enableRec                                                    0x05A5       1
+UART_timeout                                                      0x05A6       2
+iCounterRun                                                       0x05A8       2
+Cmd                                                               0x05AA       1
+CmdRes                                                            0x05AB       1
+_seed                                                             0x05AC       4
+
+EEPROM Allocation
+Variable                                                          Address   Size
+--------------------------------------------------------------------------------
+
+Register Allocation
+Variable                                                          Register  Size
+--------------------------------------------------------------------------------

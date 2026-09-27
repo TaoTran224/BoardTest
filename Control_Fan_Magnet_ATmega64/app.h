@@ -1,0 +1,69 @@
+
+#ifndef _APP_H
+#define _APP_H
+
+#include "main.h"
+#include "interrupt.h"
+typedef enum {
+S_START_UP = 0,
+S_UART_PROCESS = 0,
+S_RUN,
+
+} StateType;
+
+
+extern StateType BoardState;
+
+
+typedef enum {
+MODE_OFF = 0,
+MODE_ON = 1,
+MODE_PWM = 2
+} OutputModeType;
+
+
+typedef struct 
+{
+    uint32_t u32TimeCycle;
+    OutputModeType eu8Mode;
+} OutputType;
+extern OutputType Magnet;
+
+typedef struct 
+{
+    bool bRandom;
+    bool bFlagCalTime;
+    uint32_t u32TimeRun;
+    uint8_t u8Velocity;
+    uint32_t u32TimeCycle;
+    OutputModeType eu8Mode;
+} MotorType;
+
+extern MotorType Motor;
+typedef enum
+{
+    CMD_UNKNOWN = 0xFF,
+    CMD_CONTROL_MAGNET = 0xA0,
+    CMD_CONTROL_MOTOR = 0xA1
+
+} CmdType;
+
+typedef enum
+{
+    CMD_RES_UNKNOWN = 0xFF,
+
+    CMD_RES_SUCCESS = 0x00,
+    CMD_RES_INVALID_COMMAND = 0x01,
+    CMD_RES_CRC16_FAIL = 0x02,
+    CMD_RES_INVALID_PAYLOAD = 0x03,
+    CMD_RES_ERROR = 0x04
+} CmdResultType;
+
+void MagnetRun(void);
+void MotorRun(void);
+void Board_UARTProcessRec(void);
+
+void MotorRandom(void);
+void MotorCalRandom(void);
+void Pulse_Ouput(void);
+#endif

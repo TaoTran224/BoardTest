@@ -1,0 +1,273 @@
+
+#include "app.h"
+#include "main.h"
+#include "hardware_config.h"
+#include "interrupt.h"
+#include "crc16.h"
+#include "log.h"
+
+OutputType Magnet;
+StateType BoardState;
+MotorType Motor;
+
+static CmdType Cmd;
+static CmdResultType CmdRes;
+
+void MagnetRun(void)//out0
+{
+    if (MODE_ON == Magnet.eu8Mode)
+    {
+        PORTB.2 = 0;
+    }
+    else
+    {
+        PORTB.2 = 1;
+    }
+}
+
+void MotorRun(void)
+{
+    if (MODE_ON == Motor.eu8Mode)
+    {
+        PORTB.5 = 1;
+    }
+    else if (MODE_OFF == Motor.eu8Mode)
+    {
+        PORTB.5 = 0;
+    }
+}
+
+void MotorRandom(void)
+{
+    if (true == Motor.bRandom)
+    { 
+        if (Motor.u32TimeCycle <= (Motor.u32TimeRun++))
+        {
+            Motor.bRandom = false;
+            Motor.bFlagCalTime = true;
+            Motor.u32TimeRun = 0;
+        }
+    }
+}
+
+uint8_t Random(uint8_t random)
+{
+    unsigned rvar=0;
+    srand(random);
+    rvar=(uint8_t)rand();
+    return rvar;
+}
+
+void MotorCalRandom(void)
+{
+    uint8_t duty;
+    rando = Random(Speed_Random++)%100;
+#ifdef DBG_SEND
+    DBG_SendStr("MotorCalRandom\n");
+    logLen = sprintf(log1, "rando = %d", rando);
+    DBG_SendStr(log1);
+#endif 
+    if (20 > rando)
+    {
+        PWM1_Stop();
+        PWM1_DeInit(); 
+    }
+    else if (70 < rando)
+    {
+        duty = 50;
+    }
+    else
+    {
+        duty = rando;
+    }
+    Motor.eu8Mode = MODE_PWM;
+    PWM1_Stop();
+    PWM1_DeInit();
+    delay_ms(2);
+    PWM1_Init(1000, duty);
+    delay_ms(2);
+    PWM1_Start();
+    rando = Random(Speed_Random++)%100;
+    if (5 > rando)
+    {
+        rando = 5;
+    } 
+    Motor.u32TimeCycle = (uint32_t)rando*(uint32_t)987;
+    Motor.u32TimeRun = 0;
+    Motor.bRandom = true;
+    Motor.bFlagCalTime = false;
+#ifdef DBG_SEND
+    logLen = sprintf(log1, "rando = %d", rando);
+    DBG_SendStr(log1);
+#endif    
+}
+
+static CmdType UART_GetCmd(uint8_t cmd)
+{
+    if (((uint8_t)CMD_CONTROL_MAGNET == cmd) || ((uint8_t)CMD_CONTROL_MOTOR == cmd))
+    {
+        return (CmdType)cmd;
+    }
+    
+    return CMD_UNKNOWN;
+}
+
+static CmdType Board_UARTCheckFrameValid(CmdResultType* cmd_res, const uint8_t* src, const uint16_t src_len)
+{
+    uint16_t crc16_cal = 0;
+    uint16_t crc16_rec = 0;
+
+    CmdType cmd = CMD_UNKNOWN;
+#ifdef DBG_SEND
+    DBG_SendStr("Board_BLECheckFrameValid\n");
+    DBG_SendBuffer(src, src_len);
+    DBG_SendHexToStr(src, src_len);
+#endif
+    *cmd_res = CMD_RES_ERROR;
+    if (6 > src_len)
+    {
+        *cmd_res = CMD_RES_ERROR;
+        return CMD_UNKNOWN;
+    }
+    crc16_cal = crc16(src, src_len - 3); 
+    memcpy(&crc16_rec, src + (uint16_t)(src_len - 3), 2);
+    if (crc16_cal != crc16_rec)
+    {
+        *cmd_res = CMD_RES_CRC16_FAIL;
+    }
+    if (((7 <= src_len) && (src[2] != (src_len - 6))) || ((6 == src_len) && (0 != src[2])))
+    {
+        *cmd_res = CMD_RES_INVALID_PAYLOAD;
+    }
+    if ((SOH == src[0]) && (ETX == src[src_len - 1]))
+    {
+        cmd = UART_GetCmd(src[1]);
+    }
+	switch (cmd)
+	{
+        case CMD_CONTROL_MAGNET:
+            if (8 == src_len)
+            {   
+                if (0 == src[4])
+                {
+#ifdef DBG_SEND
+                    DBG_SendStr("Magnet OFF\n");
+#endif
+                    Magnet.eu8Mode = MODE_OFF;
+                    return CMD_RES_SUCCESS;
+                }
+                else
+                {
+#ifdef DBG_SEND
+                    DBG_SendStr("Magnet ON\n");
+#endif
+                    Magnet.eu8Mode = MODE_ON;
+                    return CMD_RES_SUCCESS;
+                }
+            }
+            return CMD_RES_INVALID_PAYLOAD;
+            break;
+
+        case CMD_CONTROL_MOTOR:
+            if ( 100 < src[4])
+            {
+#ifdef DBG_SEND
+                DBG_SendStr("CMD_CONTROL_MOTOR FAIL\n");
+#endif
+                MotorCalRandom();
+            }
+            else if (0 == src[4])
+            {
+#ifdef DBG_SEND
+                DBG_SendStr("MOTOR OFF\n");
+#endif
+                Motor.eu8Mode = MODE_OFF;
+                Motor.bRandom = false;
+                PWM1_DeInit();
+            }
+            else if (100 == src[4])
+            {
+#ifdef DBG_SEND
+                DBG_SendStr("MOTOR ON\n");
+#endif
+                Motor.bRandom = false;
+                Motor.eu8Mode = MODE_ON;
+                PWM1_DeInit();
+            }
+            else
+            {
+#ifdef DBG_SEND
+                DBG_SendStr("MOTOR PWM");
+                logLen = sprintf(log1, " = %d\n", src[4]);
+                DBG_SendStr(log1);
+#endif
+                Motor.bRandom = false;
+                Motor.eu8Mode = MODE_PWM;
+                PWM1_Stop();
+                PWM1_DeInit();
+                delay_ms(2);
+                PWM1_Init(1000, src[4]);
+                delay_ms(2); 
+                PWM1_Start();
+            }
+            return CMD_RES_SUCCESS; 
+            break;
+    }
+    
+}
+
+
+static void Board_SendFrameToApp(CmdType cmd, CmdResultType cmd_res, uint8_t* payload, uint16_t len)
+{
+
+    uint8_t buf[64];
+	uint8_t buf_len = len + 7;
+	uint16_t crc;
+#ifdef DBG_SEND
+    DBG_SendStr("Board_SendFrameToApp\n");
+#endif
+
+	buf[0] = STX;
+	buf[1] = cmd;
+	buf[2] = cmd_res;
+	buf[3] = len;
+	memcpy(buf + 4, payload, len);
+	crc = crc16(buf, buf_len - 3);
+	memcpy(buf + buf_len - 3, &crc, 2);
+	buf[buf_len - 1] = ETX;
+#ifdef DBG_SEND
+    DBG_SendHexToStr(buf, buf_len);
+#endif
+    UART0SendBuffer(buf, buf_len);
+}
+
+void Board_UARTProcessRec(void)
+{
+    CmdRes = CMD_RES_INVALID_COMMAND;
+    Cmd = Board_UARTCheckFrameValid(&CmdRes, UART_au8Rec, UART_u16Len);
+    Board_SendFrameToApp(Cmd, CmdRes, 0, 0);
+	memset(UART_au8Rec, 0, sizeof(UART_au8Rec));
+	UART_u16Len = 0;
+    BoardState = S_RUN;
+}
+
+
+void Pulse_Ouput(void)
+{
+    if (S_RUN == BoardState)
+    {
+#ifdef DBG_SEND
+        DBG_SendStr("Pulse_Ouput\n");
+#endif
+        Motor.bFlagCalTime = false;
+        Motor.bRandom = false;
+        Motor.eu8Mode = MODE_OFF;
+        delay_ms(10000);
+        PORTB.1 = 0;
+        delay_us(100);
+        PORTB.1 = 1;
+        u32PulseTimeWait = 21000 + Speed_Random%5000;
+        Motor.bRandom = true;
+        BoardState = S_START_UP;
+    }
+}

@@ -1,0 +1,1709 @@
+;/*----------------------------------------------------------------------------------*-
+;------------------------------- rfcc1101.c -----------------------------------------------
+;-*----------------------------------------------------------------------------------*/
+;#include "rfcc1101.h"
+;PCODE: $00000000 VOL: 0
+	#ifndef __SLEEP_DEFINED__
+;PCODE: $00000001 VOL: 0
+	#define __SLEEP_DEFINED__
+;PCODE: $00000002 VOL: 0
+	.EQU __se_bit=0x20
+;PCODE: $00000003 VOL: 0
+	.EQU __sm_mask=0x1C
+;PCODE: $00000004 VOL: 0
+	.EQU __sm_powerdown=0x10
+;PCODE: $00000005 VOL: 0
+	.EQU __sm_powersave=0x18
+;PCODE: $00000006 VOL: 0
+	.EQU __sm_standby=0x14
+;PCODE: $00000007 VOL: 0
+	.EQU __sm_ext_standby=0x1C
+;PCODE: $00000008 VOL: 0
+	.EQU __sm_adc_noise_red=0x08
+;PCODE: $00000009 VOL: 0
+	.SET power_ctrl_reg=mcucr
+;PCODE: $0000000A VOL: 0
+	#endif
+;PCODE: $0000000B VOL: 0
+;PCODE: $0000000C VOL: 0
+;#define CRC16_POLY 0x8005
+;#define CRC16_INIT 0x0000
+;//#define CRC16_INIT 0xffff
+;volatile uint8_t Signal_RSSI=0;
+;uint8_t Signal_RSSI_CE18G=0;
+;
+;static uint16_t  culCalcCRC(uint8_t crcData, uint16_t crcReg)
+; 0001 000C {
+
+	.CSEG
+;PCODE: $0000000D VOL: 0
+;PCODE: $0000000E VOL: 0
+; 0001 000D  uint8_t i;
+; 0001 000E  for (i = 0; i < 8; i++)
+;PCODE: $0000000F VOL: 0
+;	crcData -> Y+3
+;	crcReg -> Y+1
+;	i -> R17
+;PCODE: $00000010 VOL: 0
+;PCODE: $00000011 VOL: 0
+;PCODE: $00000012 VOL: 0
+;PCODE: $00000013 VOL: 0
+;PCODE: $00000014 VOL: 0
+;PCODE: $00000015 VOL: 0
+;PCODE: $00000016 VOL: 0
+;PCODE: $00000017 VOL: 0
+;PCODE: $00000018 VOL: 0
+; 0001 000F  {
+; 0001 0010      if (((crcReg & 0x8000) >> 8) ^ (crcData & 0x80))
+;PCODE: $00000019 VOL: 0
+;PCODE: $0000001A VOL: 0
+;PCODE: $0000001B VOL: 0
+;PCODE: $0000001C VOL: 0
+;PCODE: $0000001D VOL: 0
+;PCODE: $0000001E VOL: 0
+;PCODE: $0000001F VOL: 0
+;PCODE: $00000020 VOL: 0
+;PCODE: $00000021 VOL: 0
+;PCODE: $00000022 VOL: 0
+; 0001 0011      crcReg = (crcReg << 1) ^ CRC16_POLY;
+;PCODE: $00000023 VOL: 0
+;PCODE: $00000024 VOL: 0
+;PCODE: $00000025 VOL: 0
+;PCODE: $00000026 VOL: 0
+;PCODE: $00000027 VOL: 0
+; 0001 0012      else
+;PCODE: $00000028 VOL: 0
+;PCODE: $00000029 VOL: 0
+; 0001 0013      crcReg = (crcReg << 1);
+;PCODE: $0000002A VOL: 0
+;PCODE: $0000002B VOL: 0
+;PCODE: $0000002C VOL: 0
+; 0001 0014      crcData <<= 1;
+;PCODE: $0000002D VOL: 0
+;PCODE: $0000002E VOL: 0
+;PCODE: $0000002F VOL: 0
+;PCODE: $00000030 VOL: 0
+; 0001 0015  }
+;PCODE: $00000031 VOL: 0
+;PCODE: $00000032 VOL: 0
+;PCODE: $00000033 VOL: 0
+;PCODE: $00000034 VOL: 0
+;PCODE: $00000035 VOL: 0
+; 0001 0016  return crcReg;
+;PCODE: $00000036 VOL: 0
+;PCODE: $00000037 VOL: 0
+;PCODE: $00000038 VOL: 0
+;PCODE: $00000039 VOL: 0
+;PCODE: $0000003A VOL: 0
+; 0001 0017 } // culCalcCRC
+;PCODE: $0000003B VOL: 0
+;//
+;
+;//----------------------------------------------------------------
+;static uint16_t CRC16CC1101_Buff(uint8_t *buff, uint8_t length)
+; 0001 001C {
+;PCODE: $0000003C VOL: 0
+;PCODE: $0000003D VOL: 0
+; 0001 001D   uint16_t crcresult;
+; 0001 001E   uint8_t i;
+; 0001 001F   crcresult = CRC16_INIT; // Init value for CRC calculation
+;PCODE: $0000003E VOL: 0
+;	*buff -> Y+5
+;	length -> Y+4
+;	crcresult -> R16,R17
+;	i -> R19
+;PCODE: $0000003F VOL: 0
+;PCODE: $00000040 VOL: 0
+; 0001 0020   //crcresult = culCalcCRC(length, crcresult);     //???? Check lai khi test
+; 0001 0021   for (i = 0; i < length; i++)
+;PCODE: $00000041 VOL: 0
+;PCODE: $00000042 VOL: 0
+;PCODE: $00000043 VOL: 0
+;PCODE: $00000044 VOL: 0
+;PCODE: $00000045 VOL: 0
+;PCODE: $00000046 VOL: 0
+;PCODE: $00000047 VOL: 0
+;PCODE: $00000048 VOL: 0
+;PCODE: $00000049 VOL: 0
+; 0001 0022     crcresult = culCalcCRC(buff[i], crcresult);
+;PCODE: $0000004A VOL: 0
+;PCODE: $0000004B VOL: 0
+;PCODE: $0000004C VOL: 0
+;PCODE: $0000004D VOL: 0
+;PCODE: $0000004E VOL: 0
+;PCODE: $0000004F VOL: 0
+;PCODE: $00000050 VOL: 0
+;PCODE: $00000051 VOL: 0
+;PCODE: $00000052 VOL: 0
+;PCODE: $00000053 VOL: 0
+;PCODE: $00000054 VOL: 0
+;PCODE: $00000055 VOL: 0
+; 0001 0023 return crcresult;
+;PCODE: $00000056 VOL: 0
+;PCODE: $00000057 VOL: 0
+;PCODE: $00000058 VOL: 0
+;PCODE: $00000059 VOL: 0
+; 0001 0024 }
+;PCODE: $0000005A VOL: 0
+;
+;
+;static uint8_t SPISendDataCC1101(uint8_t ucdata)
+; 0001 0028 {
+;PCODE: $0000005B VOL: 0
+;PCODE: $0000005C VOL: 0
+; 0001 0029         SPDR = ucdata;                  // Start transmission
+;	ucdata -> Y+0
+;PCODE: $0000005D VOL: 0
+;PCODE: $0000005E VOL: 0
+; 0001 002A         while(!(SPSR & (1<<SPIF))){}    // Wait for transmission complete
+;PCODE: $0000005F VOL: 0
+;PCODE: $00000060 VOL: 0
+;PCODE: $00000061 VOL: 0
+;PCODE: $00000062 VOL: 0
+;PCODE: $00000063 VOL: 0
+;PCODE: $00000064 VOL: 0
+; 0001 002B         return  SPDR;                   // Return data register
+;PCODE: $00000065 VOL: 0
+;PCODE: $00000066 VOL: 0
+;PCODE: $00000067 VOL: 0
+; 0001 002C }
+;PCODE: $00000068 VOL: 0
+;
+;//--------------------------------------------------------------------------------------
+;//  void WriteRegCC1101(uint8_t address, uint8_t value)
+;//
+;//  DESCRIPTION:
+;//      Function for writing to a single CC1101 register
+;//
+;//  ARGUMENTS:
+;//      uint8_t address
+;//                    Address of a specific CC1101 register to accessed.
+;//      uint8_t value
+;//                    Value to be written to the specified CC1101 register.
+; void WriteRegCC1101(uint8_t address, uint8_t value)
+; 0001 003A {
+;PCODE: $00000069 VOL: 0
+;PCODE: $0000006A VOL: 0
+; 0001 003B         nSEL=0;
+;	address -> Y+1
+;	value -> Y+0
+;PCODE: $0000006B VOL: 0
+;PCODE: $0000006C VOL: 0
+; 0001 003C         while (MISO){}
+;PCODE: $0000006D VOL: 0
+;PCODE: $0000006E VOL: 0
+;PCODE: $0000006F VOL: 0
+;PCODE: $00000070 VOL: 0
+;PCODE: $00000071 VOL: 0
+;PCODE: $00000072 VOL: 0
+; 0001 003D         SPISendDataCC1101(address|0);
+;PCODE: $00000073 VOL: 0
+;PCODE: $00000074 VOL: 0
+;PCODE: $00000075 VOL: 0
+;PCODE: $00000076 VOL: 0
+; 0001 003E         SPISendDataCC1101(value);
+;PCODE: $00000077 VOL: 0
+;PCODE: $00000078 VOL: 0
+;PCODE: $00000079 VOL: 0
+; 0001 003F         nSEL=1;
+;PCODE: $0000007A VOL: 0
+;PCODE: $0000007B VOL: 0
+; 0001 0040 }
+;PCODE: $0000007C VOL: 0
+;PCODE: $0000007D VOL: 0
+;PCODE: $0000007E VOL: 0
+; uint8_t ReadRegCC1101(uint8_t address)
+; 0001 0042 {
+;PCODE: $0000007F VOL: 0
+;PCODE: $00000080 VOL: 0
+; 0001 0043         volatile uint16_t timeout = 0xffff;
+; 0001 0044         uint8_t Result;
+; 0001 0045         nSEL=0;
+;PCODE: $00000081 VOL: 0
+;PCODE: $00000082 VOL: 0
+;PCODE: $00000083 VOL: 0
+;PCODE: $00000084 VOL: 0
+;PCODE: $00000085 VOL: 0
+;PCODE: $00000086 VOL: 0
+;	address -> Y+3
+;	timeout -> Y+1
+;	Result -> R17
+;PCODE: $00000087 VOL: 0
+;PCODE: $00000088 VOL: 0
+; 0001 0046         while((MISO) && ((--timeout) > 0));            // Wait for CC1101 ready ( //Wait until SOMI goes low)
+;PCODE: $00000089 VOL: 0
+;PCODE: $0000008A VOL: 0
+;PCODE: $0000008B VOL: 0
+;PCODE: $0000008C VOL: 0
+;PCODE: $0000008D VOL: 0
+;PCODE: $0000008E VOL: 0
+;PCODE: $0000008F VOL: 0
+;PCODE: $00000090 VOL: 0
+;PCODE: $00000091 VOL: 0
+;PCODE: $00000092 VOL: 0
+;PCODE: $00000093 VOL: 0
+;PCODE: $00000094 VOL: 0
+;PCODE: $00000095 VOL: 0
+;PCODE: $00000096 VOL: 0
+;PCODE: $00000097 VOL: 0
+; 0001 0047         SPISendDataCC1101(address | 0x80);
+;PCODE: $00000098 VOL: 0
+;PCODE: $00000099 VOL: 0
+;PCODE: $0000009A VOL: 0
+;PCODE: $0000009B VOL: 0
+; 0001 0048         Result = SPISendDataCC1101(0);
+;PCODE: $0000009C VOL: 0
+;PCODE: $0000009D VOL: 0
+;PCODE: $0000009E VOL: 0
+;PCODE: $0000009F VOL: 0
+; 0001 0049         nSEL=1;
+;PCODE: $000000A0 VOL: 0
+;PCODE: $000000A1 VOL: 0
+; 0001 004A         return Result;
+;PCODE: $000000A2 VOL: 0
+;PCODE: $000000A3 VOL: 0
+;PCODE: $000000A4 VOL: 0
+;PCODE: $000000A5 VOL: 0
+;PCODE: $000000A6 VOL: 0
+; 0001 004B }
+;PCODE: $000000A7 VOL: 0
+;//--------------------------------------------------------------------------------------
+;//  void Strobes_Comm(uint8_t addr_Strobes)
+;//
+;//  DESCRIPTION:
+;//      Function for writting a command strobe to CC1101
+;//
+;//  ARGUMENTS:
+;//      uint8_t addr_Strobes
+;//                    Address of a specific command strobe register.
+;void Strobes_Comm(uint8_t addr_Strobes)
+; 0001 0056 {
+;PCODE: $000000A8 VOL: 0
+;PCODE: $000000A9 VOL: 0
+; 0001 0057         nSEL=0;
+;	addr_Strobes -> Y+0
+;PCODE: $000000AA VOL: 0
+;PCODE: $000000AB VOL: 0
+; 0001 0058         while (MISO){}
+;PCODE: $000000AC VOL: 0
+;PCODE: $000000AD VOL: 0
+;PCODE: $000000AE VOL: 0
+;PCODE: $000000AF VOL: 0
+;PCODE: $000000B0 VOL: 0
+;PCODE: $000000B1 VOL: 0
+; 0001 0059         SPISendDataCC1101(addr_Strobes);
+;PCODE: $000000B2 VOL: 0
+;PCODE: $000000B3 VOL: 0
+;PCODE: $000000B4 VOL: 0
+; 0001 005A         nSEL=1;
+;PCODE: $000000B5 VOL: 0
+;PCODE: $000000B6 VOL: 0
+; 0001 005B }
+;PCODE: $000000B7 VOL: 0
+;PCODE: $000000B8 VOL: 0
+;PCODE: $000000B9 VOL: 0
+;//--------------------------------------------------------------------------------------
+;//
+;// Note this reset procedure is only required just after the power supply is first turned on.
+;// If the user wants to reset the CC1101 after this, it is only necessary to issue an SRES command strobe.
+;//
+;void power_on_Reset_cc1101(void)
+; 0001 0062 {
+;PCODE: $000000BA VOL: 0
+;PCODE: $000000BB VOL: 0
+; 0001 0063          nSEL=0;                        // Strobe CSn low / high
+;PCODE: $000000BC VOL: 0
+;PCODE: $000000BD VOL: 0
+; 0001 0064          delay_ms(1);
+;PCODE: $000000BE VOL: 0
+;PCODE: $000000BF VOL: 0
+;PCODE: $000000C0 VOL: 0
+; 0001 0065          nSEL=1;                        // Hold CSn high for at least 40µs relative to pulling CSn low
+;PCODE: $000000C1 VOL: 0
+;PCODE: $000000C2 VOL: 0
+; 0001 0066          delay_ms(1);
+;PCODE: $000000C3 VOL: 0
+;PCODE: $000000C4 VOL: 0
+;PCODE: $000000C5 VOL: 0
+; 0001 0067          nSEL=0;                        // Pull CSn low
+;PCODE: $000000C6 VOL: 0
+;PCODE: $000000C7 VOL: 0
+; 0001 0068          while (MISO){}                 // Wait for SO to go low (CHIP_RDYn)
+;PCODE: $000000C8 VOL: 0
+;PCODE: $000000C9 VOL: 0
+;PCODE: $000000CA VOL: 0
+;PCODE: $000000CB VOL: 0
+;PCODE: $000000CC VOL: 0
+;PCODE: $000000CD VOL: 0
+; 0001 0069          SPISendDataCC1101(SRES);                 // Issue the SRES strobe on the SI line
+;PCODE: $000000CE VOL: 0
+;PCODE: $000000CF VOL: 0
+;PCODE: $000000D0 VOL: 0
+; 0001 006A          nSEL=1;                        // When SO goes low again, reset is complete and the chip is in the IDLE state
+;PCODE: $000000D1 VOL: 0
+;PCODE: $000000D2 VOL: 0
+; 0001 006B          delay_ms(1);
+;PCODE: $000000D3 VOL: 0
+;PCODE: $000000D4 VOL: 0
+;PCODE: $000000D5 VOL: 0
+; 0001 006C }
+;PCODE: $000000D6 VOL: 0
+;PCODE: $000000D7 VOL: 0
+;
+;//--------------------------------------------------------------------------------------
+;void CC1101SetupCE18G(void)
+; 0001 0070 {
+;PCODE: $000000D8 VOL: 0
+;PCODE: $000000D9 VOL: 0
+; 0001 0071 
+; 0001 0072         power_on_Reset_cc1101();
+;PCODE: $000000DA VOL: 0
+; 0001 0073         delay_ms(20);
+;PCODE: $000000DB VOL: 0
+;PCODE: $000000DC VOL: 0
+;PCODE: $000000DD VOL: 0
+; 0001 0074         ///*
+; 0001 0075         WriteRegCC1101(IOCFG2,0x07);         // Asserts when a packet has been received with CRC OK. De-asserts when the first byte is read from the RX FIFO.
+;PCODE: $000000DE VOL: 0
+;PCODE: $000000DF VOL: 0
+;PCODE: $000000E0 VOL: 0
+;PCODE: $000000E1 VOL: 0
+;PCODE: $000000E2 VOL: 0
+; 0001 0076         WriteRegCC1101(IOCFG1,0x2E);         // MISO  // Default
+;PCODE: $000000E3 VOL: 0
+;PCODE: $000000E4 VOL: 0
+;PCODE: $000000E5 VOL: 0
+;PCODE: $000000E6 VOL: 0
+;PCODE: $000000E7 VOL: 0
+; 0001 0077         WriteRegCC1101(IOCFG0,0x06);       //0x09  // Asserts when sync word has been sent / received, and de-asserts at the end of the packet.
+;PCODE: $000000E8 VOL: 0
+;PCODE: $000000E9 VOL: 0
+;PCODE: $000000EA VOL: 0
+;PCODE: $000000EB VOL: 0
+;PCODE: $000000EC VOL: 0
+; 0001 0078 
+; 0001 0079         WriteRegCC1101(FIFOTHR,0x47);        // Default (not importance if length of package less than 64)
+;PCODE: $000000ED VOL: 0
+;PCODE: $000000EE VOL: 0
+;PCODE: $000000EF VOL: 0
+;PCODE: $000000F0 VOL: 0
+;PCODE: $000000F1 VOL: 0
+; 0001 007A         WriteRegCC1101(SYNC1,0xD3);          // SYNC bytes   // Default
+;PCODE: $000000F2 VOL: 0
+;PCODE: $000000F3 VOL: 0
+;PCODE: $000000F4 VOL: 0
+;PCODE: $000000F5 VOL: 0
+;PCODE: $000000F6 VOL: 0
+; 0001 007B         WriteRegCC1101(SYNC0,0x91);          // SYNC bytes   // Default
+;PCODE: $000000F7 VOL: 0
+;PCODE: $000000F8 VOL: 0
+;PCODE: $000000F9 VOL: 0
+;PCODE: $000000FA VOL: 0
+;PCODE: $000000FB VOL: 0
+; 0001 007C 
+; 0001 007D         WriteRegCC1101(PKTLEN,0xFF);         // Max 255 bytes payload
+;PCODE: $000000FC VOL: 0
+;PCODE: $000000FD VOL: 0
+;PCODE: $000000FE VOL: 0
+;PCODE: $000000FF VOL: 0
+;PCODE: $00000100 VOL: 0
+; 0001 007E         WriteRegCC1101(PKTCTRL1,0x64);       // (3)CRC_AUTOFLUSH =1: Enable automatic flush of RX FIFO when CRC is not OK;    0x0C
+;PCODE: $00000101 VOL: 0
+;PCODE: $00000102 VOL: 0
+;PCODE: $00000103 VOL: 0
+;PCODE: $00000104 VOL: 0
+;PCODE: $00000105 VOL: 0
+; 0001 007F                                         // (2)APPEND_STATUS=1: Add RSSI and LQI byte to the payload,
+; 0001 0080                                         // (1:0) ADR_CHK[1:0]=0: No address check
+; 0001 0081 
+; 0001 0082         WriteRegCC1101(PKTCTRL0,0x45);       // (6)WHITE_DATA=0: Data whitening off,       0x05
+;PCODE: $00000106 VOL: 0
+;PCODE: $00000107 VOL: 0
+;PCODE: $00000108 VOL: 0
+;PCODE: $00000109 VOL: 0
+;PCODE: $0000010A VOL: 0
+; 0001 0083                                         // (5:4)PKT_FORMAT[1:0]=0: Normal mode, use FIFOs for RX and TX
+; 0001 0084                                         // (2)CRC_EN=1: CRC calculation in TX and CRC check in RX enabled
+; 0001 0085                                         // (1:0)LENGTH_CONFIG[1:0]=1: Variable packet length mode. Packet length configured by the first byte after sync word
+; 0001 0086 
+; 0001 0087 
+; 0001 0088         WriteRegCC1101(ADDR,0x00);           // Address used for packet filtration.
+;PCODE: $0000010B VOL: 0
+;PCODE: $0000010C VOL: 0
+;PCODE: $0000010D VOL: 0
+;PCODE: $0000010E VOL: 0
+;PCODE: $0000010F VOL: 0
+; 0001 0089         WriteRegCC1101(CHANNR,0x00);         // Channel number
+;PCODE: $00000110 VOL: 0
+;PCODE: $00000111 VOL: 0
+;PCODE: $00000112 VOL: 0
+;PCODE: $00000113 VOL: 0
+;PCODE: $00000114 VOL: 0
+; 0001 008A 
+; 0001 008B         WriteRegCC1101(FSCTRL1,0x06);        // (4:0)FREQ_IF[4:0]=6: The desired IF frequency to employ in RX  f(IF)=(f(XOSC)/2^10)* FREQ_IF
+;PCODE: $00000115 VOL: 0
+;PCODE: $00000116 VOL: 0
+;PCODE: $00000117 VOL: 0
+;PCODE: $00000118 VOL: 0
+;PCODE: $00000119 VOL: 0
+; 0001 008C         WriteRegCC1101(FSCTRL0,0x00);        // (7:0)FREQOFF[7:0]=0: Frequency offset added to the base frequency before being used by the frequency synthesizer
+;PCODE: $0000011A VOL: 0
+;PCODE: $0000011B VOL: 0
+;PCODE: $0000011C VOL: 0
+;PCODE: $0000011D VOL: 0
+;PCODE: $0000011E VOL: 0
+; 0001 008D 
+; 0001 008E         WriteRegCC1101(FREQ2,0x0F);            // (7:6)FREQ[23:22]=0 (always)  0x0F
+;PCODE: $0000011F VOL: 0
+;PCODE: $00000120 VOL: 0
+;PCODE: $00000121 VOL: 0
+;PCODE: $00000122 VOL: 0
+;PCODE: $00000123 VOL: 0
+; 0001 008F                                         // (5:0)FREQ[21:16]
+; 0001 0090         WriteRegCC1101(FREQ1,0xBA);          // (7:0)FREQ[15:8]   0xBA
+;PCODE: $00000124 VOL: 0
+;PCODE: $00000125 VOL: 0
+;PCODE: $00000126 VOL: 0
+;PCODE: $00000127 VOL: 0
+;PCODE: $00000128 VOL: 0
+; 0001 0091         WriteRegCC1101(FREQ0,0x56);          // (7:0)FREQ[7:0]      0x56                 // f(carrier)=(f(XOSC)/2^16)* FREQ = 433MHz
+;PCODE: $00000129 VOL: 0
+;PCODE: $0000012A VOL: 0
+;PCODE: $0000012B VOL: 0
+;PCODE: $0000012C VOL: 0
+;PCODE: $0000012D VOL: 0
+; 0001 0092 
+; 0001 0093         WriteRegCC1101(MDMCFG4,0xD6);    // (7:6)CHANBW_E[1:0]=3    0xC6    0xF6
+;PCODE: $0000012E VOL: 0
+;PCODE: $0000012F VOL: 0
+;PCODE: $00000130 VOL: 0
+;PCODE: $00000131 VOL: 0
+;PCODE: $00000132 VOL: 0
+; 0001 0094                                         // (5:4)CHANBW_M[1:0]=0                 // BW(channel)=f(XOSC)/(8*(4+ CHANBW_M)*2^CHANBW_E)
+; 0001 0095                                         // (3:0)DRATE_E[3:0]=6
+; 0001 0096 
+; 0001 0097         WriteRegCC1101(MDMCFG3,0x83);        // (7:0)DRATE_M[7:0]  0x83                   // R(data)= (256 + DRATE_M)*2^DRATE_E*f(XOSC)/2^28 = 2.4kBaud
+;PCODE: $00000133 VOL: 0
+;PCODE: $00000134 VOL: 0
+;PCODE: $00000135 VOL: 0
+;PCODE: $00000136 VOL: 0
+;PCODE: $00000137 VOL: 0
+; 0001 0098 
+; 0001 0099         WriteRegCC1101(MDMCFG2,0x13);        // (7)DEM_DCFILT_OFF=0                  GFSK, 30/32 SYNC word bits detected
+;PCODE: $00000138 VOL: 0
+;PCODE: $00000139 VOL: 0
+;PCODE: $0000013A VOL: 0
+;PCODE: $0000013B VOL: 0
+;PCODE: $0000013C VOL: 0
+; 0001 009A                                         // (6:4)MOD_FORMAT[2:0]=1 :             GFSK
+; 0001 009B                                         // (3)MANCHESTER_EN=0 :                 Disable Manchester encoding/decoding.
+; 0001 009C                                         // (2:0) SYNC_MODE[2:0]=3               30/32 sync word bits detected
+; 0001 009D 
+; 0001 009E         WriteRegCC1101(MDMCFG1,0x22);        // (7)FEC_EN =0:                        Forward Error Correction (FEC) with interleaving for packet payload (Only supported for fixed packet length mode, i.e. PKTCTRL0.LENGTH_CONFIG =0) 4 preamble bytes (1010..10)
+;PCODE: $0000013D VOL: 0
+;PCODE: $0000013E VOL: 0
+;PCODE: $0000013F VOL: 0
+;PCODE: $00000140 VOL: 0
+;PCODE: $00000141 VOL: 0
+; 0001 009F                                         // (6:4)NUM_PREAMBLE[2:0]=2             4 preamble bytes
+; 0001 00A0                                         //(3:2)Reserved
+; 0001 00A1                                         // (1:0)CHANSPC_E[1:0] =2
+; 0001 00A2         WriteRegCC1101(MDMCFG0,0xF8);        // (7:0)CHANSPC_M[7:0]=248               // DELTA(f_channel)=(f_XOSC/2^18)*(256+ CHANSPC_M)*2^CHANSPC_E
+;PCODE: $00000142 VOL: 0
+;PCODE: $00000143 VOL: 0
+;PCODE: $00000144 VOL: 0
+;PCODE: $00000145 VOL: 0
+;PCODE: $00000146 VOL: 0
+; 0001 00A3 
+; 0001 00A4         WriteRegCC1101(DEVIATN,0x15);        // (7)Not used
+;PCODE: $00000147 VOL: 0
+;PCODE: $00000148 VOL: 0
+;PCODE: $00000149 VOL: 0
+;PCODE: $0000014A VOL: 0
+;PCODE: $0000014B VOL: 0
+; 0001 00A5                                         // (6:4)DEVIATION_E[2:0]=4
+; 0001 00A6                                         // (3)Not used
+; 0001 00A7                                         // (2:0)DEVIATION_M[2:0]=0
+; 0001 00A8 
+; 0001 00A9         WriteRegCC1101(MCSM2,0x07);          // (2:0)RX_TIME[2:0]=7                  Timeout SYNC word until end of packet
+;PCODE: $0000014C VOL: 0
+;PCODE: $0000014D VOL: 0
+;PCODE: $0000014E VOL: 0
+;PCODE: $0000014F VOL: 0
+;PCODE: $00000150 VOL: 0
+; 0001 00AA 
+; 0001 00AB         WriteRegCC1101(MCSM1,0x30);          // (7:6)Not used 0x3F, After TX or RX, state -> stay, 0x30 -> IDLE    0x30
+;PCODE: $00000151 VOL: 0
+;PCODE: $00000152 VOL: 0
+;PCODE: $00000153 VOL: 0
+;PCODE: $00000154 VOL: 0
+;PCODE: $00000155 VOL: 0
+; 0001 00AC                                         // (5:4)CCA_MODE[1:0]=3                 If RSSI below threshold unless currently receiving a packet
+; 0001 00AD                                         // (3:2)RXOFF_MODE[1:0]=0               IDLE                    after packet has been received.
+; 0001 00AE                                         // (1:0)TXOFF_MODE[1:0]=0               IDLE                    after packet has been sent
+; 0001 00AF 
+; 0001 00B0         WriteRegCC1101(MCSM0,0x18);          // (7:6)Not used  0x18
+;PCODE: $00000156 VOL: 0
+;PCODE: $00000157 VOL: 0
+;PCODE: $00000158 VOL: 0
+;PCODE: $00000159 VOL: 0
+;PCODE: $0000015A VOL: 0
+; 0001 00B1                                         // (5:4)FS_AUTOCAL[1:0]=1               Automatically calibrate when going from IDLE to RX or TX (or FSTXON)
+; 0001 00B2                                         // (3:2)PO_TIMEOUT=2
+; 0001 00B3                                         // (1)PIN_CTRL_EN=0
+; 0001 00B4                                         // (0)XOSC_FORCE_ON=0
+; 0001 00B5 
+; 0001 00B6 
+; 0001 00B7         WriteRegCC1101(FOCCFG,0x16);         // Default
+;PCODE: $0000015B VOL: 0
+;PCODE: $0000015C VOL: 0
+;PCODE: $0000015D VOL: 0
+;PCODE: $0000015E VOL: 0
+;PCODE: $0000015F VOL: 0
+; 0001 00B8         WriteRegCC1101(BSCFG,0x6C);          // Default
+;PCODE: $00000160 VOL: 0
+;PCODE: $00000161 VOL: 0
+;PCODE: $00000162 VOL: 0
+;PCODE: $00000163 VOL: 0
+;PCODE: $00000164 VOL: 0
+; 0001 00B9 
+; 0001 00BA         WriteRegCC1101(AGCCTRL2,0x03);           //0x43
+;PCODE: $00000165 VOL: 0
+;PCODE: $00000166 VOL: 0
+;PCODE: $00000167 VOL: 0
+;PCODE: $00000168 VOL: 0
+;PCODE: $00000169 VOL: 0
+; 0001 00BB         WriteRegCC1101(AGCCTRL1,0x40);       // Default
+;PCODE: $0000016A VOL: 0
+;PCODE: $0000016B VOL: 0
+;PCODE: $0000016C VOL: 0
+;PCODE: $0000016D VOL: 0
+;PCODE: $0000016E VOL: 0
+; 0001 00BC         WriteRegCC1101(AGCCTRL0,0x91);       // Default
+;PCODE: $0000016F VOL: 0
+;PCODE: $00000170 VOL: 0
+;PCODE: $00000171 VOL: 0
+;PCODE: $00000172 VOL: 0
+;PCODE: $00000173 VOL: 0
+; 0001 00BD 
+; 0001 00BE         WriteRegCC1101(WOREVT1,0x87);        // Default
+;PCODE: $00000174 VOL: 0
+;PCODE: $00000175 VOL: 0
+;PCODE: $00000176 VOL: 0
+;PCODE: $00000177 VOL: 0
+;PCODE: $00000178 VOL: 0
+; 0001 00BF         WriteRegCC1101(WOREVT0,0x6B);        // Default
+;PCODE: $00000179 VOL: 0
+;PCODE: $0000017A VOL: 0
+;PCODE: $0000017B VOL: 0
+;PCODE: $0000017C VOL: 0
+;PCODE: $0000017D VOL: 0
+; 0001 00C0         WriteRegCC1101(WORCTRL,0xFB);     // Default
+;PCODE: $0000017E VOL: 0
+;PCODE: $0000017F VOL: 0
+;PCODE: $00000180 VOL: 0
+;PCODE: $00000181 VOL: 0
+;PCODE: $00000182 VOL: 0
+; 0001 00C1 
+; 0001 00C2         WriteRegCC1101(FREND1,0x56);         // Default
+;PCODE: $00000183 VOL: 0
+;PCODE: $00000184 VOL: 0
+;PCODE: $00000185 VOL: 0
+;PCODE: $00000186 VOL: 0
+;PCODE: $00000187 VOL: 0
+; 0001 00C3         WriteRegCC1101(FREND0,0x10);         //17  Default  17         (2:0) PA_POWER[2:0]=0  Selects PA power setting. This value is an index to the PATABLE
+;PCODE: $00000188 VOL: 0
+;PCODE: $00000189 VOL: 0
+;PCODE: $0000018A VOL: 0
+;PCODE: $0000018B VOL: 0
+;PCODE: $0000018C VOL: 0
+; 0001 00C4 
+; 0001 00C5         WriteRegCC1101(FSCAL3,0xE9);         // Default   0xE9
+;PCODE: $0000018D VOL: 0
+;PCODE: $0000018E VOL: 0
+;PCODE: $0000018F VOL: 0
+;PCODE: $00000190 VOL: 0
+;PCODE: $00000191 VOL: 0
+; 0001 00C6         WriteRegCC1101(FSCAL2,0x2A);         // 09 Default      0x2A
+;PCODE: $00000192 VOL: 0
+;PCODE: $00000193 VOL: 0
+;PCODE: $00000194 VOL: 0
+;PCODE: $00000195 VOL: 0
+;PCODE: $00000196 VOL: 0
+; 0001 00C7         WriteRegCC1101(FSCAL1,0x00);         // 26 Default      0x00
+;PCODE: $00000197 VOL: 0
+;PCODE: $00000198 VOL: 0
+;PCODE: $00000199 VOL: 0
+;PCODE: $0000019A VOL: 0
+;PCODE: $0000019B VOL: 0
+; 0001 00C8         WriteRegCC1101(FSCAL0,0x1F);         // Default
+;PCODE: $0000019C VOL: 0
+;PCODE: $0000019D VOL: 0
+;PCODE: $0000019E VOL: 0
+;PCODE: $0000019F VOL: 0
+;PCODE: $000001A0 VOL: 0
+; 0001 00C9 
+; 0001 00CA         WriteRegCC1101(RCCTRL1,0x41);        // Default
+;PCODE: $000001A1 VOL: 0
+;PCODE: $000001A2 VOL: 0
+;PCODE: $000001A3 VOL: 0
+;PCODE: $000001A4 VOL: 0
+;PCODE: $000001A5 VOL: 0
+; 0001 00CB         WriteRegCC1101(RCCTRL0,0x00);        // Default
+;PCODE: $000001A6 VOL: 0
+;PCODE: $000001A7 VOL: 0
+;PCODE: $000001A8 VOL: 0
+;PCODE: $000001A9 VOL: 0
+;PCODE: $000001AA VOL: 0
+; 0001 00CC 
+; 0001 00CD         WriteRegCC1101(FSTEST,0x59);         // Default
+;PCODE: $000001AB VOL: 0
+;PCODE: $000001AC VOL: 0
+;PCODE: $000001AD VOL: 0
+;PCODE: $000001AE VOL: 0
+;PCODE: $000001AF VOL: 0
+; 0001 00CE         WriteRegCC1101(PTEST,0x7F);          // Default
+;PCODE: $000001B0 VOL: 0
+;PCODE: $000001B1 VOL: 0
+;PCODE: $000001B2 VOL: 0
+;PCODE: $000001B3 VOL: 0
+;PCODE: $000001B4 VOL: 0
+; 0001 00CF         WriteRegCC1101(AGCTEST,0x3F);        // Default
+;PCODE: $000001B5 VOL: 0
+;PCODE: $000001B6 VOL: 0
+;PCODE: $000001B7 VOL: 0
+;PCODE: $000001B8 VOL: 0
+;PCODE: $000001B9 VOL: 0
+; 0001 00D0 
+; 0001 00D1         WriteRegCC1101(TEST2,0x81);          // Default      0x81
+;PCODE: $000001BA VOL: 0
+;PCODE: $000001BB VOL: 0
+;PCODE: $000001BC VOL: 0
+;PCODE: $000001BD VOL: 0
+;PCODE: $000001BE VOL: 0
+; 0001 00D2         WriteRegCC1101(TEST1,0x35);          // Default      0x35
+;PCODE: $000001BF VOL: 0
+;PCODE: $000001C0 VOL: 0
+;PCODE: $000001C1 VOL: 0
+;PCODE: $000001C2 VOL: 0
+;PCODE: $000001C3 VOL: 0
+; 0001 00D3         WriteRegCC1101(TEST0,0x0B);          // Default      0x09
+;PCODE: $000001C4 VOL: 0
+;PCODE: $000001C5 VOL: 0
+;PCODE: $000001C6 VOL: 0
+;PCODE: $000001C7 VOL: 0
+;PCODE: $000001C8 VOL: 0
+; 0001 00D4 
+; 0001 00D5 
+; 0001 00D6         // Set TX POWER
+; 0001 00D7         WriteRegCC1101(PA_TABLE0,0xC0);      // 10dBm -> 0xC0, 6dBm -> 0x60                       00 68 06 f8 2E 47 D3 91 FF 64 45
+;PCODE: $000001C9 VOL: 0
+;PCODE: $000001CA VOL: 0
+;PCODE: $000001CB VOL: 0
+;PCODE: $000001CC VOL: 0
+;PCODE: $000001CD VOL: 0
+; 0001 00D8 
+; 0001 00D9         delay_ms(100);
+;PCODE: $000001CE VOL: 0
+;PCODE: $000001CF VOL: 0
+;PCODE: $000001D0 VOL: 0
+; 0001 00DA         Strobes_Comm(SIDLE);
+;PCODE: $000001D1 VOL: 0
+;PCODE: $000001D2 VOL: 0
+;PCODE: $000001D3 VOL: 0
+; 0001 00DB         Strobes_Comm(SFRX);
+;PCODE: $000001D4 VOL: 0
+;PCODE: $000001D5 VOL: 0
+;PCODE: $000001D6 VOL: 0
+; 0001 00DC         //Strobes_Comm(SFTX);
+; 0001 00DD         Strobes_Comm(SPWD);
+;PCODE: $000001D7 VOL: 0
+;PCODE: $000001D8 VOL: 0
+;PCODE: $000001D9 VOL: 0
+; 0001 00DE }
+;PCODE: $000001DA VOL: 0
+;PCODE: $000001DB VOL: 0
+;
+;
+;void CC1101SetupMesh(void)
+; 0001 00E2 {
+;PCODE: $000001DC VOL: 0
+;PCODE: $000001DD VOL: 0
+; 0001 00E3         power_on_Reset_cc1101();
+;PCODE: $000001DE VOL: 0
+; 0001 00E4         delay_ms(20);
+;PCODE: $000001DF VOL: 0
+;PCODE: $000001E0 VOL: 0
+;PCODE: $000001E1 VOL: 0
+; 0001 00E5         WriteRegCC1101(IOCFG2,0x06);         // Asserts when a packet has been received with CRC OK. De-asserts when the first byte is read from the RX FIFO.
+;PCODE: $000001E2 VOL: 0
+;PCODE: $000001E3 VOL: 0
+;PCODE: $000001E4 VOL: 0
+;PCODE: $000001E5 VOL: 0
+;PCODE: $000001E6 VOL: 0
+; 0001 00E6         WriteRegCC1101(IOCFG1,0x2E);         // MISO  // Default
+;PCODE: $000001E7 VOL: 0
+;PCODE: $000001E8 VOL: 0
+;PCODE: $000001E9 VOL: 0
+;PCODE: $000001EA VOL: 0
+;PCODE: $000001EB VOL: 0
+; 0001 00E7         WriteRegCC1101(IOCFG0,0x06);       //0x09  // Asserts when sync word has been sent / received, and de-asserts at the end of the packet.
+;PCODE: $000001EC VOL: 0
+;PCODE: $000001ED VOL: 0
+;PCODE: $000001EE VOL: 0
+;PCODE: $000001EF VOL: 0
+;PCODE: $000001F0 VOL: 0
+; 0001 00E8 
+; 0001 00E9         WriteRegCC1101(FIFOTHR,0x47);        // Default (not importance if length of package less than 64)
+;PCODE: $000001F1 VOL: 0
+;PCODE: $000001F2 VOL: 0
+;PCODE: $000001F3 VOL: 0
+;PCODE: $000001F4 VOL: 0
+;PCODE: $000001F5 VOL: 0
+; 0001 00EA         WriteRegCC1101(SYNC1,0x64);     //R     // RE SYNC bytes
+;PCODE: $000001F6 VOL: 0
+;PCODE: $000001F7 VOL: 0
+;PCODE: $000001F8 VOL: 0
+;PCODE: $000001F9 VOL: 0
+;PCODE: $000001FA VOL: 0
+; 0001 00EB         WriteRegCC1101(SYNC0,0x6E);     //R     // RE SYNC bytes
+;PCODE: $000001FB VOL: 0
+;PCODE: $000001FC VOL: 0
+;PCODE: $000001FD VOL: 0
+;PCODE: $000001FE VOL: 0
+;PCODE: $000001FF VOL: 0
+; 0001 00EC 
+; 0001 00ED         WriteRegCC1101(PKTLEN,0xFF);         // Max 255 bytes payload
+;PCODE: $00000200 VOL: 0
+;PCODE: $00000201 VOL: 0
+;PCODE: $00000202 VOL: 0
+;PCODE: $00000203 VOL: 0
+;PCODE: $00000204 VOL: 0
+; 0001 00EE 
+; 0001 00EF         WriteRegCC1101(PKTCTRL1,0x00);
+;PCODE: $00000205 VOL: 0
+;PCODE: $00000206 VOL: 0
+;PCODE: $00000207 VOL: 0
+;PCODE: $00000208 VOL: 0
+;PCODE: $00000209 VOL: 0
+; 0001 00F0         //WriteRegCC1101(PKTCTRL1,0x64);       // (3)CRC_AUTOFLUSH =1: Enable automatic flush of RX FIFO when CRC is not OK;    0x0C
+; 0001 00F1                                         // (2)APPEND_STATUS=1: Add RSSI and LQI byte to the payload,
+; 0001 00F2                                         // (1:0) ADR_CHK[1:0]=0: No address check
+; 0001 00F3         WriteRegCC1101(PKTCTRL0,0x00);//R       // (6)WHITE_DATA=0: Data whitening off,       0x05
+;PCODE: $0000020A VOL: 0
+;PCODE: $0000020B VOL: 0
+;PCODE: $0000020C VOL: 0
+;PCODE: $0000020D VOL: 0
+;PCODE: $0000020E VOL: 0
+; 0001 00F4                                         // (5:4)PKT_FORMAT[1:0]=0: Normal mode, use FIFOs for RX and TX
+; 0001 00F5                                         // (2)CRC_EN=1: CRC calculation in TX and CRC check in RX enabled
+; 0001 00F6                                         // (1:0)LENGTH_CONFIG[1:0]=1: Variable packet length mode. Packet length configured by the first byte after sync word
+; 0001 00F7         WriteRegCC1101(ADDR,0x00);           // Address used for packet filtration.
+;PCODE: $0000020F VOL: 0
+;PCODE: $00000210 VOL: 0
+;PCODE: $00000211 VOL: 0
+;PCODE: $00000212 VOL: 0
+;PCODE: $00000213 VOL: 0
+; 0001 00F8         //defaul channel 0
+; 0001 00F9         WriteRegCC1101(CHANNR,8);         // Channel number
+;PCODE: $00000214 VOL: 0
+;PCODE: $00000215 VOL: 0
+;PCODE: $00000216 VOL: 0
+;PCODE: $00000217 VOL: 0
+;PCODE: $00000218 VOL: 0
+; 0001 00FA 
+; 0001 00FB         WriteRegCC1101(FSCTRL1,0x06);        // (4:0)FREQ_IF[4:0]=6: The desired IF frequency to employ in RX  f(IF)=(f(XOSC)/2^10)* FREQ_IF
+;PCODE: $00000219 VOL: 0
+;PCODE: $0000021A VOL: 0
+;PCODE: $0000021B VOL: 0
+;PCODE: $0000021C VOL: 0
+;PCODE: $0000021D VOL: 0
+; 0001 00FC         WriteRegCC1101(FSCTRL0,0x00);        // (7:0)FREQOFF[7:0]=0: Frequency offset added to the base frequency before being used by the frequency synthesizer
+;PCODE: $0000021E VOL: 0
+;PCODE: $0000021F VOL: 0
+;PCODE: $00000220 VOL: 0
+;PCODE: $00000221 VOL: 0
+;PCODE: $00000222 VOL: 0
+; 0001 00FD         // F0=408.125MHz
+; 0001 00FE         WriteRegCC1101(FREQ2,0x0F);  //R          // (7:6)FREQ[23:22]=0 (always)  0x0F
+;PCODE: $00000223 VOL: 0
+;PCODE: $00000224 VOL: 0
+;PCODE: $00000225 VOL: 0
+;PCODE: $00000226 VOL: 0
+;PCODE: $00000227 VOL: 0
+; 0001 00FF                                         // (5:0)FREQ[21:16]
+; 0001 0100         WriteRegCC1101(FREQ1,0xB2);  //R        // (7:0)FREQ[15:8]   0xBA
+;PCODE: $00000228 VOL: 0
+;PCODE: $00000229 VOL: 0
+;PCODE: $0000022A VOL: 0
+;PCODE: $0000022B VOL: 0
+;PCODE: $0000022C VOL: 0
+; 0001 0101         WriteRegCC1101(FREQ0,0x76);  //R        // (7:0)FREQ[7:0]      0x56                 // f(carrier)=(f(XOSC)/2^16)* FREQ = 433MHz
+;PCODE: $0000022D VOL: 0
+;PCODE: $0000022E VOL: 0
+;PCODE: $0000022F VOL: 0
+;PCODE: $00000230 VOL: 0
+;PCODE: $00000231 VOL: 0
+; 0001 0102 
+; 0001 0103         //baudrate
+; 0001 0104         WriteRegCC1101(MDMCFG4,0xC9); //R      // (7:6)CHANBW_E[1:0]=3    0xC6    0xF6
+;PCODE: $00000232 VOL: 0
+;PCODE: $00000233 VOL: 0
+;PCODE: $00000234 VOL: 0
+;PCODE: $00000235 VOL: 0
+;PCODE: $00000236 VOL: 0
+; 0001 0105                                         // (5:4)CHANBW_M[1:0]=0                 // BW(channel)=f(XOSC)/(8*(4+ CHANBW_M)*2^CHANBW_E)
+; 0001 0106                                         // (3:0)DRATE_E[3:0]=6
+; 0001 0107 
+; 0001 0108         WriteRegCC1101(MDMCFG3,0x93);//R        // (7:0)DRATE_M[7:0]  0x83                   // R(data)= (256 + DRATE_M)*2^DRATE_E*f(XOSC)/2^28 = 2.4kBaud
+;PCODE: $00000237 VOL: 0
+;PCODE: $00000238 VOL: 0
+;PCODE: $00000239 VOL: 0
+;PCODE: $0000023A VOL: 0
+;PCODE: $0000023B VOL: 0
+; 0001 0109 
+; 0001 010A         WriteRegCC1101(MDMCFG2,0x13);        // (7)DEM_DCFILT_OFF=0                  GFSK, 30/32 SYNC word bits detected
+;PCODE: $0000023C VOL: 0
+;PCODE: $0000023D VOL: 0
+;PCODE: $0000023E VOL: 0
+;PCODE: $0000023F VOL: 0
+;PCODE: $00000240 VOL: 0
+; 0001 010B                                         // (6:4)MOD_FORMAT[2:0]=1 :             GFSK
+; 0001 010C                                         // (3)MANCHESTER_EN=0 :                 Disable Manchester encoding/decoding.
+; 0001 010D                                         // (2:0) SYNC_MODE[2:0]=3               30/32 sync word bits detected
+; 0001 010E 
+; 0001 010F         WriteRegCC1101(MDMCFG1,0x21);//R        // (7)FEC_EN =0:                        Forward Error Correction (FEC) with interleaving for packet payload (Only supported for fixed packet length mode, i.e. PKTCTRL0.LENGTH_CONFIG =0) 4 preamble bytes (1010..10)
+;PCODE: $00000241 VOL: 0
+;PCODE: $00000242 VOL: 0
+;PCODE: $00000243 VOL: 0
+;PCODE: $00000244 VOL: 0
+;PCODE: $00000245 VOL: 0
+; 0001 0110                                         // (6:4)NUM_PREAMBLE[2:0]=2             4 preamble bytes
+; 0001 0111                                         //(3:2)Reserved
+; 0001 0112                                         // (1:0)CHANSPC_E[1:0] =2
+; 0001 0113         WriteRegCC1101(MDMCFG0,0xF8);        // (7:0)CHANSPC_M[7:0]=248               // DELTA(f_channel)=(f_XOSC/2^18)*(256+ CHANSPC_M)*2^CHANSPC_E
+;PCODE: $00000246 VOL: 0
+;PCODE: $00000247 VOL: 0
+;PCODE: $00000248 VOL: 0
+;PCODE: $00000249 VOL: 0
+;PCODE: $0000024A VOL: 0
+; 0001 0114 
+; 0001 0115         WriteRegCC1101(DEVIATN,0x24);  //R      // (7)Not used
+;PCODE: $0000024B VOL: 0
+;PCODE: $0000024C VOL: 0
+;PCODE: $0000024D VOL: 0
+;PCODE: $0000024E VOL: 0
+;PCODE: $0000024F VOL: 0
+; 0001 0116                                         // (6:4)DEVIATION_E[2:0]=4
+; 0001 0117                                         // (3)Not used
+; 0001 0118                                         // (2:0)DEVIATION_M[2:0]=0
+; 0001 0119 
+; 0001 011A         WriteRegCC1101(MCSM2,0x07);          // (2:0)RX_TIME[2:0]=7                  Timeout SYNC word until end of packet
+;PCODE: $00000250 VOL: 0
+;PCODE: $00000251 VOL: 0
+;PCODE: $00000252 VOL: 0
+;PCODE: $00000253 VOL: 0
+;PCODE: $00000254 VOL: 0
+; 0001 011B 
+; 0001 011C         WriteRegCC1101(MCSM1,0x30);          // (7:6)Not used 0x3F, After TX or RX, state -> stay, 0x30 -> IDLE    0x30
+;PCODE: $00000255 VOL: 0
+;PCODE: $00000256 VOL: 0
+;PCODE: $00000257 VOL: 0
+;PCODE: $00000258 VOL: 0
+;PCODE: $00000259 VOL: 0
+; 0001 011D                                         // (5:4)CCA_MODE[1:0]=3                 If RSSI below threshold unless currently receiving a packet
+; 0001 011E                                         // (3:2)RXOFF_MODE[1:0]=0               IDLE                    after packet has been received.
+; 0001 011F                                         // (1:0)TXOFF_MODE[1:0]=0               IDLE                    after packet has been sent
+; 0001 0120 
+; 0001 0121         WriteRegCC1101(MCSM0,0x18);          // (7:6)Not used  0x18
+;PCODE: $0000025A VOL: 0
+;PCODE: $0000025B VOL: 0
+;PCODE: $0000025C VOL: 0
+;PCODE: $0000025D VOL: 0
+;PCODE: $0000025E VOL: 0
+; 0001 0122                                         // (5:4)FS_AUTOCAL[1:0]=1               Automatically calibrate when going from IDLE to RX or TX (or FSTXON)
+; 0001 0123                                         // (3:2)PO_TIMEOUT=2
+; 0001 0124                                         // (1)PIN_CTRL_EN=0
+; 0001 0125                                         // (0)XOSC_FORCE_ON=0
+; 0001 0126 
+; 0001 0127 
+; 0001 0128         WriteRegCC1101(FOCCFG,0x16);         // Default
+;PCODE: $0000025F VOL: 0
+;PCODE: $00000260 VOL: 0
+;PCODE: $00000261 VOL: 0
+;PCODE: $00000262 VOL: 0
+;PCODE: $00000263 VOL: 0
+; 0001 0129         WriteRegCC1101(BSCFG,0x6C);          // Default
+;PCODE: $00000264 VOL: 0
+;PCODE: $00000265 VOL: 0
+;PCODE: $00000266 VOL: 0
+;PCODE: $00000267 VOL: 0
+;PCODE: $00000268 VOL: 0
+; 0001 012A 
+; 0001 012B         WriteRegCC1101(AGCCTRL2,0x03);           //0x43
+;PCODE: $00000269 VOL: 0
+;PCODE: $0000026A VOL: 0
+;PCODE: $0000026B VOL: 0
+;PCODE: $0000026C VOL: 0
+;PCODE: $0000026D VOL: 0
+; 0001 012C         WriteRegCC1101(AGCCTRL1,0x40);       // Default
+;PCODE: $0000026E VOL: 0
+;PCODE: $0000026F VOL: 0
+;PCODE: $00000270 VOL: 0
+;PCODE: $00000271 VOL: 0
+;PCODE: $00000272 VOL: 0
+; 0001 012D         WriteRegCC1101(AGCCTRL0,0x91);       // Default
+;PCODE: $00000273 VOL: 0
+;PCODE: $00000274 VOL: 0
+;PCODE: $00000275 VOL: 0
+;PCODE: $00000276 VOL: 0
+;PCODE: $00000277 VOL: 0
+; 0001 012E 
+; 0001 012F         WriteRegCC1101(WOREVT1,0x87);        // Default
+;PCODE: $00000278 VOL: 0
+;PCODE: $00000279 VOL: 0
+;PCODE: $0000027A VOL: 0
+;PCODE: $0000027B VOL: 0
+;PCODE: $0000027C VOL: 0
+; 0001 0130         WriteRegCC1101(WOREVT0,0x6B);        // Default
+;PCODE: $0000027D VOL: 0
+;PCODE: $0000027E VOL: 0
+;PCODE: $0000027F VOL: 0
+;PCODE: $00000280 VOL: 0
+;PCODE: $00000281 VOL: 0
+; 0001 0131         WriteRegCC1101(WORCTRL,0xFB);     // Default
+;PCODE: $00000282 VOL: 0
+;PCODE: $00000283 VOL: 0
+;PCODE: $00000284 VOL: 0
+;PCODE: $00000285 VOL: 0
+;PCODE: $00000286 VOL: 0
+; 0001 0132 
+; 0001 0133         WriteRegCC1101(FREND1,0x56);         // Default
+;PCODE: $00000287 VOL: 0
+;PCODE: $00000288 VOL: 0
+;PCODE: $00000289 VOL: 0
+;PCODE: $0000028A VOL: 0
+;PCODE: $0000028B VOL: 0
+; 0001 0134         WriteRegCC1101(FREND0,0x10);         //17  Default  17         (2:0) PA_POWER[2:0]=0  Selects PA power setting. This value is an index to the PATABLE
+;PCODE: $0000028C VOL: 0
+;PCODE: $0000028D VOL: 0
+;PCODE: $0000028E VOL: 0
+;PCODE: $0000028F VOL: 0
+;PCODE: $00000290 VOL: 0
+; 0001 0135 
+; 0001 0136         WriteRegCC1101(FSCAL3,0xE9);         // Default   0xE9
+;PCODE: $00000291 VOL: 0
+;PCODE: $00000292 VOL: 0
+;PCODE: $00000293 VOL: 0
+;PCODE: $00000294 VOL: 0
+;PCODE: $00000295 VOL: 0
+; 0001 0137         WriteRegCC1101(FSCAL2,0x2A);         // 09 Default      0x2A
+;PCODE: $00000296 VOL: 0
+;PCODE: $00000297 VOL: 0
+;PCODE: $00000298 VOL: 0
+;PCODE: $00000299 VOL: 0
+;PCODE: $0000029A VOL: 0
+; 0001 0138         WriteRegCC1101(FSCAL1,0x00);         // 26 Default      0x00
+;PCODE: $0000029B VOL: 0
+;PCODE: $0000029C VOL: 0
+;PCODE: $0000029D VOL: 0
+;PCODE: $0000029E VOL: 0
+;PCODE: $0000029F VOL: 0
+; 0001 0139         WriteRegCC1101(FSCAL0,0x1F);         // Default
+;PCODE: $000002A0 VOL: 0
+;PCODE: $000002A1 VOL: 0
+;PCODE: $000002A2 VOL: 0
+;PCODE: $000002A3 VOL: 0
+;PCODE: $000002A4 VOL: 0
+; 0001 013A 
+; 0001 013B         WriteRegCC1101(RCCTRL1,0x41);        // Default
+;PCODE: $000002A5 VOL: 0
+;PCODE: $000002A6 VOL: 0
+;PCODE: $000002A7 VOL: 0
+;PCODE: $000002A8 VOL: 0
+;PCODE: $000002A9 VOL: 0
+; 0001 013C         WriteRegCC1101(RCCTRL0,0x00);        // Default
+;PCODE: $000002AA VOL: 0
+;PCODE: $000002AB VOL: 0
+;PCODE: $000002AC VOL: 0
+;PCODE: $000002AD VOL: 0
+;PCODE: $000002AE VOL: 0
+; 0001 013D 
+; 0001 013E         WriteRegCC1101(FSTEST,0x59);         // Default
+;PCODE: $000002AF VOL: 0
+;PCODE: $000002B0 VOL: 0
+;PCODE: $000002B1 VOL: 0
+;PCODE: $000002B2 VOL: 0
+;PCODE: $000002B3 VOL: 0
+; 0001 013F         WriteRegCC1101(PTEST,0x7F);          // Default
+;PCODE: $000002B4 VOL: 0
+;PCODE: $000002B5 VOL: 0
+;PCODE: $000002B6 VOL: 0
+;PCODE: $000002B7 VOL: 0
+;PCODE: $000002B8 VOL: 0
+; 0001 0140         WriteRegCC1101(AGCTEST,0x3F);        // Default
+;PCODE: $000002B9 VOL: 0
+;PCODE: $000002BA VOL: 0
+;PCODE: $000002BB VOL: 0
+;PCODE: $000002BC VOL: 0
+;PCODE: $000002BD VOL: 0
+; 0001 0141 
+; 0001 0142         WriteRegCC1101(TEST2,0x81);          // Default      0x81
+;PCODE: $000002BE VOL: 0
+;PCODE: $000002BF VOL: 0
+;PCODE: $000002C0 VOL: 0
+;PCODE: $000002C1 VOL: 0
+;PCODE: $000002C2 VOL: 0
+; 0001 0143         WriteRegCC1101(TEST1,0x35);          // Default      0x35
+;PCODE: $000002C3 VOL: 0
+;PCODE: $000002C4 VOL: 0
+;PCODE: $000002C5 VOL: 0
+;PCODE: $000002C6 VOL: 0
+;PCODE: $000002C7 VOL: 0
+; 0001 0144         WriteRegCC1101(TEST0,0x0B);          // Default      0x09
+;PCODE: $000002C8 VOL: 0
+;PCODE: $000002C9 VOL: 0
+;PCODE: $000002CA VOL: 0
+;PCODE: $000002CB VOL: 0
+;PCODE: $000002CC VOL: 0
+; 0001 0145 
+; 0001 0146 
+; 0001 0147         // Set TX POWER
+; 0001 0148         WriteRegCC1101(PA_TABLE0,0xC0);      // 10dBm -> 0xC0, 6dBm -> 0x60                       00 68 06 f8 2E 47 D3 91 FF 64 45
+;PCODE: $000002CD VOL: 0
+;PCODE: $000002CE VOL: 0
+;PCODE: $000002CF VOL: 0
+;PCODE: $000002D0 VOL: 0
+;PCODE: $000002D1 VOL: 0
+; 0001 0149 
+; 0001 014A         delay_ms(100);
+;PCODE: $000002D2 VOL: 0
+;PCODE: $000002D3 VOL: 0
+;PCODE: $000002D4 VOL: 0
+; 0001 014B         Strobes_Comm(SIDLE);
+;PCODE: $000002D5 VOL: 0
+;PCODE: $000002D6 VOL: 0
+;PCODE: $000002D7 VOL: 0
+; 0001 014C         Strobes_Comm(SFRX);
+;PCODE: $000002D8 VOL: 0
+;PCODE: $000002D9 VOL: 0
+;PCODE: $000002DA VOL: 0
+; 0001 014D         //Strobes_Comm(SFTX);
+; 0001 014E         Strobes_Comm(SPWD);
+;PCODE: $000002DB VOL: 0
+;PCODE: $000002DC VOL: 0
+;PCODE: $000002DD VOL: 0
+; 0001 014F }
+;PCODE: $000002DE VOL: 0
+;PCODE: $000002DF VOL: 0
+;
+;
+;
+;//--------------------------------------------------------------------------------------
+; void idle_mode_PA(void)
+; 0001 0155  {
+;PCODE: $000002E0 VOL: 0
+;PCODE: $000002E1 VOL: 0
+; 0001 0156         TE_X6 =1;
+;PCODE: $000002E2 VOL: 0
+;PCODE: $000002E3 VOL: 0
+; 0001 0157         RE_X6 =0;
+;PCODE: $000002E4 VOL: 0
+;PCODE: $000002E5 VOL: 0
+; 0001 0158 
+; 0001 0159         TE_EKEMP =1;
+;PCODE: $000002E6 VOL: 0
+;PCODE: $000002E7 VOL: 0
+; 0001 015A         RE_EKEMP =0;
+;PCODE: $000002E8 VOL: 0
+;PCODE: $000002E9 VOL: 0
+; 0001 015B 
+; 0001 015C         delay_us(iTimePA);
+;PCODE: $000002EA VOL: 0
+; 0001 015D  }
+;PCODE: $000002EB VOL: 0
+;PCODE: $000002EC VOL: 0
+;//--------------------------------------------------------------------------------------
+; void transmit_mode_PA(void)
+; 0001 0160  {
+;PCODE: $000002ED VOL: 0
+;PCODE: $000002EE VOL: 0
+; 0001 0161         TE_X6 =0;
+;PCODE: $000002EF VOL: 0
+;PCODE: $000002F0 VOL: 0
+; 0001 0162         RE_X6 =1;
+;PCODE: $000002F1 VOL: 0
+;PCODE: $000002F2 VOL: 0
+; 0001 0163 
+; 0001 0164         TE_EKEMP =0;
+;PCODE: $000002F3 VOL: 0
+;PCODE: $000002F4 VOL: 0
+; 0001 0165         RE_EKEMP =1;
+;PCODE: $000002F5 VOL: 0
+;PCODE: $000002F6 VOL: 0
+; 0001 0166 
+; 0001 0167         delay_us(iTimePA);
+;PCODE: $000002F7 VOL: 0
+; 0001 0168  }
+;PCODE: $000002F8 VOL: 0
+;PCODE: $000002F9 VOL: 0
+;//--------------------------------------------------------------------------------------
+;void recieve_mode_PA(void)
+; 0001 016B {
+;PCODE: $000002FA VOL: 0
+;PCODE: $000002FB VOL: 0
+; 0001 016C        TE_X6 =1;
+;PCODE: $000002FC VOL: 0
+;PCODE: $000002FD VOL: 0
+; 0001 016D        RE_X6 =0;
+;PCODE: $000002FE VOL: 0
+;PCODE: $000002FF VOL: 0
+; 0001 016E 
+; 0001 016F        TE_EKEMP =1;
+;PCODE: $00000300 VOL: 0
+;PCODE: $00000301 VOL: 0
+; 0001 0170        RE_EKEMP =0;
+;PCODE: $00000302 VOL: 0
+;PCODE: $00000303 VOL: 0
+; 0001 0171 
+; 0001 0172        delay_us(iTimePA);
+;PCODE: $00000304 VOL: 0
+; 0001 0173 }
+;PCODE: $00000305 VOL: 0
+;PCODE: $00000306 VOL: 0
+;
+;//--------------------------------------------------------------------------------------
+;void ReadBurstReg(uint8_t addr, uint8_t *buff, uint8_t size)
+; 0001 0177 {
+;PCODE: $00000307 VOL: 0
+;PCODE: $00000308 VOL: 0
+; 0001 0178         uint8_t i;
+; 0001 0179         nSEL=0;
+;PCODE: $00000309 VOL: 0
+;	addr -> Y+4
+;	*buff -> Y+2
+;	size -> Y+1
+;	i -> R17
+;PCODE: $0000030A VOL: 0
+;PCODE: $0000030B VOL: 0
+; 0001 017A         while(MISO){}
+;PCODE: $0000030C VOL: 0
+;PCODE: $0000030D VOL: 0
+;PCODE: $0000030E VOL: 0
+;PCODE: $0000030F VOL: 0
+;PCODE: $00000310 VOL: 0
+;PCODE: $00000311 VOL: 0
+; 0001 017B         SPISendDataCC1101(addr|Burst_Read);
+;PCODE: $00000312 VOL: 0
+;PCODE: $00000313 VOL: 0
+;PCODE: $00000314 VOL: 0
+;PCODE: $00000315 VOL: 0
+; 0001 017C         for(i=0;i<size;i++)
+;PCODE: $00000316 VOL: 0
+;PCODE: $00000317 VOL: 0
+;PCODE: $00000318 VOL: 0
+;PCODE: $00000319 VOL: 0
+;PCODE: $0000031A VOL: 0
+;PCODE: $0000031B VOL: 0
+;PCODE: $0000031C VOL: 0
+;PCODE: $0000031D VOL: 0
+;PCODE: $0000031E VOL: 0
+; 0001 017D         {
+; 0001 017E              buff[i]=SPISendDataCC1101(0);
+;PCODE: $0000031F VOL: 0
+;PCODE: $00000320 VOL: 0
+;PCODE: $00000321 VOL: 0
+;PCODE: $00000322 VOL: 0
+;PCODE: $00000323 VOL: 0
+;PCODE: $00000324 VOL: 0
+;PCODE: $00000325 VOL: 0
+;PCODE: $00000326 VOL: 0
+;PCODE: $00000327 VOL: 0
+;PCODE: $00000328 VOL: 0
+; 0001 017F         }
+;PCODE: $00000329 VOL: 0
+;PCODE: $0000032A VOL: 0
+;PCODE: $0000032B VOL: 0
+;PCODE: $0000032C VOL: 0
+;PCODE: $0000032D VOL: 0
+; 0001 0180         nSEL=1;
+;PCODE: $0000032E VOL: 0
+;PCODE: $0000032F VOL: 0
+; 0001 0181 }
+;PCODE: $00000330 VOL: 0
+;PCODE: $00000331 VOL: 0
+;PCODE: $00000332 VOL: 0
+;PCODE: $00000333 VOL: 0
+;PCODE: $00000334 VOL: 0
+;//--------------------------------------------------------------------------------------
+;void WriteBurstReg(uint8_t addr, uint8_t *buff, uint8_t size)
+; 0001 0184 {
+;PCODE: $00000335 VOL: 0
+;PCODE: $00000336 VOL: 0
+; 0001 0185         uint8_t i;
+; 0001 0186         nSEL=0;
+;PCODE: $00000337 VOL: 0
+;	addr -> Y+4
+;	*buff -> Y+2
+;	size -> Y+1
+;	i -> R17
+;PCODE: $00000338 VOL: 0
+;PCODE: $00000339 VOL: 0
+; 0001 0187         while(MISO){}
+;PCODE: $0000033A VOL: 0
+;PCODE: $0000033B VOL: 0
+;PCODE: $0000033C VOL: 0
+;PCODE: $0000033D VOL: 0
+;PCODE: $0000033E VOL: 0
+;PCODE: $0000033F VOL: 0
+; 0001 0188         SPISendDataCC1101(addr|Burst_Write);
+;PCODE: $00000340 VOL: 0
+;PCODE: $00000341 VOL: 0
+;PCODE: $00000342 VOL: 0
+;PCODE: $00000343 VOL: 0
+; 0001 0189         for(i=0;i<size;i++)
+;PCODE: $00000344 VOL: 0
+;PCODE: $00000345 VOL: 0
+;PCODE: $00000346 VOL: 0
+;PCODE: $00000347 VOL: 0
+;PCODE: $00000348 VOL: 0
+;PCODE: $00000349 VOL: 0
+;PCODE: $0000034A VOL: 0
+;PCODE: $0000034B VOL: 0
+;PCODE: $0000034C VOL: 0
+; 0001 018A         {
+; 0001 018B              SPISendDataCC1101(buff[i]);
+;PCODE: $0000034D VOL: 0
+;PCODE: $0000034E VOL: 0
+;PCODE: $0000034F VOL: 0
+;PCODE: $00000350 VOL: 0
+;PCODE: $00000351 VOL: 0
+; 0001 018C         }
+;PCODE: $00000352 VOL: 0
+;PCODE: $00000353 VOL: 0
+;PCODE: $00000354 VOL: 0
+;PCODE: $00000355 VOL: 0
+;PCODE: $00000356 VOL: 0
+; 0001 018D         nSEL=1;
+;PCODE: $00000357 VOL: 0
+;PCODE: $00000358 VOL: 0
+; 0001 018E }
+;PCODE: $00000359 VOL: 0
+;PCODE: $0000035A VOL: 0
+;PCODE: $0000035B VOL: 0
+;PCODE: $0000035C VOL: 0
+;PCODE: $0000035D VOL: 0
+;
+;//--------------------------------------------------------------------------------------
+;void CC1101SendDataCE18G(uint8_t *Data, uint8_t Len)
+; 0001 0192 {
+;PCODE: $0000035E VOL: 0
+;PCODE: $0000035F VOL: 0
+; 0001 0193         transmit_mode_PA();
+;	*Data -> Y+1
+;	Len -> Y+0
+;PCODE: $00000360 VOL: 0
+; 0001 0194         Strobes_Comm(SIDLE);
+;PCODE: $00000361 VOL: 0
+;PCODE: $00000362 VOL: 0
+;PCODE: $00000363 VOL: 0
+; 0001 0195         Strobes_Comm(SFRX);
+;PCODE: $00000364 VOL: 0
+;PCODE: $00000365 VOL: 0
+;PCODE: $00000366 VOL: 0
+; 0001 0196         WriteBurstReg(TXFIFO, Data, Len);       // Write data to TXFIFO to send via RF
+;PCODE: $00000367 VOL: 0
+;PCODE: $00000368 VOL: 0
+;PCODE: $00000369 VOL: 0
+;PCODE: $0000036A VOL: 0
+;PCODE: $0000036B VOL: 0
+;PCODE: $0000036C VOL: 0
+;PCODE: $0000036D VOL: 0
+; 0001 0197         Strobes_Comm(STX);                       // Enter TX mode
+;PCODE: $0000036E VOL: 0
+;PCODE: $0000036F VOL: 0
+;PCODE: $00000370 VOL: 0
+; 0001 0198         delay_ms(100);   // min =98
+;PCODE: $00000371 VOL: 0
+;PCODE: $00000372 VOL: 0
+;PCODE: $00000373 VOL: 0
+; 0001 0199 }
+;PCODE: $00000374 VOL: 0
+;PCODE: $00000375 VOL: 0
+;PCODE: $00000376 VOL: 0
+;
+;
+;//--------------------------------------------------------------------------------------
+;uint8_t CC1101ReceiveDataCE18G(uint8_t *Data, uint8_t *Len)
+; 0001 019E {
+;PCODE: $00000377 VOL: 0
+;PCODE: $00000378 VOL: 0
+; 0001 019F         uint8_t length=64;
+; 0001 01A0         *Len=64;
+;PCODE: $00000379 VOL: 0
+;	*Data -> Y+3
+;	*Len -> Y+1
+;	length -> R17
+;PCODE: $0000037A VOL: 0
+;PCODE: $0000037B VOL: 0
+;PCODE: $0000037C VOL: 0
+;PCODE: $0000037D VOL: 0
+;PCODE: $0000037E VOL: 0
+; 0001 01A1         Signal_RSSI_CE18G=ReadRegCC1101(0xF4);//
+;PCODE: $0000037F VOL: 0
+;PCODE: $00000380 VOL: 0
+;PCODE: $00000381 VOL: 0
+;PCODE: $00000382 VOL: 0
+; 0001 01A2         ReadBurstReg(RXFIFO, Data, length);
+;PCODE: $00000383 VOL: 0
+;PCODE: $00000384 VOL: 0
+;PCODE: $00000385 VOL: 0
+;PCODE: $00000386 VOL: 0
+;PCODE: $00000387 VOL: 0
+;PCODE: $00000388 VOL: 0
+; 0001 01A3         Strobes_Comm(SIDLE);
+;PCODE: $00000389 VOL: 0
+;PCODE: $0000038A VOL: 0
+;PCODE: $0000038B VOL: 0
+; 0001 01A4         //Strobes_Comm(SFTX);
+; 0001 01A5         Strobes_Comm(SRX);
+;PCODE: $0000038C VOL: 0
+;PCODE: $0000038D VOL: 0
+;PCODE: $0000038E VOL: 0
+; 0001 01A6         CC1101SleepMode();
+;PCODE: $0000038F VOL: 0
+; 0001 01A7         return 1;
+;PCODE: $00000390 VOL: 0
+;PCODE: $00000391 VOL: 0
+;PCODE: $00000392 VOL: 0
+;PCODE: $00000393 VOL: 0
+;PCODE: $00000394 VOL: 0
+; 0001 01A8 
+; 0001 01A9 }
+;PCODE: $00000395 VOL: 0
+;
+;
+;void CC1101SendDataMesh(uint8_t *Data, uint8_t Len)
+; 0001 01AD {
+;PCODE: $00000396 VOL: 0
+;PCODE: $00000397 VOL: 0
+; 0001 01AE     uint8_t buff[64];
+; 0001 01AF     volatile uint16_t timeout = 0xffff;
+; 0001 01B0     uint16_t CRC_CC1101;
+; 0001 01B1     buff[0]=Len;
+;PCODE: $00000398 VOL: 0
+;PCODE: $00000399 VOL: 0
+;PCODE: $0000039A VOL: 0
+;PCODE: $0000039B VOL: 0
+;PCODE: $0000039C VOL: 0
+;PCODE: $0000039D VOL: 0
+;PCODE: $0000039E VOL: 0
+;	*Data -> Y+69
+;	Len -> Y+68
+;	buff -> Y+4
+;	timeout -> Y+2
+;	CRC_CC1101 -> R16,R17
+;PCODE: $0000039F VOL: 0
+;PCODE: $000003A0 VOL: 0
+; 0001 01B2     memcpy(buff+1, Data, Len);
+;PCODE: $000003A1 VOL: 0
+;PCODE: $000003A2 VOL: 0
+;PCODE: $000003A3 VOL: 0
+;PCODE: $000003A4 VOL: 0
+;PCODE: $000003A5 VOL: 0
+;PCODE: $000003A6 VOL: 0
+;PCODE: $000003A7 VOL: 0
+;PCODE: $000003A8 VOL: 0
+; 0001 01B3     CRC_CC1101=CRC16CC1101_Buff(buff, Len+1);
+;PCODE: $000003A9 VOL: 0
+;PCODE: $000003AA VOL: 0
+;PCODE: $000003AB VOL: 0
+;PCODE: $000003AC VOL: 0
+;PCODE: $000003AD VOL: 0
+;PCODE: $000003AE VOL: 0
+;PCODE: $000003AF VOL: 0
+; 0001 01B4     buff[Len+1]=(uint8_t)(CRC_CC1101>>8);
+;PCODE: $000003B0 VOL: 0
+;PCODE: $000003B1 VOL: 0
+;PCODE: $000003B2 VOL: 0
+;PCODE: $000003B3 VOL: 0
+;PCODE: $000003B4 VOL: 0
+;PCODE: $000003B5 VOL: 0
+; 0001 01B5     buff[Len+2]=(uint8_t)(CRC_CC1101&0x00FF);
+;PCODE: $000003B6 VOL: 0
+;PCODE: $000003B7 VOL: 0
+;PCODE: $000003B8 VOL: 0
+;PCODE: $000003B9 VOL: 0
+;PCODE: $000003BA VOL: 0
+;PCODE: $000003BB VOL: 0
+;PCODE: $000003BC VOL: 0
+;PCODE: $000003BD VOL: 0
+; 0001 01B6 
+; 0001 01B7     transmit_mode_PA();
+;PCODE: $000003BE VOL: 0
+; 0001 01B8     Strobes_Comm(SIDLE);
+;PCODE: $000003BF VOL: 0
+;PCODE: $000003C0 VOL: 0
+;PCODE: $000003C1 VOL: 0
+; 0001 01B9     Strobes_Comm(SFRX);
+;PCODE: $000003C2 VOL: 0
+;PCODE: $000003C3 VOL: 0
+;PCODE: $000003C4 VOL: 0
+; 0001 01BA     WriteBurstReg(TXFIFO, buff, Len+3);       // Write data to TXFIFO to send via RF
+;PCODE: $000003C5 VOL: 0
+;PCODE: $000003C6 VOL: 0
+;PCODE: $000003C7 VOL: 0
+;PCODE: $000003C8 VOL: 0
+;PCODE: $000003C9 VOL: 0
+;PCODE: $000003CA VOL: 0
+;PCODE: $000003CB VOL: 0
+;PCODE: $000003CC VOL: 0
+; 0001 01BB     Strobes_Comm(STX);                       // Enter TX mode
+;PCODE: $000003CD VOL: 0
+;PCODE: $000003CE VOL: 0
+;PCODE: $000003CF VOL: 0
+; 0001 01BC 
+; 0001 01BD     while(!(GDO0) && ((--timeout) > 0));        // Wait for TX complete
+;PCODE: $000003D0 VOL: 0
+;PCODE: $000003D1 VOL: 0
+;PCODE: $000003D2 VOL: 0
+;PCODE: $000003D3 VOL: 0
+;PCODE: $000003D4 VOL: 0
+;PCODE: $000003D5 VOL: 0
+;PCODE: $000003D6 VOL: 0
+;PCODE: $000003D7 VOL: 0
+;PCODE: $000003D8 VOL: 0
+;PCODE: $000003D9 VOL: 0
+;PCODE: $000003DA VOL: 0
+;PCODE: $000003DB VOL: 0
+;PCODE: $000003DC VOL: 0
+;PCODE: $000003DD VOL: 0
+;PCODE: $000003DE VOL: 0
+; 0001 01BE     while((GDO0) && ((--timeout) > 0));        // Wait for TX complete
+;PCODE: $000003DF VOL: 0
+;PCODE: $000003E0 VOL: 0
+;PCODE: $000003E1 VOL: 0
+;PCODE: $000003E2 VOL: 0
+;PCODE: $000003E3 VOL: 0
+;PCODE: $000003E4 VOL: 0
+;PCODE: $000003E5 VOL: 0
+;PCODE: $000003E6 VOL: 0
+;PCODE: $000003E7 VOL: 0
+;PCODE: $000003E8 VOL: 0
+;PCODE: $000003E9 VOL: 0
+;PCODE: $000003EA VOL: 0
+;PCODE: $000003EB VOL: 0
+;PCODE: $000003EC VOL: 0
+;PCODE: $000003ED VOL: 0
+; 0001 01BF }
+;PCODE: $000003EE VOL: 0
+;PCODE: $000003EF VOL: 0
+;PCODE: $000003F0 VOL: 0
+;PCODE: $000003F1 VOL: 0
+;PCODE: $000003F2 VOL: 0
+;PCODE: $000003F3 VOL: 0
+;PCODE: $000003F4 VOL: 0
+;
+;
+;//--------------------------------------------------------------------------------------
+;uint8_t CC1101ReceiveDataMesh(uint8_t *Data, uint8_t *Len)
+; 0001 01C4 {
+;PCODE: $000003F5 VOL: 0
+;PCODE: $000003F6 VOL: 0
+; 0001 01C5     uint8_t buff[64];
+; 0001 01C6     uint8_t crc_byte_hi, crc_byte_low;
+; 0001 01C7     uint16_t crc_byte;
+; 0001 01C8 
+; 0001 01C9     Signal_RSSI=ReadRegCC1101(0xF4);
+;PCODE: $000003F7 VOL: 0
+;PCODE: $000003F8 VOL: 0
+;	*Data -> Y+70
+;	*Len -> Y+68
+;	buff -> Y+4
+;	crc_byte_hi -> R17
+;	crc_byte_low -> R16
+;	crc_byte -> R18,R19
+;PCODE: $000003F9 VOL: 0
+;PCODE: $000003FA VOL: 0
+;PCODE: $000003FB VOL: 0
+;PCODE: $000003FC VOL: 1
+; 0001 01CA 
+; 0001 01CB     ReadBurstReg(RXFIFO, buff, 64);
+;PCODE: $000003FD VOL: 0
+;PCODE: $000003FE VOL: 0
+;PCODE: $000003FF VOL: 0
+;PCODE: $00000400 VOL: 0
+;PCODE: $00000401 VOL: 0
+;PCODE: $00000402 VOL: 0
+;PCODE: $00000403 VOL: 0
+; 0001 01CC     Strobes_Comm(SIDLE);
+;PCODE: $00000404 VOL: 0
+;PCODE: $00000405 VOL: 0
+;PCODE: $00000406 VOL: 0
+; 0001 01CD     //Strobes_Comm(SFTX);
+; 0001 01CE     Strobes_Comm(SRX);
+;PCODE: $00000407 VOL: 0
+;PCODE: $00000408 VOL: 0
+;PCODE: $00000409 VOL: 0
+; 0001 01CF     CC1101SleepMode();
+;PCODE: $0000040A VOL: 0
+; 0001 01D0 
+; 0001 01D1     crc_byte=CRC16CC1101_Buff(buff,buff[0]+1);
+;PCODE: $0000040B VOL: 0
+;PCODE: $0000040C VOL: 0
+;PCODE: $0000040D VOL: 0
+;PCODE: $0000040E VOL: 0
+;PCODE: $0000040F VOL: 0
+;PCODE: $00000410 VOL: 0
+;PCODE: $00000411 VOL: 0
+; 0001 01D2     crc_byte_hi=(uint8_t)(crc_byte>>8);
+;PCODE: $00000412 VOL: 0
+;PCODE: $00000413 VOL: 0
+; 0001 01D3     crc_byte_low=(uint8_t)(crc_byte&0x00FF);
+;PCODE: $00000414 VOL: 0
+;PCODE: $00000415 VOL: 0
+;PCODE: $00000416 VOL: 0
+; 0001 01D4     if((buff[buff[0]+1]==crc_byte_hi)&&(buff[buff[0]+2]==crc_byte_low))
+;PCODE: $00000417 VOL: 0
+;PCODE: $00000418 VOL: 0
+;PCODE: $00000419 VOL: 0
+;PCODE: $0000041A VOL: 0
+;PCODE: $0000041B VOL: 0
+;PCODE: $0000041C VOL: 0
+;PCODE: $0000041D VOL: 0
+;PCODE: $0000041E VOL: 0
+;PCODE: $0000041F VOL: 0
+;PCODE: $00000420 VOL: 0
+;PCODE: $00000421 VOL: 0
+;PCODE: $00000422 VOL: 0
+;PCODE: $00000423 VOL: 0
+;PCODE: $00000424 VOL: 0
+;PCODE: $00000425 VOL: 0
+;PCODE: $00000426 VOL: 0
+;PCODE: $00000427 VOL: 0
+;PCODE: $00000428 VOL: 0
+;PCODE: $00000429 VOL: 0
+;PCODE: $0000042A VOL: 0
+; 0001 01D5     {
+; 0001 01D6         *Len=buff[0];
+;PCODE: $0000042B VOL: 0
+;PCODE: $0000042C VOL: 0
+;PCODE: $0000042D VOL: 0
+; 0001 01D7         memcpy(Data, buff+1, buff[0]);
+;PCODE: $0000042E VOL: 0
+;PCODE: $0000042F VOL: 0
+;PCODE: $00000430 VOL: 0
+;PCODE: $00000431 VOL: 0
+;PCODE: $00000432 VOL: 0
+;PCODE: $00000433 VOL: 0
+;PCODE: $00000434 VOL: 0
+;PCODE: $00000435 VOL: 0
+; 0001 01D8         return *Len;
+;PCODE: $00000436 VOL: 0
+;PCODE: $00000437 VOL: 0
+;PCODE: $00000438 VOL: 0
+;PCODE: $00000439 VOL: 0
+;PCODE: $0000043A VOL: 0
+; 0001 01D9     }
+; 0001 01DA     return 0;
+;PCODE: $0000043B VOL: 0
+;PCODE: $0000043C VOL: 0
+;PCODE: $0000043D VOL: 0
+;PCODE: $0000043E VOL: 0
+;PCODE: $0000043F VOL: 0
+; 0001 01DB }
+;PCODE: $00000440 VOL: 0
+;
+;
+;
+;
+;//--------------------------------------------------------------------------------------
+;void RF_Send_Offline(uint8_t *buff, uint8_t size)
+; 0001 01E2 {
+;PCODE: $00000441 VOL: 0
+;PCODE: $00000442 VOL: 0
+; 0001 01E3         WriteBurstReg(TXFIFO, buff,size);       // Write data to TXFIFO to send via RF
+;	*buff -> Y+1
+;	size -> Y+0
+;PCODE: $00000443 VOL: 0
+;PCODE: $00000444 VOL: 0
+;PCODE: $00000445 VOL: 0
+;PCODE: $00000446 VOL: 0
+;PCODE: $00000447 VOL: 0
+;PCODE: $00000448 VOL: 0
+;PCODE: $00000449 VOL: 0
+; 0001 01E4         //while(!GDO0){}                           // Wait sync word has been sent.
+; 0001 01E5         //while(GDO0){}                            // Wait end of the packet.
+; 0001 01E6 }
+;PCODE: $0000044A VOL: 0
+;PCODE: $0000044B VOL: 0
+;PCODE: $0000044C VOL: 0
+;
+;
+;void CC1101RxMode(void)
+; 0001 01EA {
+;PCODE: $0000044D VOL: 0
+;PCODE: $0000044E VOL: 0
+; 0001 01EB     recieve_mode_PA();
+;PCODE: $0000044F VOL: 0
+; 0001 01EC     Strobes_Comm(SIDLE);
+;PCODE: $00000450 VOL: 0
+;PCODE: $00000451 VOL: 0
+;PCODE: $00000452 VOL: 0
+; 0001 01ED     //Strobes_Comm(SFTX);
+; 0001 01EE     Strobes_Comm(SFRX);
+;PCODE: $00000453 VOL: 0
+;PCODE: $00000454 VOL: 0
+;PCODE: $00000455 VOL: 0
+; 0001 01EF     Strobes_Comm(SRX);
+;PCODE: $00000456 VOL: 0
+;PCODE: $00000457 VOL: 0
+;PCODE: $00000458 VOL: 0
+; 0001 01F0     WriteRegCC1101(PKTLEN,64);
+;PCODE: $00000459 VOL: 0
+;PCODE: $0000045A VOL: 0
+;PCODE: $0000045B VOL: 0
+;PCODE: $0000045C VOL: 0
+;PCODE: $0000045D VOL: 0
+; 0001 01F1 }
+;PCODE: $0000045E VOL: 0
+;PCODE: $0000045F VOL: 0
+;
+;void CC1101Channel(uint8_t Channel)
+; 0001 01F4 {
+;PCODE: $00000460 VOL: 0
+;PCODE: $00000461 VOL: 0
+; 0001 01F5   WriteRegCC1101(CHANNR, Channel);
+;	Channel -> Y+0
+;PCODE: $00000462 VOL: 0
+;PCODE: $00000463 VOL: 0
+;PCODE: $00000464 VOL: 0
+;PCODE: $00000465 VOL: 0
+;PCODE: $00000466 VOL: 0
+; 0001 01F6 }
+;PCODE: $00000467 VOL: 0
+;PCODE: $00000468 VOL: 0
+;PCODE: $00000469 VOL: 0
+;
+;void CC1101SleepMode(void)
+; 0001 01F9 {
+;PCODE: $0000046A VOL: 0
+;PCODE: $0000046B VOL: 0
+; 0001 01FA     idle_mode_PA();
+;PCODE: $0000046C VOL: 0
+; 0001 01FB     Strobes_Comm(SIDLE);
+;PCODE: $0000046D VOL: 0
+;PCODE: $0000046E VOL: 0
+;PCODE: $0000046F VOL: 0
+; 0001 01FC     //Strobes_Comm(SFTX);
+; 0001 01FD     Strobes_Comm(SFRX);
+;PCODE: $00000470 VOL: 0
+;PCODE: $00000471 VOL: 0
+;PCODE: $00000472 VOL: 0
+; 0001 01FE     Strobes_Comm(SPWD);
+;PCODE: $00000473 VOL: 0
+;PCODE: $00000474 VOL: 0
+;PCODE: $00000475 VOL: 0
+; 0001 01FF }
+;PCODE: $00000476 VOL: 0
+;PCODE: $00000477 VOL: 0
