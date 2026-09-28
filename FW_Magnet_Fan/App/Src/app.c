@@ -77,12 +77,12 @@ void Pulse_ResetOuput(void)
         Motor.eu8Mode = MODE_OFF;
         PWM_Init(1000, 0);
         PWM_Start();
-        delay_s(2);
+        delay_s(29);
         HAL_GPIO_WritePin(GPIO_PULSE, GPIO_PULSE_PIN, GPIO_PIN_RESET);
         delay_ms(10);
         HAL_GPIO_WritePin(GPIO_PULSE, GPIO_PULSE_PIN, GPIO_PIN_SET);
         delay_s(2);
-        u32PulseTimeWait = 721000 + Speed_Random%61234;
+        u32PulseTimeWait = 987654 + Speed_Random%234567;
         u32PulseTimeCount = 0;
         Motor.bRandom = true;
 #ifdef DBG_SEND
@@ -137,8 +137,8 @@ void MotorCalRandom(void)
     uint8_t duty;
     rando = Random(Speed_Random++)%100;
 #ifdef DBG_SEND
-    DBG_SendStr("MotorCalRandom\n");
-    logLen = sprintf(log1, "rando = %d\n", rando);
+    DBG_SendStr("MotorCalRandom, ");
+    logLen = sprintf(log1, "rando = %d, ", rando);
     DBG_SendStr(log1);
 #endif 
     if (15 > rando)
@@ -149,9 +149,9 @@ void MotorCalRandom(void)
     {
         duty = 30;
     }
-    else if (30 < rando)
+    else if (45 < rando)
     {
-        duty = 31;
+        duty = 45;
     }
     else
     {
@@ -258,7 +258,7 @@ static CmdType Board_UARTCheckFrameValid(CmdResultType* cmd_res, const uint8_t* 
                 PWM_SetFlag1st();
                 MotorCalRandom();
             }
-            /*else if (0 == src[4])
+            else if (0 == src[4])
             {
 #ifdef DBG_SEND
                 DBG_SendStr("MOTOR OFF\n");
@@ -275,7 +275,7 @@ static CmdType Board_UARTCheckFrameValid(CmdResultType* cmd_res, const uint8_t* 
                 Motor.bRandom = false;
                 Motor.eu8Mode = MODE_ON;
                 PWM_SetFlag1st();
-            }*/
+            }
             else
             {
 #ifdef DBG_SEND
@@ -329,7 +329,7 @@ void RS485_CH2_Process(void)
  #ifdef DBG_SEND
         DBG_SendStr("RS485_CH2_Process\n");
 #endif
-        CmdType Cmd = CMD_RES_INVALID_COMMAND;
+        CmdType Cmd = CMD_UNKNOWN;
         CmdResultType CmdRes = CMD_RES_ERROR;
         CmdRes = CMD_RES_ERROR;
         Cmd = Board_UARTCheckFrameValid(&CmdRes, RS485Ch2.au8Buf, RS485Ch2.u8Len);

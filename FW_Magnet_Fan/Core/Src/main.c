@@ -81,11 +81,14 @@ int main(void)
         {
             MotorCalRandom();
         }
-        HAL_GPIO_WritePin(GPIO_PULSE, GPIO_PULSE_PIN, GPIO_PIN_RESET);
+        /*HAL_GPIO_WritePin(GPIO_PULSE, GPIO_PULSE_PIN, GPIO_PIN_RESET);
         delay_ms(500);
         HAL_GPIO_WritePin(GPIO_PULSE, GPIO_PULSE_PIN, GPIO_PIN_SET);
         delay_ms(500);
- 
+        HAL_GPIO_WritePin(GPIO_PWM_POWER, GPIO_PWM_POWER_PIN, GPIO_PIN_RESET);
+        delay_ms(100);
+        HAL_GPIO_WritePin(GPIO_PWM_POWER, GPIO_PWM_POWER_PIN, GPIO_PIN_SET);
+        delay_ms(100);*/
         /* USER CODE BEGIN 3 */
     }
   /* USER CODE END 3 */
