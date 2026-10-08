@@ -297,33 +297,59 @@ namespace WM_0xA_Set_RTC
 
         void COM_SendBuf(SerialPort com, byte[] buf, UInt16 len)
         {
-            PrintLog(buf, (UInt16)buf.Length, buf.Length.ToString(), "SEND");
+            PrintLog(buf, len, len.ToString(), "SEND");
             com.Write(buf, 0, len);
         }
 
-        void MakeFrame(ref COM_t ComSend, string header, byte typePay, byte paramID, byte[] payload)
+        void MakeFrame(ref COM_t ComBuf, string header, byte typePay, byte paramID, byte[] payload)
         {
-            List<ParameterData> parameters = new List<ParameterData>();
+            byte[] buf = new byte[100];
 
-            parameters.Add(new ParameterData
+            // 1. Copy Header
+            byte[] headerBytes = Encoding.UTF8.GetBytes(header);
+            Array.Copy(headerBytes, 0, buf, 0, headerBytes.Length);
+            byte buf_len = (byte)headerBytes.Length; // Dùng headerBytes.Length để chính xác số byte (tránh lệch nếu dùng Unicode)
+
+            // 2. Gán byte chức năng
+            buf[buf_len++] = typePay;
+            buf[buf_len++] = 0x00;
+
+            // 3. Đóng gói dữ liệu cần mã hóa AES: [paramID + payload]
+            int payloadLen = (payload != null) ? payload.Length : 0;
+            byte[] rawDataToEncrypt = new byte[1 + payloadLen];
+            rawDataToEncrypt[0] = paramID;
+            if (payloadLen > 0)
             {
-                ParamId = typePay,
-                Data = payload
-            });
-            byte[] payload1 = EwmFrameBuilder.BuildOptSetPayload(parameters);
-            EwmFrameBuilder builder = new EwmFrameBuilder
-            {
-                TypePack = paramID,
-                Payload = payload1
-            };
-            builder.HEADER = header;
-            byte[] frame = builder.BuildFrame(builder.HEADER);
-            ComSend.buf = frame;
-            ComSend.len = (byte)frame.Length;
+                Array.Copy(payload, 0, rawDataToEncrypt, 1, payloadLen);
+            }
+
+            // 4. Mã hóa AES-128
+            byte[] encryptedPayload = clsAES128.aes_128_en(rawDataToEncrypt);
+
+            // Gán độ dài mảng đã mã hóa vào header frame
+            //buf[buf_len++] = (byte)encryptedPayload.Length;
+            buf[buf_len++] = (byte)(payload.Length + 1);
+
+            // 5. Copy toàn bộ encryptedPayload vào buf và TĂNG buf_len
+            Array.Copy(encryptedPayload, 0, buf, buf_len, encryptedPayload.Length);
+            buf_len += (byte)encryptedPayload.Length; // Cập nhật vị trí con trỏ sau khi copy
+
+            // 6. Byte kết thúc frame '#'
+            buf[buf_len++] = 0x23;
+
+            // 7. Tính CRC16 trên toàn bộ frame trước CRC
+            UInt16 crc16 = Cal.Crc16Cal(buf, 0, (ushort)buf_len);
+            buf[buf_len++] = (byte)(crc16 & 0xFF);         // CRC16 Low byte
+            buf[buf_len++] = (byte)((crc16 >> 8) & 0xFF);  // CRC16 High byte
+
+            // 8. Đưa ra output
+            ComBuf.buf = buf;
+            ComBuf.len = buf_len;
         }
-        void COM_MakeFrameWmReadRTC(ref COM_t ComSend)
+
+        void COM_MakeFrameWmReadRTC(ref COM_t ComBuf)
         {
-            List<byte> paramIds3 = new List<byte>
+            /*List<byte> paramIds3 = new List<byte>
             {
                 1
             };
@@ -338,12 +364,18 @@ namespace WM_0xA_Set_RTC
             byte[] frameReadRTC = builder3.BuildFrame(builder3.HEADER);
             ComSend.buf = frameReadRTC;
             ComSend.len = (byte)frameReadRTC.Length;
-            PrintLog(payload3, (ushort)payload3.Length, "PAYLOAD", "SEND");
+            PrintLog(payload3, (ushort)payload3.Length, "PAYLOAD", "SEND");*/
+            
+
+
+            MakeFrame(ref ComBuf, Get_Header(), typeCmd.OptHesRead, ParamID.Time, NULL);
+            //PrintLog(ComBuf.buf, (ushort)ComBuf.len, "PAYLOAD", "SEND");
+
         }
 
-        void COM_MakeFrameWmWriteRTC(ref COM_t ComSend, RTC_DateTime rtc)
+        void COM_MakeFrameWmWriteRTC(ref COM_t ComBuf, RTC_DateTime rtc)
         {
-            List<ParameterData> parameters3 = new List<ParameterData>();
+            /*List<ParameterData> parameters3 = new List<ParameterData>();
             byte[] timeData = new byte[]
             {
                         (byte)(rtc.Year % 100),
@@ -366,9 +398,14 @@ namespace WM_0xA_Set_RTC
             };
             builder3.HEADER = Get_Header();
             byte[] frameSeRTC = builder3.BuildFrame(builder3.HEADER);
-            ComSend.buf = frameSeRTC;
-            ComSend.len = (byte)frameSeRTC.Length;
-            PrintLog(payload3, (ushort)payload3.Length, "PAYLOAD", "SEND");
+            ComSBuf.buf = frameSeRTC;
+            ComSBuf.len = (byte)frameSeRTC.Length;*/
+    
+            
+            byte[] payload = new byte[6] { (byte)(rtc.Year % 100), (byte)rtc.Month, (byte)rtc.Day, (byte)rtc.Hour, (byte)rtc.Minute, (byte)rtc.Second };
+            MakeFrame(ref ComBuf, Get_Header(), typeCmd.OptHesSet, ParamID.Time, payload);
+
+            //PrintLog(ComBuf.buf, (ushort)ComBuf.len, "PAYLOAD", "SEND");
         }
 
         void COM_ControlMagnet(SerialPort com, bool send)
@@ -435,19 +472,26 @@ namespace WM_0xA_Set_RTC
             }
         }
 
+        void COM_ControlEnable()
+        {
+            if (Chk_EnableMagnet.Checked)
+            {
+                if (COM_Control == null || !COM_Control.IsOpen)
+                {
+                    Open_Com(COM_Control, COM_ControlIsOpen, Cbo_ComControl, 57600);
+                    COM_RecControl.Flag_Enable_GetData = false;
+                }
+            }
+
+        }
         private async void Btn_Set_RTC_Click(object sender, EventArgs e)
         {
-            Btn_SetRTC.Enabled = false;
+            Btn_AutoSetRTC.Enabled = false;
             if (COM_WM == null || !COM_WM.IsOpen)
             {
                 Open_Com(COM_WM, COM_WMIsOpen, Cbo_ComWM, 9600);
             }
-            if (COM_Control == null || !COM_Control.IsOpen)
-            {
-                Open_Com(COM_Control, COM_ControlIsOpen, Cbo_ComControl, 57600);
-                COM_RecControl.Flag_Enable_GetData = false;
-            }
-
+            COM_ControlEnable();
             UInt16 times = UInt16.Parse(Txt_NumRecords.Text);
             UInt16 timesSuccess = 0;
             const int MAX_RETRY = 3;
@@ -456,7 +500,10 @@ namespace WM_0xA_Set_RTC
             {
                 for (int j = 0; j < times; j++)
                 {
-                    COM_ControlMagnet(COM_Control, true);
+                    if (Chk_EnableMagnet.Checked)
+                    {
+                        COM_ControlMagnet(COM_Control, true);
+                    }
                     COM_t ComSend = new COM_t();
                     RTC_DateTime RTC_Read = new RTC_DateTime();
 
@@ -586,9 +633,10 @@ namespace WM_0xA_Set_RTC
                     {
                         PrintLog(NULL, 0, $"==> Ghi RTC lần {j + 1} THẤT BẠI sau {MAX_RETRY} lần thử.", "RECV");
                     }
-
-                    COM_ControlMagnet(COM_Control, false);
-
+                    if (Chk_EnableMagnet.Checked)
+                    {
+                        COM_ControlMagnet(COM_Control, false);
+                    }
                     if (j < (times - 1))
                     {
                         SmartDelaySec(int.Parse(Txt_RtcWaitSec.Text));
@@ -606,9 +654,13 @@ namespace WM_0xA_Set_RTC
                 COM_RecWM.Flag_Enable_GetData = false;
                 COM_RecControl.Flag_Enable_GetData = false;
                 COM_Close(COM_WM, COM_WMIsOpen);
-                COM_ControlMagnet(COM_Control, false);
-                COM_Close(COM_Control, COM_ControlIsOpen);
-                Btn_SetRTC.Enabled = true;
+                if (Chk_EnableMagnet.Checked)
+                {
+                    COM_ControlMagnet(COM_Control, true);
+                    COM_Close(COM_Control, COM_ControlIsOpen);
+                }
+                
+                Btn_AutoSetRTC.Enabled = true;
             }
         }
         private void Form1_Load(object sender, EventArgs e)
@@ -796,17 +848,16 @@ namespace WM_0xA_Set_RTC
             }
 
             if (COM_WM == null || !COM_WM.IsOpen) Open_Com(COM_WM, COM_WMIsOpen, Cbo_ComWM, 9600);
-            if (COM_Control == null || !COM_Control.IsOpen)
-            {
-                Open_Com(COM_Control, COM_ControlIsOpen, Cbo_ComControl, 57600);
-                COM_RecControl.Flag_Enable_GetData = false;
-            }
+            COM_ControlEnable();
 
             const int MAX_RETRY = 3;
 
             try
             {
-                COM_ControlMagnet(COM_Control, true);
+                if (Chk_EnableMagnet.Checked)
+                {
+                    COM_ControlMagnet(COM_Control, true);
+                }
                 COM_t ComSend = new COM_t();
                 bool isWriteSuccess = false;
 
@@ -871,8 +922,11 @@ namespace WM_0xA_Set_RTC
                 COM_RecWM.Flag_Enable_GetData = false;
                 COM_RecControl.Flag_Enable_GetData = false;
                 COM_Close(COM_WM, COM_WMIsOpen);
-                COM_ControlMagnet(COM_Control, false);
-                COM_Close(COM_Control, COM_ControlIsOpen);
+                if (Chk_EnableMagnet.Checked)
+                {
+                    COM_ControlMagnet(COM_Control, false);
+                    COM_Close(COM_Control, COM_ControlIsOpen);
+                }
                 Btn_WriteRtcManual.Enabled = true;
             }
         }
@@ -882,17 +936,16 @@ namespace WM_0xA_Set_RTC
             Btn_ReadRtcManual.Enabled = false;
 
             if (COM_WM == null || !COM_WM.IsOpen) Open_Com(COM_WM, COM_WMIsOpen, Cbo_ComWM, 9600);
-            if (COM_Control == null || !COM_Control.IsOpen)
-            {
-                Open_Com(COM_Control, COM_ControlIsOpen, Cbo_ComControl, 57600);
-                COM_RecControl.Flag_Enable_GetData = false;
-            }
 
+            COM_ControlEnable();
             const int MAX_RETRY = 3;
 
             try
             {
-                COM_ControlMagnet(COM_Control, true);
+                if (Chk_EnableMagnet.Checked)
+                {
+                    COM_ControlMagnet(COM_Control, true);
+                }
                 COM_t ComSend = new COM_t();
                 RTC_DateTime RTC_Read = new RTC_DateTime();
                 bool isReadSuccess = false;
@@ -965,8 +1018,11 @@ namespace WM_0xA_Set_RTC
                 COM_RecWM.Flag_Enable_GetData = false;
                 COM_RecControl.Flag_Enable_GetData = false;
                 COM_Close(COM_WM, COM_WMIsOpen);
-                COM_ControlMagnet(COM_Control, false);
-                COM_Close(COM_Control, COM_ControlIsOpen);
+                if (Chk_EnableMagnet.Checked)
+                {
+                    COM_ControlMagnet(COM_Control, false);
+                    COM_Close(COM_Control, COM_ControlIsOpen);
+                }
                 Btn_ReadRtcManual.Enabled = true;
             }
         }

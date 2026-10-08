@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Btn_SetRTC = new Button();
+            Btn_AutoSetRTC = new Button();
             RTBox_Log = new RichTextBox();
             Cbo_TypeMeter = new ComboBox();
             Tbox_RtcManual = new TextBox();
@@ -54,6 +54,7 @@
             Txt_MagnetTimes = new TextBox();
             label5 = new Label();
             panel1 = new Panel();
+            Chk_EnableMagnet = new CheckBox();
             groupBox1 = new GroupBox();
             Btn_WriteRtcManual = new Button();
             Mode = new GroupBox();
@@ -89,16 +90,16 @@
             tabPage2.SuspendLayout();
             SuspendLayout();
             // 
-            // Btn_SetRTC
+            // Btn_AutoSetRTC
             // 
-            Btn_SetRTC.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            Btn_SetRTC.Location = new Point(0, 25);
-            Btn_SetRTC.Name = "Btn_SetRTC";
-            Btn_SetRTC.Size = new Size(110, 31);
-            Btn_SetRTC.TabIndex = 0;
-            Btn_SetRTC.Text = "       ";
-            Btn_SetRTC.UseVisualStyleBackColor = true;
-            Btn_SetRTC.Click += Btn_Set_RTC_Click;
+            Btn_AutoSetRTC.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            Btn_AutoSetRTC.Location = new Point(0, 25);
+            Btn_AutoSetRTC.Name = "Btn_AutoSetRTC";
+            Btn_AutoSetRTC.Size = new Size(123, 31);
+            Btn_AutoSetRTC.TabIndex = 0;
+            Btn_AutoSetRTC.Text = "Auto Set RTC";
+            Btn_AutoSetRTC.UseVisualStyleBackColor = true;
+            Btn_AutoSetRTC.Click += Btn_Set_RTC_Click;
             // 
             // RTBox_Log
             // 
@@ -225,7 +226,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label3.Location = new Point(116, 31);
+            label3.Location = new Point(122, 34);
             label3.Name = "label3";
             label3.Size = new Size(68, 18);
             label3.TabIndex = 15;
@@ -330,6 +331,7 @@
             // panel1
             // 
             panel1.BackColor = SystemColors.ActiveCaption;
+            panel1.Controls.Add(Chk_EnableMagnet);
             panel1.Controls.Add(Btn_SearchCOM);
             panel1.Controls.Add(Cbo_TypeMeter);
             panel1.Controls.Add(label2);
@@ -340,13 +342,23 @@
             panel1.Size = new Size(252, 147);
             panel1.TabIndex = 29;
             // 
+            // Chk_EnableMagnet
+            // 
+            Chk_EnableMagnet.AutoSize = true;
+            Chk_EnableMagnet.Location = new Point(144, 65);
+            Chk_EnableMagnet.Name = "Chk_EnableMagnet";
+            Chk_EnableMagnet.Size = new Size(70, 24);
+            Chk_EnableMagnet.TabIndex = 10;
+            Chk_EnableMagnet.Text = "Enable";
+            Chk_EnableMagnet.UseVisualStyleBackColor = true;
+            // 
             // groupBox1
             // 
             groupBox1.BackColor = SystemColors.ActiveCaption;
             groupBox1.Controls.Add(Btn_WriteRtcManual);
             groupBox1.Controls.Add(Mode);
             groupBox1.Controls.Add(Btn_ReadRtcManual);
-            groupBox1.Controls.Add(Btn_SetRTC);
+            groupBox1.Controls.Add(Btn_AutoSetRTC);
             groupBox1.Controls.Add(Txt_RtcMinBefore);
             groupBox1.Controls.Add(Min);
             groupBox1.Controls.Add(Txt_RtcSecBefore);
@@ -639,7 +651,7 @@
 
         #endregion
 
-        private Button Btn_SetRTC;
+        private Button Btn_AutoSetRTC;
         private RichTextBox RTBox_Log;
         private ComboBox Cbo_TypeMeter;
         private TextBox Tbox_RtcManual;
@@ -691,5 +703,6 @@
         private GroupBox groupBox3;
         private Label label6;
         private TextBox Tbox_AutoResetSecond;
+        private CheckBox Chk_EnableMagnet;
     }
 }
