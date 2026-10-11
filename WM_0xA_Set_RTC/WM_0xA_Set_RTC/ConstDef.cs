@@ -59,4 +59,5 @@ namespace WinFormsApp1
         public const byte VoltageThreshold = 36;  // Voltage ThresHold
         public const byte TestSensor1 = 37;       // Test sensor 1
     }
+
 }

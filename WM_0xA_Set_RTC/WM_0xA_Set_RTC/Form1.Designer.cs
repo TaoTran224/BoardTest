@@ -79,6 +79,7 @@
             Tbox_AutoResetSecond = new TextBox();
             tabPage2 = new TabPage();
             tabPage3 = new TabPage();
+            Btn_ClearLog = new Button();
             panel1.SuspendLayout();
             groupBox1.SuspendLayout();
             Mode.SuspendLayout();
@@ -99,7 +100,7 @@
             Btn_AutoSetRTC.TabIndex = 0;
             Btn_AutoSetRTC.Text = "Auto Set RTC";
             Btn_AutoSetRTC.UseVisualStyleBackColor = true;
-            Btn_AutoSetRTC.Click += Btn_Set_RTC_Click;
+            Btn_AutoSetRTC.Click += Btn_AutoSetRTC_Click;
             // 
             // RTBox_Log
             // 
@@ -580,6 +581,7 @@
             Btn_AutoResetStart.TabIndex = 26;
             Btn_AutoResetStart.Text = "Auto Reset";
             Btn_AutoResetStart.UseVisualStyleBackColor = true;
+            Btn_AutoResetStart.Click += Btn_AutoResetStart_Click;
             // 
             // label6
             // 
@@ -621,11 +623,23 @@
             tabPage3.Text = "tabPage3";
             tabPage3.UseVisualStyleBackColor = true;
             // 
+            // Btn_ClearLog
+            // 
+            Btn_ClearLog.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            Btn_ClearLog.Location = new Point(1040, 642);
+            Btn_ClearLog.Name = "Btn_ClearLog";
+            Btn_ClearLog.Size = new Size(92, 34);
+            Btn_ClearLog.TabIndex = 34;
+            Btn_ClearLog.Text = "Clear Log";
+            Btn_ClearLog.UseVisualStyleBackColor = true;
+            Btn_ClearLog.Click += Btn_ClearLog_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1448, 688);
+            Controls.Add(Btn_ClearLog);
             Controls.Add(tabControl1);
             Controls.Add(RTBox_Log);
             Name = "Form1";
@@ -704,5 +718,6 @@
         private Label label6;
         private TextBox Tbox_AutoResetSecond;
         private CheckBox Chk_EnableMagnet;
+        private Button Btn_ClearLog;
     }
 }
